@@ -16,6 +16,7 @@ namespace Canvas.v1.Config
             ClientId = clientId;
             ClientSecret = clientSecret;
             RedirectUri = redirectUri;
+            AcceptEncoding = CompressionType.deflate | CompressionType.gzip;
         }
 
         public virtual Uri CanvasApiHostUri { get { return new Uri(Constants.ApiHostUriString); } }
@@ -29,7 +30,7 @@ namespace Canvas.v1.Config
         public string UserAgent { get; set; }
 
         /// <summary>
-        /// Sends compressed responses from Box for faster response times
+        /// Compressed response bodies enable faster API calls
         /// </summary>
         public CompressionType? AcceptEncoding { get; set; }
 
@@ -40,6 +41,7 @@ namespace Canvas.v1.Config
         public virtual Uri UsersEndpointUri { get { return new Uri(CanvasApiUri, Constants.UsersString); } }
     }
 
+    [Flags]
     public enum CompressionType
     {
         gzip, 
