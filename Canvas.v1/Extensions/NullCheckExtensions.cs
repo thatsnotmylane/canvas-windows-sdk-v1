@@ -2,7 +2,7 @@
 
 namespace Canvas.v1.Extensions
 {
-    internal static class BoxExtensions
+    internal static class NullCheckExtensions
     {
         /// <summary>
         /// Checks if the object is null 
@@ -29,6 +29,32 @@ namespace Canvas.v1.Extensions
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("Required field cannot be null or whitespace", name);
 
+            return value;
+        }
+
+        /// <summary>
+        /// Checks if a numeric has a zero-value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        internal static long ThrowIfUnassigned(this long value, string name)
+        {
+            if (value == 0)
+                throw new ArgumentException("Required field must have a non-zero value", name);
+            return value;
+        }
+
+        /// <summary>
+        /// Checks if a numeric has a zero-value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        internal static int ThrowIfUnassigned(this int value, string name)
+        {
+            if (value == 0)
+                throw new ArgumentException("Required field must have a non-zero value", name);
             return value;
         }
     }

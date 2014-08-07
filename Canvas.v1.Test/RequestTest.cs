@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Canvas.v1.Test
 {
     [TestClass]
-    public class BoxRequestTest
+    public class RequestTest
     {
         [TestMethod]
         public void ValidParameters_ValidRequest()

@@ -1,6 +1,6 @@
 ﻿namespace Canvas.v1.Converter
 {
-    public interface IBoxConverter
+    public interface IJsonConverter
     {
         /// <summary>
         /// Parses the string content into the provided type T

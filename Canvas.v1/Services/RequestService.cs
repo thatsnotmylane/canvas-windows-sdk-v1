@@ -5,7 +5,7 @@ using Nito.AsyncEx;
 
 namespace Canvas.v1.Services
 {
-    public class BoxService : IBoxService
+    public class RequestService : IRequestService
     {
         private const int NumberOfThreads = 2;
         private IRequestHandler _handler;
@@ -14,10 +14,10 @@ namespace Canvas.v1.Services
         AsyncSemaphore _throttler = new AsyncSemaphore(NumberOfThreads); 
 
         /// <summary>
-        /// Instantiates a new BoxService with the provided handler
+        /// Instantiates a new RequestService with the provided handler
         /// </summary>
         /// <param name="handler"></param>
-        public BoxService(IRequestHandler handler)
+        public RequestService(IRequestHandler handler)
         {
             _handler = handler;
         }

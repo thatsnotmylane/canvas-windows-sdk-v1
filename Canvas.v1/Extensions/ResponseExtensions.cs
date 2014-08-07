@@ -13,7 +13,7 @@ namespace Canvas.v1.Extensions
     /// <summary>
     /// Extends the BoxResponse class with convenience methods
     /// </summary>
-    public static class BoxResponseExtensions
+    public static class ResponseExtensions
     {
         /// <summary>
         /// Parses the BoxResponse with the provided converter
@@ -22,7 +22,7 @@ namespace Canvas.v1.Extensions
         /// <param name="response">The response to parse</param>
         /// <param name="converter">The converter to use for the conversion</param>
         /// <returns></returns>
-        internal static IBoxResponse<T> ParseResults<T>(this IBoxResponse<T> response, IBoxConverter converter)
+        internal static IBoxResponse<T> ParseResults<T>(this IBoxResponse<T> response, IJsonConverter converter)
             where T : class
         {
             switch (response.Status)
@@ -45,11 +45,11 @@ namespace Canvas.v1.Extensions
 
                         // Throw formatted error if available
                         if (response.Error != null && !string.IsNullOrWhiteSpace(response.Error.Name))
-                            throw new BoxException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description)) { StatusCode = response.StatusCode };
+                            throw new CanvasException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description)) { StatusCode = response.StatusCode };
                         // Throw error with full response if error object not available
-                        throw new BoxException(response.ContentString) { StatusCode = response.StatusCode };
+                        throw new CanvasException(response.ContentString) { StatusCode = response.StatusCode };
                     }
-                    throw new BoxException() { StatusCode = response.StatusCode };
+                    throw new CanvasException() { StatusCode = response.StatusCode };
             }
             return response;
         }

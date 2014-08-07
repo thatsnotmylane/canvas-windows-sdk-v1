@@ -15,21 +15,21 @@ using Moq;
 namespace Canvas.v1.Test
 {
     [TestClass]
-    public class BoxServiceTest
+    public class CanvasServiceTest
     {
 
-        IBoxConverter _converter;
+        IJsonConverter _converter;
         Mock<IRequestHandler> _handler;
-        IBoxService _service;
+        IRequestService _service;
         Mock<ICanvasConfig> _boxConfig;
         IAuthRepository _authRepository;
 
-        public BoxServiceTest()
+        public CanvasServiceTest()
         {
             // Initial Setup
-            _converter = new BoxJsonConverter();
+            _converter = new JsonConverter();
             _handler = new Mock<IRequestHandler>();
-            _service = new BoxService(_handler.Object);
+            _service = new RequestService(_handler.Object);
             _boxConfig = new Mock<ICanvasConfig>();
 
             OAuthSession session = new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer");

@@ -16,19 +16,19 @@ namespace Canvas.v1.Test.Integration
         public Uri RedirectUri = new Uri("http://boxsdk");
 
         protected OAuthSession _auth;
-        protected BoxClient _client;
+        protected Client _client;
         protected ICanvasConfig _config;
         protected IRequestHandler _handler;
-        protected IBoxConverter _parser;
+        protected IJsonConverter _parser;
 
         public ResourceManagerTestIntegration()
         {
             _auth = new OAuthSession("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
-            _parser = new BoxJsonConverter();
+            _parser = new JsonConverter();
             _config = new CanvasConfig(ClientId, ClientSecret, RedirectUri);
-            _client = new BoxClient(_config, _auth);
+            _client = new Client(_config, _auth);
         }
 
         protected string GetUniqueName()

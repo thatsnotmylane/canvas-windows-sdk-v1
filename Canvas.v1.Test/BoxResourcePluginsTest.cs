@@ -12,7 +12,7 @@ namespace Canvas.v1.Test
         public void InitializePlugins_ValidResource_ValidPlugins()
         {
             // Arrange
-            BoxClient client = new BoxClient(_config.Object);
+            Client client = new Client(_config.Object);
 
             // Act
             client
@@ -31,7 +31,7 @@ namespace Canvas.v1.Test
             // Won't work until there are additional manager types.
 
             // Arrange
-            BoxClient client = new BoxClient(_config.Object);
+            Client client = new Client(_config.Object);
 
             // Act
             client.AddResourcePlugin<CoursesManager>();

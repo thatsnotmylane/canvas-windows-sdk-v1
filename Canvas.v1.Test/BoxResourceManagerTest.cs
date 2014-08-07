@@ -12,9 +12,9 @@ namespace Canvas.v1.Test
     public abstract class BoxResourceManagerTest 
     {
 
-        protected IBoxConverter _converter;
+        protected IJsonConverter _converter;
         protected Mock<IRequestHandler> _handler;
-        protected IBoxService _service;
+        protected IRequestService _service;
         protected Mock<ICanvasConfig> _config;
         protected AuthRepository _authRepository;
 
@@ -23,9 +23,9 @@ namespace Canvas.v1.Test
         public BoxResourceManagerTest()
         {
             // Initial Setup
-            _converter = new BoxJsonConverter();
+            _converter = new JsonConverter();
             _handler = new Mock<IRequestHandler>();
-            _service = new BoxService(_handler.Object);
+            _service = new RequestService(_handler.Object);
             _config = new Mock<ICanvasConfig>();
 
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));

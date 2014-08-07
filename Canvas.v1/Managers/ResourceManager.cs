@@ -20,8 +20,8 @@ namespace Canvas.v1.Managers
         protected const string ParamFields = "fields";
 
         protected ICanvasConfig _config;
-        protected IBoxService _service;
-        protected IBoxConverter _converter;
+        protected IRequestService _service;
+        protected IJsonConverter _converter;
         protected IAuthRepository _auth;
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Canvas.v1.Managers
         /// <param name="service"></param>
         /// <param name="converter"></param>
         /// <param name="auth"></param>
-        public ResourceManager(ICanvasConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
+        public ResourceManager(ICanvasConfig config, IRequestService service, IJsonConverter converter, IAuthRepository auth)
         {
             _config = config;
             _service = service;

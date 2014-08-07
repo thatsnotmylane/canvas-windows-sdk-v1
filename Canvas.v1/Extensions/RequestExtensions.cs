@@ -9,7 +9,7 @@ namespace Canvas.v1.Extensions
     /// <summary>
     /// Extends the BoxRequest object with convenience methods
     /// </summary>
-    public static class BoxRequestExtensions
+    public static class RequestExtensions
     {
         public static T Param<T>(this T request, string name, string value) where T : IBoxRequest
         {

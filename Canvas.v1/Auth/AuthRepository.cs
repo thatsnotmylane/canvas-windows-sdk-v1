@@ -21,8 +21,8 @@ namespace Canvas.v1.Auth
     public class AuthRepository : IAuthRepository
     {
         protected ICanvasConfig _config;
-        protected IBoxService _service;
-        protected IBoxConverter _converter;
+        protected IRequestService _service;
+        protected IJsonConverter _converter;
 
         private List<string> _expiredTokens = new List<string>();
         private readonly AsyncLock _mutex = new AsyncLock();
@@ -41,21 +41,21 @@ namespace Canvas.v1.Auth
         /// Instantiates a new AuthRepository
         /// </summary>
         /// <param name="canvasConfig">The Box configuration that should be used</param>
-        /// <param name="boxService">The Box service that will be used to make the requests</param>
+        /// <param name="requestService">The Box service that will be used to make the requests</param>
         /// <param name="converter">How requests/responses will be serialized/deserialized respectively</param>
-        public AuthRepository(ICanvasConfig canvasConfig, IBoxService boxService, IBoxConverter converter) : this(canvasConfig, boxService, converter, null) { }
+        public AuthRepository(ICanvasConfig canvasConfig, IRequestService requestService, IJsonConverter converter) : this(canvasConfig, requestService, converter, null) { }
 
         /// <summary>
         /// Instantiates a new AuthRepository
         /// </summary>
         /// <param name="canvasConfig">The Box configuration that should be used</param>
-        /// <param name="boxService">The Box service that will be used to make the requests</param>
+        /// <param name="requestService">The Box service that will be used to make the requests</param>
         /// <param name="converter">How requests/responses will be serialized/deserialized respectively</param>
         /// <param name="session">The current authenticated session</param>
-        public AuthRepository(ICanvasConfig canvasConfig, IBoxService boxService, IBoxConverter converter, OAuthSession session)
+        public AuthRepository(ICanvasConfig canvasConfig, IRequestService requestService, IJsonConverter converter, OAuthSession session)
         {
             _config = canvasConfig;
-            _service = boxService;
+            _service = requestService;
             _converter = converter;
             Session = session;
         }
@@ -178,7 +178,7 @@ namespace Canvas.v1.Auth
             OnSessionInvalidated();
 
             // As well as the caller
-            throw new BoxSessionInvalidatedException()
+            throw new SessionInvalidatedException()
             {
                 StatusCode = boxResponse.StatusCode,
             };

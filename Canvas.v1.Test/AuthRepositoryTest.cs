@@ -19,12 +19,12 @@ namespace Canvas.v1.Test
     {
 
         [TestMethod]
-        [ExpectedException(typeof(BoxException))]
+        [ExpectedException(typeof(CanvasException))]
         public async Task AuthenticateLive_InvalidAuthCode_Exception()
         {
             // Arrange
             IRequestHandler handler = new HttpRequestHandler();
-            IBoxService service = new BoxService(handler);
+            IRequestService service = new RequestService(handler);
             ICanvasConfig config = new CanvasConfig(null, null, null);
 
             IAuthRepository authRepository = new AuthRepository(config, service, _converter);
@@ -55,7 +55,7 @@ namespace Canvas.v1.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BoxException))]
+        [ExpectedException(typeof(CanvasException))]
         public async Task Authenticate_ErrorResponse_Exception()
         {
             // Arrange

@@ -3,7 +3,7 @@ using Canvas.v1.Wrappers.Contracts;
 
 namespace Canvas.v1.Services
 {
-    public interface IBoxService
+    public interface IRequestService
     {
         /// <summary>
         /// Executes the provided BoxRequest and returns a BoxResponse immedeately on the thread pool

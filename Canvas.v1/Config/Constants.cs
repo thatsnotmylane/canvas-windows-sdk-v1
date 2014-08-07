@@ -38,7 +38,7 @@
         public const string V2AuthString = "Bearer {0}";
 
         /*** Return types ***/
-        public const string TypeFile = "file";
+        public const string TypeCourse = "course";
         public const string TypeFolder = "folder";
         public const string TypeComment = "comment";
         public const string TypeWebLink = "web_link";

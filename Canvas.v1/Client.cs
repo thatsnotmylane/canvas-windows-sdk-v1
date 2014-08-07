@@ -11,52 +11,52 @@ using Canvas.v1.Services;
 namespace Canvas.v1
 {
     /// <summary>
-    /// The central entrypoint for all SDK interaction. The BoxClient houses all of the API endpoints and are represented 
+    /// The central entrypoint for all SDK interaction. The Client houses all of the API endpoints and are represented 
     /// as resource managers for each distinct endpoint
     /// </summary>
-    public class BoxClient
+    public class Client
     {
-        protected readonly IBoxService _service;
-        protected readonly IBoxConverter _converter;
+        protected readonly IRequestService _service;
+        protected readonly IJsonConverter _converter;
         protected readonly IRequestHandler _handler;
 
         /// <summary>
-        /// Instantiates a BoxClient with the provided config object
+        /// Instantiates a Client with the provided config object
         /// </summary>
         /// <param name="canvasConfig">The config object to be used</param>
-        public BoxClient(ICanvasConfig canvasConfig) : this(canvasConfig, null) { }
+        public Client(ICanvasConfig canvasConfig) : this(canvasConfig, null) { }
 
         /// <summary>
-        /// Instantiates a BoxClient with the provided config object and auth session
+        /// Instantiates a Client with the provided config object and auth session
         /// </summary>
         /// <param name="canvasConfig">The config object to be used</param>
         /// <param name="authSession">A fully authenticated auth session</param>
-        public BoxClient(ICanvasConfig canvasConfig, OAuthSession authSession)
+        public Client(ICanvasConfig canvasConfig, OAuthSession authSession)
         {
             Config = canvasConfig;
             
             _handler = new HttpRequestHandler();
-            _converter = new BoxJsonConverter();
-            _service = new BoxService(_handler);
+            _converter = new JsonConverter();
+            _service = new RequestService(_handler);
             Auth = new AuthRepository(Config, _service, _converter, authSession);
 
             InitManagers();
         }
 
         /// <summary>
-        /// Initializes a new BoxClient with the provided config, converter, service and auth objects.
+        /// Initializes a new Client with the provided config, converter, service and auth objects.
         /// </summary>
         /// <param name="canvasConfig">The config object to use</param>
-        /// <param name="boxConverter">The box converter object to use</param>
-        /// <param name="boxService">The box service to use</param>
+        /// <param name="jsonConverter">The box converter object to use</param>
+        /// <param name="requestService">The box service to use</param>
         /// <param name="auth">The auth repository object to use</param>
-        public BoxClient(ICanvasConfig canvasConfig, IBoxConverter boxConverter, IRequestHandler requestHandler, IBoxService boxService, IAuthRepository auth)
+        public Client(ICanvasConfig canvasConfig, IJsonConverter jsonConverter, IRequestHandler requestHandler, IRequestService requestService, IAuthRepository auth)
         {
             Config = canvasConfig;
 
             _handler = requestHandler;
-            _converter = boxConverter;
-            _service = boxService;
+            _converter = jsonConverter;
+            _service = requestService;
             Auth = auth;
 
             InitManagers();
@@ -66,18 +66,17 @@ namespace Canvas.v1
         {
             // Init Resource Managers
             CoursesManager = new CoursesManager(Config, _service, _converter, Auth);
-
-            // Init Resource Plugins Manager
-            ResourcePlugins = new BoxResourcePlugins();
+            
+            ResourcePlugins = new ResourcePlugins();
         }
 
         /// <summary>
-        /// Adds additional resource managers/endpoints to the BoxClient.
+        /// Adds additional resource managers/endpoints to the Client.
         /// This is meant to allow for the inclusion of beta APIs or unofficial endpoints
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public BoxClient AddResourcePlugin<T>() where T : ResourceManager
+        public Client AddResourcePlugin<T>() where T : ResourceManager
         {
             ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, _service, _converter, Auth));
             return this;
@@ -101,7 +100,7 @@ namespace Canvas.v1
         /// <summary>
         /// Allows resource managers to be registered and retrieved as plugins
         /// </summary>
-        public BoxResourcePlugins ResourcePlugins { get; private set; }
+        public IResourcePlugins ResourcePlugins { get; private set; }
 
     }
 }

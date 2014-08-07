@@ -70,9 +70,9 @@
     <Compile Include="BoxResourcePluginsTest.cs" />
     <Compile Include="AuthRepositoryTest.cs" />
     <Compile Include="BoxResourceManagerTest.cs" />
-    <Compile Include="BoxServiceTest.cs" />
+    <Compile Include="CanvasServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BoxRequestTest.cs" />
+    <Compile Include="RequestTest.cs" />
     <Compile Include="CourseManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>

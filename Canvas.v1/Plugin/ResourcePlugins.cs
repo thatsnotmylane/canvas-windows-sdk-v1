@@ -4,8 +4,7 @@ using Canvas.v1.Extensions;
 
 namespace Canvas.v1.Plugin
 {
-
-    public class BoxResourcePlugins
+    public class ResourcePlugins : IResourcePlugins
     {
         private readonly Dictionary<Type, ResourceBuilder> _plugins = new Dictionary<Type, ResourceBuilder>();
         private object _lock = new object();

@@ -2,14 +2,14 @@
 
 namespace Canvas.v1.Converter
 {
-    public class BoxJsonConverter : IBoxConverter
+    public class JsonConverter : IJsonConverter
     {
         JsonSerializerSettings _settings;
 
         /// <summary>
-        /// Instantiates a new BoxJsonConverter that converts JSON
+        /// Instantiates a new JsonConverter that converts JSON
         /// </summary>
-        public BoxJsonConverter()
+        public JsonConverter()
         {
             _settings = new JsonSerializerSettings()
             {
@@ -26,7 +26,7 @@ namespace Canvas.v1.Converter
         /// <returns>The box representation of the JSON</returns>
         public T Parse<T>(string content)
         {
-            return JsonConvert.DeserializeObject<T>(content, new BoxItemConverter());
+            return JsonConvert.DeserializeObject<T>(content);
         }
 
         /// <summary>
