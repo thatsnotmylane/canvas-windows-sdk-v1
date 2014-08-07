@@ -43,7 +43,7 @@ namespace Canvas.v1.Managers
         {
             request
                 .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
-                .Header(Constants.RequestParameters.AcceptEncoding, _config.AcceptEncoding.ToString());
+                .Header(Constants.RequestParameters.AcceptEncoding, "gzip, deflate");
 
             return request;
         }

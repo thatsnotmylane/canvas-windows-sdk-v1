@@ -13,11 +13,6 @@ namespace Canvas.v1.Config
         Uri RedirectUri { get; }
 
         string UserAgent { get; set; }
-        
-        /// <summary>
-        /// Sends compressed responses from Box for faster response times
-        /// </summary>
-        CompressionType? AcceptEncoding { get; }
 
         Uri AuthCodeBaseUri { get; }
         Uri AuthCodeUri { get; }
