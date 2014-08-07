@@ -36,6 +36,8 @@ namespace Canvas.v1.Config
         public virtual Uri AuthCodeBaseUri { get { return new Uri(CanvasApiHostUri, Constants.AuthCodeString); } }
         public virtual Uri AuthCodeUri { get { return new Uri(AuthCodeBaseUri, string.Format("?response_type=code&client_id={0}&redirect_uri={1}", ClientId, RedirectUri)); } }
         public virtual Uri CoursesEndpointUri { get { return new Uri(CanvasApiUri, Constants.CoursesString); } }
+        public virtual Uri AccountsEndpointUri { get { return new Uri(CanvasApiUri, Constants.AccountsString); } }
+        public virtual Uri UsersEndpointUri { get { return new Uri(CanvasApiUri, Constants.UsersString); } }
     }
 
     public enum CompressionType

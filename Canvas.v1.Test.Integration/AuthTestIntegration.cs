@@ -8,7 +8,7 @@ namespace Canvas.v1.Test.Integration
         //[TestMethod]
         //public async Task RefreshTokens_LiveSession_ValidResponse()
         //{
-        //    OAuthSession auth = await _client.Auth.RefreshAccessTokenAsync(_auth.AccessToken);
+        //    OAuth2Session auth = await _client.Auth.RefreshAccessTokenAsync(_auth.AccessToken);
         //    var accesstoken = auth.AccessToken;
         //    var refreshToken = auth.RefreshToken;
         //}

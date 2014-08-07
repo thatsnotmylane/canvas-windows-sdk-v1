@@ -4,10 +4,10 @@ namespace Canvas.v1.Auth.EventArgs
 {
     public class SessionAuthenticatedEventArgs : System.EventArgs
     {
-        public SessionAuthenticatedEventArgs(OAuthSession session)
+        public SessionAuthenticatedEventArgs(OAuth2Session session)
         {
             Session = session;
         }
-        public OAuthSession Session { get; set;}
+        public OAuth2Session Session { get; set;}
     }
 }

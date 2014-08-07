@@ -84,7 +84,7 @@ namespace Canvas.v1.Managers
         protected async Task<IApiResponse<T>> RetryExpiredTokenRequest<T>(IApiRequest request)
             where T : class
         {
-            OAuthSession newSession = await _auth.RefreshAccessTokenAsync(request.Authorization).ConfigureAwait(false);
+            OAuth2Session newSession = await _auth.RefreshAccessTokenAsync(request.Authorization).ConfigureAwait(false);
             AddDefaultHeaders(request);
             AddAuthorization(request, newSession.AccessToken);
             return await _service.ToResponseAsync<T>(request).ConfigureAwait(false);

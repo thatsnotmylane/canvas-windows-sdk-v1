@@ -19,26 +19,21 @@ namespace Canvas.v1
         protected readonly IRequestService _service;
         protected readonly IJsonConverter _converter;
         protected readonly IRequestHandler _handler;
-
-        /// <summary>
-        /// Instantiates a Client with the provided config object
-        /// </summary>
-        /// <param name="canvasConfig">The config object to be used</param>
-        public Client(ICanvasConfig canvasConfig) : this(canvasConfig, null) { }
+        private readonly ICanvasConfig _config;
 
         /// <summary>
         /// Instantiates a Client with the provided config object and auth session
         /// </summary>
-        /// <param name="canvasConfig">The config object to be used</param>
+        /// <param name="config">The config object to be used</param>
         /// <param name="authSession">A fully authenticated auth session</param>
-        public Client(ICanvasConfig canvasConfig, OAuthSession authSession)
+        public Client(ICanvasConfig config, OAuth2Session authSession = null)
         {
-            Config = canvasConfig;
+            _config = config;
             
             _handler = new HttpRequestHandler();
             _converter = new JsonConverter();
             _service = new RequestService(_handler);
-            Auth = new AuthRepository(Config, _service, _converter, authSession);
+            Auth = new AuthRepository(_config, _service, _converter, authSession);
 
             InitManagers();
         }
@@ -46,17 +41,15 @@ namespace Canvas.v1
         /// <summary>
         /// Initializes a new Client with the provided config, converter, service and auth objects.
         /// </summary>
-        /// <param name="canvasConfig">The config object to use</param>
-        /// <param name="jsonConverter">The box converter object to use</param>
-        /// <param name="requestService">The box service to use</param>
+        /// <param name="config">The config object to use</param>
         /// <param name="auth">The auth repository object to use</param>
-        public Client(ICanvasConfig canvasConfig, IJsonConverter jsonConverter, IRequestHandler requestHandler, IRequestService requestService, IAuthRepository auth)
+        public Client(ICanvasConfig config, IAuthRepository auth)
         {
-            Config = canvasConfig;
+            _config = config;
 
-            _handler = requestHandler;
-            _converter = jsonConverter;
-            _service = requestService;
+            _handler = new HttpRequestHandler();
+            _converter = new JsonConverter();
+            _service = new RequestService(_handler);
             Auth = auth;
 
             InitManagers();
@@ -65,7 +58,9 @@ namespace Canvas.v1
         private void InitManagers()
         {
             // Init Resource Managers
-            CoursesManager = new CoursesManager(Config, _service, _converter, Auth);
+            CoursesManager = new CoursesManager(_config, _service, _converter, Auth);
+            AccountsManager = new AccountsManager(_config, _service, _converter, Auth);
+            UsersManager = new UsersManager(_config, _service, _converter, Auth);
             
             ResourcePlugins = new ResourcePlugins();
         }
@@ -78,19 +73,25 @@ namespace Canvas.v1
         /// <returns></returns>
         public Client AddResourcePlugin<T>() where T : ResourceManager
         {
-            ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, _service, _converter, Auth));
+            ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), _config, _service, _converter, Auth));
             return this;
         }
 
         /// <summary>
-        /// The configuration parameters used by the Box Service
-        /// </summary>
-        public ICanvasConfig Config { get; private set; }
-
-        /// <summary>
-        /// The manager that represents the courses endpoint
+        /// The manager that represents the /courses endpoint
         /// </summary>
         public CoursesManager CoursesManager { get; private set; }
+        
+        /// <summary>
+        /// The manager that represents the /accounts endpoint
+        /// </summary>
+        public AccountsManager AccountsManager { get; set; }
+
+        /// <summary>
+        /// The manager that represents the /users endpoint
+        /// </summary>
+        public UsersManager UsersManager { get; set; }
+
 
         /// <summary>
         /// The Auth repository that holds the auth session

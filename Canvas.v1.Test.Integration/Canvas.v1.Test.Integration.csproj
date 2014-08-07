@@ -60,10 +60,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AccountsManagerTestIntegration.cs" />
     <Compile Include="CoursesManagerTestIntegration.cs" />
     <Compile Include="ResourceManagerTestIntegration.cs" />
     <Compile Include="AuthTestIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsersManagerTestIntegration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Canvas.v1\Canvas.v1.csproj">

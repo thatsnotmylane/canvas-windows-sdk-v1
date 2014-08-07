@@ -22,5 +22,7 @@ namespace Canvas.v1.Config
         Uri AuthCodeBaseUri { get; }
         Uri AuthCodeUri { get; }
         Uri CoursesEndpointUri { get; }
+        Uri AccountsEndpointUri { get; }
+        Uri UsersEndpointUri { get; }
     }
 }

@@ -32,7 +32,7 @@ namespace Canvas.v1.Test
             _service = new RequestService(_handler.Object);
             _boxConfig = new Mock<ICanvasConfig>();
 
-            OAuthSession session = new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer");
+            OAuth2Session session = new OAuth2Session("fakeAccessToken", "fakeRefreshToken", 3600, "bearer");
 
             _authRepository = new AuthRepository(_boxConfig.Object, _service, _converter, session);
         }
@@ -46,8 +46,8 @@ namespace Canvas.v1.Test
             int count = 0;
 
             // Increments the access token each time a call is made to the API
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IApiRequest>()))
-                .Returns(() => Task.FromResult<IApiResponse<OAuthSession>>(new ApiResponse<OAuthSession>()
+            _handler.Setup(h => h.ExecuteAsync<OAuth2Session>(It.IsAny<IApiRequest>()))
+                .Returns(() => Task.FromResult<IApiResponse<OAuth2Session>>(new ApiResponse<OAuth2Session>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = "{\"access_token\": \"" + count + "\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
@@ -56,16 +56,16 @@ namespace Canvas.v1.Test
             /*** Act ***/
             IApiRequest request = new ApiRequest(new Uri("http://box.com"), "folders");
 
-            List<Task<IApiResponse<OAuthSession>>> tasks = new List<Task<IApiResponse<OAuthSession>>>();
+            List<Task<IApiResponse<OAuth2Session>>> tasks = new List<Task<IApiResponse<OAuth2Session>>>();
             for (int i = 0; i < numTasks; i++)
-                tasks.Add(_service.EnqueueAsync<OAuthSession>(request));
+                tasks.Add(_service.EnqueueAsync<OAuth2Session>(request));
 
             await Task.WhenAll(tasks);
 
             /*** Assert ***/
             for (int i = 0; i < numTasks; i++)
             {
-                OAuthSession session = _converter.Parse<OAuthSession>(tasks[i].Result.ContentString);
+                OAuth2Session session = _converter.Parse<OAuth2Session>(tasks[i].Result.ContentString);
                 Assert.AreEqual(session.AccessToken, i.ToString());
             }
         }

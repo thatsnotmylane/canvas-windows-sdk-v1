@@ -28,7 +28,7 @@ namespace Canvas.v1.Test
             _service = new RequestService(_handler.Object);
             _config = new Mock<ICanvasConfig>();
 
-            _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
+            _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuth2Session("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
     }
 }

@@ -40,19 +40,19 @@ namespace Canvas.v1.Auth
         /// <summary>
         /// Instantiates a new AuthRepository
         /// </summary>
-        /// <param name="canvasConfig">The Box configuration that should be used</param>
-        /// <param name="requestService">The Box service that will be used to make the requests</param>
+        /// <param name="canvasConfig">The Canvas app configuration that should be used</param>
+        /// <param name="requestService">The service that will be used to make the requests</param>
         /// <param name="converter">How requests/responses will be serialized/deserialized respectively</param>
         public AuthRepository(ICanvasConfig canvasConfig, IRequestService requestService, IJsonConverter converter) : this(canvasConfig, requestService, converter, null) { }
 
         /// <summary>
         /// Instantiates a new AuthRepository
         /// </summary>
-        /// <param name="canvasConfig">The Box configuration that should be used</param>
-        /// <param name="requestService">The Box service that will be used to make the requests</param>
+        /// <param name="canvasConfig">The Canvas app configuration that should be used</param>
+        /// <param name="requestService">The service that will be used to make the requests</param>
         /// <param name="converter">How requests/responses will be serialized/deserialized respectively</param>
         /// <param name="session">The current authenticated session</param>
-        public AuthRepository(ICanvasConfig canvasConfig, IRequestService requestService, IJsonConverter converter, OAuthSession session)
+        public AuthRepository(ICanvasConfig canvasConfig, IRequestService requestService, IJsonConverter converter, OAuth2Session session)
         {
             _config = canvasConfig;
             _service = requestService;
@@ -61,9 +61,9 @@ namespace Canvas.v1.Auth
         }
 
         /// <summary>
-        /// The current session of the Box Client
+        /// The current user's OAuth2 credentials
         /// </summary>
-        public OAuthSession Session { get; protected set; }
+        public OAuth2Session Session { get; protected set; }
 
         #region Overrideable Methods
 
@@ -72,9 +72,9 @@ namespace Canvas.v1.Auth
         /// </summary>
         /// <param name="authCode"></param>
         /// <returns></returns>
-        public virtual async Task<OAuthSession> AuthenticateAsync(string authCode)
+        public virtual async Task<OAuth2Session> AuthenticateAsync(string authCode)
         {
-            OAuthSession session = await ExchangeAuthCode(authCode);
+            OAuth2Session session = await ExchangeAuthCode(authCode);
 
             using (await _mutex.LockAsync().ConfigureAwait(false))
             {
@@ -93,9 +93,9 @@ namespace Canvas.v1.Auth
         /// </summary>
         /// <param name="accessToken"></param>
         /// <returns></returns>
-        public virtual async Task<OAuthSession> RefreshAccessTokenAsync(string accessToken)
+        public virtual async Task<OAuth2Session> RefreshAccessTokenAsync(string accessToken)
         {
-            OAuthSession session;
+            OAuth2Session session;
             using (await _mutex.LockAsync().ConfigureAwait(false))
             {
                 if (_expiredTokens.Contains(accessToken))
@@ -127,7 +127,7 @@ namespace Canvas.v1.Auth
         /// </summary>
         /// <param name="authCode"></param>
         /// <returns></returns>
-        protected async Task<OAuthSession> ExchangeAuthCode(string authCode)
+        protected async Task<OAuth2Session> ExchangeAuthCode(string authCode)
         {
             if (string.IsNullOrWhiteSpace(authCode))
                 throw new ArgumentException("Auth code cannot be null or empty", "authCode");
@@ -139,7 +139,7 @@ namespace Canvas.v1.Auth
                 .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
                 .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret);
 
-            IApiResponse<OAuthSession> apiResponse = await _service.ToResponseAsync<OAuthSession>(apiRequest).ConfigureAwait(false);
+            IApiResponse<OAuth2Session> apiResponse = await _service.ToResponseAsync<OAuth2Session>(apiRequest).ConfigureAwait(false);
             apiResponse.ParseResults(_converter);
 
             return apiResponse.ResponseObject;
@@ -150,7 +150,7 @@ namespace Canvas.v1.Auth
         /// </summary>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
-        protected async Task<OAuthSession> ExchangeRefreshToken(string refreshToken)
+        protected async Task<OAuth2Session> ExchangeRefreshToken(string refreshToken)
         {
             if (string.IsNullOrWhiteSpace(refreshToken))
                 throw new ArgumentException("Refresh token cannot be null or empty", "refreshToken");
@@ -162,7 +162,7 @@ namespace Canvas.v1.Auth
                 .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
                 .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret);
 
-            IApiResponse<OAuthSession> apiResponse = await _service.ToResponseAsync<OAuthSession>(apiRequest).ConfigureAwait(false);
+            IApiResponse<OAuth2Session> apiResponse = await _service.ToResponseAsync<OAuth2Session>(apiRequest).ConfigureAwait(false);
             if (apiResponse.Status == ResponseStatus.Success)
             {
                 // Parse and return the new session
@@ -196,7 +196,7 @@ namespace Canvas.v1.Auth
         /// Allows sub classes to invoke the SessionAuthenticated event
         /// </summary>
         /// <param name="e"></param>
-        protected void OnSessionAuthenticated(OAuthSession session)
+        protected void OnSessionAuthenticated(OAuth2Session session)
         {
             var handler = SessionAuthenticated;
             if (handler != null)

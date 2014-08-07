@@ -19,20 +19,11 @@ namespace Canvas.v1.Managers
             : base(config, service, converter, auth) { }
 
         /// <summary>
-        /// Retrieves the files and/or folders contained in the provided folder id
+        /// Returns the list of active courses for the current user.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="limit"></param>
-        /// <param name="offset"></param>
-        [Obsolete("This endpoint is not officially supported by the API and is not guaranteed to be available in the next version. Please use GetFolderItemsAsync")]
-        public async Task<Course> GetItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
+        public async Task<Course> GetAll()
         {
-            id.ThrowIfNullOrWhiteSpace("id");
-
-            ApiRequest request = new ApiRequest(_config.CoursesEndpointUri, id)
-                .Param("limit", limit.ToString())
-                .Param("offset", offset.ToString())
-                .Param(ParamFields, fields);
+            ApiRequest request = new ApiRequest(_config.CoursesEndpointUri);
 
             IApiResponse<Course> response = await ToResponseAsync<Course>(request).ConfigureAwait(false);
 

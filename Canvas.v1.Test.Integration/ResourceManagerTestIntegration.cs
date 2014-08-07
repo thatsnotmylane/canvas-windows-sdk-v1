@@ -15,7 +15,7 @@ namespace Canvas.v1.Test.Integration
 
         public Uri RedirectUri = new Uri("http://boxsdk");
 
-        protected OAuthSession _auth;
+        protected OAuth2Session _auth;
         protected Client _client;
         protected ICanvasConfig _config;
         protected IRequestHandler _handler;
@@ -23,7 +23,7 @@ namespace Canvas.v1.Test.Integration
 
         public ResourceManagerTestIntegration()
         {
-            _auth = new OAuthSession("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
+            _auth = new OAuth2Session("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
             _parser = new JsonConverter();

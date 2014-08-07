@@ -10,7 +10,7 @@ namespace Canvas.v1.Auth
         /// <summary>
         /// The active OAuth2 session
         /// </summary>
-        OAuthSession Session { get; }
+        OAuth2Session Session { get; }
 
         /// <summary>
         /// Event for when the session is no longer valid and a new set of Access/Refresh tokens are required
@@ -29,13 +29,13 @@ namespace Canvas.v1.Auth
         /// </summary>
         /// <param name="authCode">The auth code received from step 1 of the OAuth2 workflow</param>
         /// <returns>A fully authenticated OAuth2 session</returns>
-        Task<OAuthSession> AuthenticateAsync(string authCode);
+        Task<OAuth2Session> AuthenticateAsync(string authCode);
 
         /// <summary>
         /// Exchanges an expired access token for a renewed one using the current refresh token
         /// </summary>
         /// <param name="accessToken">The expired access token</param>
         /// <returns>A fully authenticated OAuth2 session</returns>
-        Task<OAuthSession> RefreshAccessTokenAsync(string accessToken);
+        Task<OAuth2Session> RefreshAccessTokenAsync(string accessToken);
     }
 }

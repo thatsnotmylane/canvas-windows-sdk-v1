@@ -9,8 +9,10 @@
         /*** API Endpoints ***/
         public const string AuthCodeString = @"login/oauth2/auth";
         public const string AuthTokenEndpointString = @"login/oauth2/token";
-        
+
         public const string CoursesString = @"courses/";
+        public const string AccountsString = @"accounts/";
+        public const string UsersString = @"users/";
         
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";

@@ -30,22 +30,22 @@ namespace Canvas.v1.Test
             IAuthRepository authRepository = new AuthRepository(config, service, _converter);
 
             // Act
-            OAuthSession response = await authRepository.AuthenticateAsync("fakeAuthorizationCode");
+            OAuth2Session response = await authRepository.AuthenticateAsync("fakeAuthorizationCode");
         }
 
         [TestMethod]
         public async Task Authenticate_ValidResponse_ValidSession()
         {
             // Arrange
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IApiRequest>()))
-                .Returns(Task<IApiResponse<OAuthSession>>.Factory.StartNew(() => new ApiResponse<OAuthSession>()
+            _handler.Setup(h => h.ExecuteAsync<OAuth2Session>(It.IsAny<IApiRequest>()))
+                .Returns(Task<IApiResponse<OAuth2Session>>.Factory.StartNew(() => new ApiResponse<OAuth2Session>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = "{\"access_token\": \"T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
                 }));
 
             // Act
-            OAuthSession session = await _authRepository.AuthenticateAsync("sampleauthorizationcode");
+            OAuth2Session session = await _authRepository.AuthenticateAsync("sampleauthorizationcode");
 
             // Assert
             Assert.AreEqual(session.AccessToken, "T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl");
@@ -59,71 +59,36 @@ namespace Canvas.v1.Test
         public async Task Authenticate_ErrorResponse_Exception()
         {
             // Arrange
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IApiRequest>()))
-                .Returns(Task<IApiResponse<OAuthSession>>.Factory.StartNew(() => new ApiResponse<OAuthSession>()
+            _handler.Setup(h => h.ExecuteAsync<OAuth2Session>(It.IsAny<IApiRequest>()))
+                .Returns(Task<IApiResponse<OAuth2Session>>.Factory.StartNew(() => new ApiResponse<OAuth2Session>()
                 {
                     Status = ResponseStatus.Error,
                     ContentString = "{\"error\": \"invalid_grant\",\"error_description\": \"Invalid user credentials\"}"
                 }));
 
             // Act
-            OAuthSession session = await _authRepository.AuthenticateAsync("fakeauthorizationcode");
+            OAuth2Session session = await _authRepository.AuthenticateAsync("fakeauthorizationcode");
         }
 
         [TestMethod]
         public async Task RefreshSession_ValidResponse_ValidSession()
         {
             // Arrange
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IApiRequest>()))
-                .Returns(Task<IApiResponse<OAuthSession>>.Factory.StartNew(() => new ApiResponse<OAuthSession>()
+            _handler.Setup(h => h.ExecuteAsync<OAuth2Session>(It.IsAny<IApiRequest>()))
+                .Returns(Task<IApiResponse<OAuth2Session>>.Factory.StartNew(() => new ApiResponse<OAuth2Session>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = "{\"access_token\": \"T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
                 }));
 
             // Act
-            OAuthSession session = await _authRepository.RefreshAccessTokenAsync("fakeaccesstoken");
+            OAuth2Session session = await _authRepository.RefreshAccessTokenAsync("fakeaccesstoken");
 
             // Assert
             Assert.AreEqual(session.AccessToken, "T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl");
             Assert.AreEqual(session.ExpiresIn, 3600);
             Assert.AreEqual(session.RefreshToken, "J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR");
             Assert.AreEqual(session.TokenType, "bearer");
-        }
-
-
-        [TestMethod]
-        public async Task RefreshSession_MultipleThreadsSameAccessToken_SameSession()
-        {
-
-            /*** Arrange ***/
-            int numTasks = 1000;
-
-            int count = 0; 
-
-            // Increments the access token each time a call is made to the API
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IApiRequest>()))
-                .Returns(() => Task.FromResult<IApiResponse<OAuthSession>>(new ApiResponse<OAuthSession>() 
-                {
-                    Status = ResponseStatus.Success,
-                    ContentString = "{\"access_token\": \""+ count + "\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
-                })).Callback(() => System.Threading.Interlocked.Increment(ref count));
-
-            /*** Act ***/
-            List<Task<OAuthSession>> tasks = new List<Task<OAuthSession>>();
-
-            for (int i = 0; i < numTasks; i++)
-                tasks.Add(_authRepository.RefreshAccessTokenAsync("fakeAccessToken")); // Refresh with the same access token each time
-
-            await Task.WhenAll(tasks);
-
-            /*** Assert ***/
-            var exceptions = tasks.Where(t => t.Status == TaskStatus.Faulted).Select(t => t.Exception);
-            Assert.AreEqual(exceptions.Count(), 0);
-            var completions = tasks.Where(t => t.Status == TaskStatus.RanToCompletion).Select(t => t.Result);
-            Assert.AreEqual(completions.Count(), numTasks);
-            var results = tasks.Where(t => t.Result.AccessToken == "0").Select(t => t.Result);
-            Assert.AreEqual(results.Count(), numTasks);
         }
     }
 }

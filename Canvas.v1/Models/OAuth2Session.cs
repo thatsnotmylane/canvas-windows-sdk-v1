@@ -6,7 +6,7 @@ namespace Canvas.v1.Models
     /// <summary>
     /// OAuth2 session data
     /// </summary>
-    public class OAuthSession
+    public class OAuth2Session
     {
         private const string FieldAccessToken = "access_token";
         private const string FieldRefreshToken = "refresh_token";
@@ -15,20 +15,19 @@ namespace Canvas.v1.Models
 
         /// <summary>
         /// Instantiates a new OAuth 2 session. This is primarily used if you are developing a custom
-        /// OAuth login experience
+        /// OAuth2 login experience
         /// </summary>
         /// <param name="access_token">A valid access token</param>
         /// <param name="refresh_token">A valid refresh token</param>
         /// <param name="expires_in">Time in seconds the access token will expire</param>
         /// <param name="token_type">Token type (usually bearer)</param>
         [JsonConstructor]
-        public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type) 
+        public OAuth2Session(string access_token, string refresh_token, int expires_in, string token_type) 
         {
             AccessToken = access_token;
             RefreshToken = refresh_token;
             ExpiresIn = expires_in;
             TokenType = token_type;
-            AuthVersion = AuthVersion.V2;
         }
 
         /// <summary>
@@ -57,19 +56,5 @@ namespace Canvas.v1.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldTokenType)]
         public string TokenType { get; private set; }
-
-        /// <summary>
-        /// Read-only property to provide support for legacy V1 authentication
-        /// </summary>
-        public AuthVersion AuthVersion { get; private set; }
-    }
-
-    /// <summary>
-    /// Allows the SDK to differentiate between a V1 and a V2 auth token
-    /// </summary>
-    public enum AuthVersion
-    {
-        V1,
-        V2
     }
 }
