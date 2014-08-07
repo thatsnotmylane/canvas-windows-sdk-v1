@@ -12,13 +12,13 @@ using Moq;
 namespace Canvas.v1.Test
 {
     [TestClass]
-    public class BoxFoldersManagerTest : BoxResourceManagerTest
+    public class CourseManagerTests : BoxResourceManagerTest
     {
-        protected BoxFoldersManager _foldersManager;
+        protected CoursesManager _foldersManager;
 
-        public BoxFoldersManagerTest()
+        public CourseManagerTests()
         {
-            _foldersManager = new BoxFoldersManager(_config.Object, _service, _converter, _authRepository);
+            _foldersManager = new CoursesManager(_config.Object, _service, _converter, _authRepository);
         }
 
         [TestMethod]

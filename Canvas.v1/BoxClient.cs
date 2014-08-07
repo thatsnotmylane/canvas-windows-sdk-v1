@@ -23,17 +23,17 @@ namespace Canvas.v1
         /// <summary>
         /// Instantiates a BoxClient with the provided config object
         /// </summary>
-        /// <param name="boxConfig">The config object to be used</param>
-        public BoxClient(IBoxConfig boxConfig) : this(boxConfig, null) { }
+        /// <param name="canvasConfig">The config object to be used</param>
+        public BoxClient(ICanvasConfig canvasConfig) : this(canvasConfig, null) { }
 
         /// <summary>
         /// Instantiates a BoxClient with the provided config object and auth session
         /// </summary>
-        /// <param name="boxConfig">The config object to be used</param>
+        /// <param name="canvasConfig">The config object to be used</param>
         /// <param name="authSession">A fully authenticated auth session</param>
-        public BoxClient(IBoxConfig boxConfig, OAuthSession authSession)
+        public BoxClient(ICanvasConfig canvasConfig, OAuthSession authSession)
         {
-            Config = boxConfig;
+            Config = canvasConfig;
             
             _handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
@@ -46,13 +46,13 @@ namespace Canvas.v1
         /// <summary>
         /// Initializes a new BoxClient with the provided config, converter, service and auth objects.
         /// </summary>
-        /// <param name="boxConfig">The config object to use</param>
+        /// <param name="canvasConfig">The config object to use</param>
         /// <param name="boxConverter">The box converter object to use</param>
         /// <param name="boxService">The box service to use</param>
         /// <param name="auth">The auth repository object to use</param>
-        public BoxClient(IBoxConfig boxConfig, IBoxConverter boxConverter, IRequestHandler requestHandler, IBoxService boxService, IAuthRepository auth)
+        public BoxClient(ICanvasConfig canvasConfig, IBoxConverter boxConverter, IRequestHandler requestHandler, IBoxService boxService, IAuthRepository auth)
         {
-            Config = boxConfig;
+            Config = canvasConfig;
 
             _handler = requestHandler;
             _converter = boxConverter;
@@ -65,13 +65,7 @@ namespace Canvas.v1
         private void InitManagers()
         {
             // Init Resource Managers
-            FoldersManager = new BoxFoldersManager(Config, _service, _converter, Auth);
-            FilesManager = new BoxFilesManager(Config, _service, _converter, Auth);
-            CommentsManager = new BoxCommentsManager(Config, _service, _converter, Auth);
-            CollaborationsManager = new BoxCollaborationsManager(Config, _service, _converter, Auth);
-            SearchManager = new BoxSearchManager(Config, _service, _converter, Auth);
-            UsersManager = new BoxUsersManager(Config, _service, _converter, Auth);
-            GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth);
+            CoursesManager = new CoursesManager(Config, _service, _converter, Auth);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -83,7 +77,7 @@ namespace Canvas.v1
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public BoxClient AddResourcePlugin<T>() where T : BoxResourceManager
+        public BoxClient AddResourcePlugin<T>() where T : ResourceManager
         {
             ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, _service, _converter, Auth));
             return this;
@@ -92,42 +86,12 @@ namespace Canvas.v1
         /// <summary>
         /// The configuration parameters used by the Box Service
         /// </summary>
-        public IBoxConfig Config { get; private set; }
+        public ICanvasConfig Config { get; private set; }
 
         /// <summary>
-        /// The manager that represents the files endpoint
+        /// The manager that represents the courses endpoint
         /// </summary>
-        public BoxFilesManager FilesManager { get; private set; }
-        
-        /// <summary>
-        /// The manager that represents the folders endpoint
-        /// </summary>
-        public BoxFoldersManager FoldersManager { get; private set; }
-
-        /// <summary>
-        /// The manager that represents the comments endpoint
-        /// </summary>
-        public BoxCommentsManager CommentsManager { get; private set; }
-
-        /// <summary>
-        /// The manager that represents the collaboration endpoint
-        /// </summary>
-        public BoxCollaborationsManager CollaborationsManager { get; private set; }
-
-        /// <summary>
-        /// The manager that represents the search endpoint
-        /// </summary>
-        public BoxSearchManager SearchManager { get; private set; }
-
-        /// <summary>
-        /// The manager that represents the users endpoint
-        /// </summary>
-        public BoxUsersManager UsersManager { get; private set; }
-
-        /// <summary>
-        /// The manager that represents the groups endpoint
-        /// </summary>
-        public BoxGroupsManager GroupsManager { get; private set; }
+        public CoursesManager CoursesManager { get; private set; }
 
         /// <summary>
         /// The Auth repository that holds the auth session

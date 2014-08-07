@@ -25,7 +25,7 @@ namespace Canvas.v1.Test
             // Arrange
             IRequestHandler handler = new HttpRequestHandler();
             IBoxService service = new BoxService(handler);
-            IBoxConfig config = new BoxConfig(null, null, null);
+            ICanvasConfig config = new CanvasConfig(null, null, null);
 
             IAuthRepository authRepository = new AuthRepository(config, service, _converter);
 

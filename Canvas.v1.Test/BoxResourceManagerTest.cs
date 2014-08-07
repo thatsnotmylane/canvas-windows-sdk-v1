@@ -15,7 +15,7 @@ namespace Canvas.v1.Test
         protected IBoxConverter _converter;
         protected Mock<IRequestHandler> _handler;
         protected IBoxService _service;
-        protected Mock<IBoxConfig> _config;
+        protected Mock<ICanvasConfig> _config;
         protected AuthRepository _authRepository;
 
         protected Uri _baseUri = new Uri(Constants.BoxApiUriString);
@@ -26,7 +26,7 @@ namespace Canvas.v1.Test
             _converter = new BoxJsonConverter();
             _handler = new Mock<IRequestHandler>();
             _service = new BoxService(_handler.Object);
-            _config = new Mock<IBoxConfig>();
+            _config = new Mock<ICanvasConfig>();
 
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }

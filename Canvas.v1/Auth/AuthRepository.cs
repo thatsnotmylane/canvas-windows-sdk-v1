@@ -20,7 +20,7 @@ namespace Canvas.v1.Auth
     /// </summary>
     public class AuthRepository : IAuthRepository
     {
-        protected IBoxConfig _config;
+        protected ICanvasConfig _config;
         protected IBoxService _service;
         protected IBoxConverter _converter;
 
@@ -40,21 +40,21 @@ namespace Canvas.v1.Auth
         /// <summary>
         /// Instantiates a new AuthRepository
         /// </summary>
-        /// <param name="boxConfig">The Box configuration that should be used</param>
+        /// <param name="canvasConfig">The Box configuration that should be used</param>
         /// <param name="boxService">The Box service that will be used to make the requests</param>
         /// <param name="converter">How requests/responses will be serialized/deserialized respectively</param>
-        public AuthRepository(IBoxConfig boxConfig, IBoxService boxService, IBoxConverter converter) : this(boxConfig, boxService, converter, null) { }
+        public AuthRepository(ICanvasConfig canvasConfig, IBoxService boxService, IBoxConverter converter) : this(canvasConfig, boxService, converter, null) { }
 
         /// <summary>
         /// Instantiates a new AuthRepository
         /// </summary>
-        /// <param name="boxConfig">The Box configuration that should be used</param>
+        /// <param name="canvasConfig">The Box configuration that should be used</param>
         /// <param name="boxService">The Box service that will be used to make the requests</param>
         /// <param name="converter">How requests/responses will be serialized/deserialized respectively</param>
         /// <param name="session">The current authenticated session</param>
-        public AuthRepository(IBoxConfig boxConfig, IBoxService boxService, IBoxConverter converter, OAuthSession session)
+        public AuthRepository(ICanvasConfig canvasConfig, IBoxService boxService, IBoxConverter converter, OAuthSession session)
         {
-            _config = boxConfig;
+            _config = canvasConfig;
             _service = boxService;
             _converter = converter;
             Session = session;
@@ -119,20 +119,6 @@ namespace Canvas.v1.Auth
             return session;
         }
 
-        /// <summary>
-        /// Logs the current session out by invalidating the current Access/Refresh tokens
-        /// </summary>
-        /// <returns></returns>
-        public virtual async Task LogoutAsync()
-        {
-            string token;
-
-            using (await _mutex.LockAsync().ConfigureAwait(false))
-                token = Session.AccessToken;
-
-            await InvalidateTokens(token);
-        }
-
         #endregion
 
 
@@ -146,7 +132,7 @@ namespace Canvas.v1.Auth
             if (string.IsNullOrWhiteSpace(authCode))
                 throw new ArgumentException("Auth code cannot be null or empty", "authCode");
 
-            BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
+            BoxRequest boxRequest = new BoxRequest(_config.CanvasApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
                                             .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.AuthorizationCode)
                                             .Payload(Constants.RequestParameters.Code, authCode)
@@ -171,7 +157,7 @@ namespace Canvas.v1.Auth
             if (string.IsNullOrWhiteSpace(refreshToken))
                 throw new ArgumentException("Refresh token cannot be null or empty", "refreshToken");
 
-            BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
+            BoxRequest boxRequest = new BoxRequest(_config.CanvasApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
                                             .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.RefreshToken)
                                             .Payload(Constants.RequestParameters.RefreshToken, refreshToken)
@@ -196,25 +182,6 @@ namespace Canvas.v1.Auth
             {
                 StatusCode = boxResponse.StatusCode,
             };
-        }
-
-        /// <summary>
-        /// Performs the revoke request using the provided access token. This will invalidate both the access and refresh tokens
-        /// </summary>
-        /// <param name="accessToken"></param>
-        /// <returns></returns>
-        protected async Task InvalidateTokens(string accessToken)
-        {
-            if (string.IsNullOrWhiteSpace(accessToken))
-                throw new ArgumentException("Access token cannot be null or empty", "accessToken");
-
-            BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.RevokeEndpointString)
-                                            .Method(RequestMethod.Post)
-                                            .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
-                                            .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
-                                            .Payload(Constants.RequestParameters.Token, accessToken);
-
-            await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
         }
 
         /// <summary>

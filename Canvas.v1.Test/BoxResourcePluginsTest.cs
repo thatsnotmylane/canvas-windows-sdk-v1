@@ -16,35 +16,28 @@ namespace Canvas.v1.Test
 
             // Act
             client
-                .AddResourcePlugin<BoxFilesManager>()
-                .AddResourcePlugin<BoxFoldersManager>()
-                .AddResourcePlugin<BoxCommentsManager>()
-                .AddResourcePlugin<BoxGroupsManager>();
+                .AddResourcePlugin<CoursesManager>();
 
-            var fm = client.ResourcePlugins.Get<BoxFilesManager>();
-            var dm = client.ResourcePlugins.Get<BoxFoldersManager>();
-            var cm = client.ResourcePlugins.Get<BoxCommentsManager>();
-            var gm = client.ResourcePlugins.Get<BoxGroupsManager>();
+            var dm = client.ResourcePlugins.Get<CoursesManager>();
 
             // Assert
-            Assert.IsNotNull(fm);
             Assert.IsNotNull(dm);
-            Assert.IsNotNull(cm);
-            Assert.IsNotNull(gm);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         [ExpectedException(typeof(InvalidOperationException))]
         public void InitializePlugins_UnregisteredResource_InvalidOperationException()
         {
+            // Won't work until there are additional manager types.
+
             // Arrange
             BoxClient client = new BoxClient(_config.Object);
 
             // Act
-            client.AddResourcePlugin<BoxFilesManager>();
+            client.AddResourcePlugin<CoursesManager>();
 
             // Assert
-            var dm = client.ResourcePlugins.Get<BoxFoldersManager>();
+            var dm = client.ResourcePlugins.Get<CoursesManager>();
         }
 
     }

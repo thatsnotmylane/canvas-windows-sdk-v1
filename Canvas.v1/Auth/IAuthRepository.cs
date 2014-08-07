@@ -37,11 +37,5 @@ namespace Canvas.v1.Auth
         /// <param name="accessToken">The expired access token</param>
         /// <returns>A fully authenticated OAuth2 session</returns>
         Task<OAuthSession> RefreshAccessTokenAsync(string accessToken);
-
-        /// <summary>
-        /// Revokes access by invalidating both the access token and refresh token
-        /// </summary>
-        /// <returns>Task</returns>
-        Task LogoutAsync();
     }
 }

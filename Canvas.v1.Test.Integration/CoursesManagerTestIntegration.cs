@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Canvas.v1.Test.Integration
 {
     [TestClass]
-    public class BoxFoldersManagerTestIntegration : BoxResourceManagerTestIntegration
+    public class CoursesManagerTestIntegration : ResourceManagerTestIntegration
     {
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse()
@@ -20,7 +20,7 @@ namespace Canvas.v1.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse_GzipCompression()
         {
-            var boxConfig = new BoxConfig(ClientId, ClientSecret, RedirectUri){AcceptEncoding = CompressionType.gzip};
+            var boxConfig = new CanvasConfig(ClientId, ClientSecret, RedirectUri){AcceptEncoding = CompressionType.gzip};
             var boxClient = new BoxClient(boxConfig, _auth);
             await AssertFolderContents(boxClient);
         }
@@ -28,7 +28,7 @@ namespace Canvas.v1.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse_DeflateCompression()
         {
-            var boxConfig = new BoxConfig(ClientId, ClientSecret, RedirectUri) { AcceptEncoding = CompressionType.deflate };
+            var boxConfig = new CanvasConfig(ClientId, ClientSecret, RedirectUri) { AcceptEncoding = CompressionType.deflate };
             var boxClient = new BoxClient(boxConfig, _auth);
             await AssertFolderContents(boxClient);
         }
@@ -39,7 +39,7 @@ namespace Canvas.v1.Test.Integration
             const int numFiles = 9;
             const int numFolders = 2;
 
-            BoxCollection<BoxItem> c = await boxClient.FoldersManager.GetFolderItemsAsync("0", 50, 0, new List<string>() { 
+            BoxCollection<BoxItem> c = await boxClient.CoursesManager.GetFolderItemsAsync("0", 50, 0, new List<string>() { 
                 BoxItem.FieldName, 
                 BoxItem.FieldSize, 
                 BoxFolder.FieldItemCollection
@@ -55,7 +55,7 @@ namespace Canvas.v1.Test.Integration
         [TestMethod]
         public async Task FolderGetTrashItems_LiveSession_ValidResponse()
         {
-            var results = await _client.FoldersManager.GetTrashItemsAsync(10);
+            var results = await _client.CoursesManager.GetTrashItemsAsync(10);
             Assert.IsNotNull(results);
         }
 
@@ -70,13 +70,13 @@ namespace Canvas.v1.Test.Integration
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
 
-            BoxFolder f = await _client.FoldersManager.CreateAsync(folderReq);
+            BoxFolder f = await _client.CoursesManager.CreateAsync(folderReq);
 
             Assert.IsNotNull(f, "Folder was not created");
             Assert.AreEqual(testName, f.Name, "Folder with incorrect name was created");
 
             // Test Get Information
-            BoxFolder fi = await _client.FoldersManager.GetInformationAsync(f.Id);
+            BoxFolder fi = await _client.CoursesManager.GetInformationAsync(f.Id);
 
             Assert.AreEqual(f.Id, fi.Id, "Folder Ids are not identical");
             Assert.AreEqual(testName, fi.Name, "folder name is incorrect");
@@ -87,7 +87,7 @@ namespace Canvas.v1.Test.Integration
                 Access = BoxSharedLinkAccessType.open
             };
 
-            BoxFolder fsl = await _client.FoldersManager.CreateSharedLinkAsync(f.Id, sharedLinkReq);
+            BoxFolder fsl = await _client.CoursesManager.CreateSharedLinkAsync(f.Id, sharedLinkReq);
 
             Assert.AreEqual(BoxSharedLinkAccessType.open, fsl.SharedLink.Access, "Shared link Access is not correct");
 
@@ -101,7 +101,7 @@ namespace Canvas.v1.Test.Integration
                 FolderUploadEmail = new BoxEmailRequest { Access = "open" }
             };
 
-            BoxFolder uf = await _client.FoldersManager.UpdateInformationAsync(updateReq);
+            BoxFolder uf = await _client.CoursesManager.UpdateInformationAsync(updateReq);
 
             Assert.AreEqual(newTestname, uf.Name, "New folder name is not correct");
 
@@ -114,13 +114,13 @@ namespace Canvas.v1.Test.Integration
                 Name = copyTestName
             };
 
-            BoxFolder f2 = await _client.FoldersManager.CopyAsync(copyReq);
+            BoxFolder f2 = await _client.CoursesManager.CopyAsync(copyReq);
 
             Assert.AreEqual(copyTestName, f2.Name, "Copied file does not have correct name");
 
             //Clean up - Delete Test Folders
-            await _client.FoldersManager.DeleteAsync(f.Id, true);
-            await _client.FoldersManager.DeleteAsync(f2.Id, true);
+            await _client.CoursesManager.DeleteAsync(f.Id, true);
+            await _client.CoursesManager.DeleteAsync(f2.Id, true);
         }
     }
 }

@@ -15,11 +15,11 @@ namespace Canvas.v1.Managers
     /// <summary>
     /// The base class for all of the Box resource managers
     /// </summary>
-    public abstract class BoxResourceManager
+    public abstract class ResourceManager
     {
         protected const string ParamFields = "fields";
 
-        protected IBoxConfig _config;
+        protected ICanvasConfig _config;
         protected IBoxService _service;
         protected IBoxConverter _converter;
         protected IAuthRepository _auth;
@@ -31,7 +31,7 @@ namespace Canvas.v1.Managers
         /// <param name="service"></param>
         /// <param name="converter"></param>
         /// <param name="auth"></param>
-        public BoxResourceManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
+        public ResourceManager(ICanvasConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
         {
             _config = config;
             _service = service;

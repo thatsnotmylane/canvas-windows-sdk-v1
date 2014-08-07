@@ -21,7 +21,7 @@ namespace Canvas.v1.Test
         IBoxConverter _converter;
         Mock<IRequestHandler> _handler;
         IBoxService _service;
-        Mock<IBoxConfig> _boxConfig;
+        Mock<ICanvasConfig> _boxConfig;
         IAuthRepository _authRepository;
 
         public BoxServiceTest()
@@ -30,7 +30,7 @@ namespace Canvas.v1.Test
             _converter = new BoxJsonConverter();
             _handler = new Mock<IRequestHandler>();
             _service = new BoxService(_handler.Object);
-            _boxConfig = new Mock<IBoxConfig>();
+            _boxConfig = new Mock<ICanvasConfig>();
 
             OAuthSession session = new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer");
 

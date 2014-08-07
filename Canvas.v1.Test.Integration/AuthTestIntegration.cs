@@ -3,7 +3,7 @@
 namespace Canvas.v1.Test.Integration
 {
     [TestClass]
-    public class BoxAuthTestIntegration : BoxResourceManagerTestIntegration
+    public class AuthTestIntegration : ResourceManagerTestIntegration
     {
         //[TestMethod]
         //public async Task RefreshTokens_LiveSession_ValidResponse()

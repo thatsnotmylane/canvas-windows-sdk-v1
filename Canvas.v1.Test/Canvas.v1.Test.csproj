@@ -69,17 +69,11 @@
   <ItemGroup>
     <Compile Include="BoxResourcePluginsTest.cs" />
     <Compile Include="AuthRepositoryTest.cs" />
-    <Compile Include="BoxFilesManagerTest.cs" />
-    <Compile Include="BoxGroupsManagerTest.cs" />
     <Compile Include="BoxResourceManagerTest.cs" />
     <Compile Include="BoxServiceTest.cs" />
-    <Compile Include="BoxSearchManagerTest.cs" />
-    <Compile Include="BoxUsersManagerTest.cs" />
-    <Compile Include="BoxCollaborationsManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoxRequestTest.cs" />
-    <Compile Include="BoxFoldersManagerTest.cs" />
-    <Compile Include="BoxCommentsManagerTest.cs" />
+    <Compile Include="CourseManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

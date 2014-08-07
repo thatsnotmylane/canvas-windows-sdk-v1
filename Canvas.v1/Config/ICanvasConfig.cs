@@ -2,11 +2,11 @@
 
 namespace Canvas.v1.Config
 {
-    public interface IBoxConfig
+    public interface ICanvasConfig
     {
-        Uri BoxApiHostUri { get; }
-        Uri BoxApiUri { get; }
-        Uri BoxUploadApiUri { get; }
+        Uri CanvasApiHostUri { get; }
+        Uri CanvasApiUri { get; }
+        Uri CanvasUploadApiUri { get; }
 
         string ClientId { get; }
         string ConsumerKey { get; }
@@ -24,15 +24,6 @@ namespace Canvas.v1.Config
 
         Uri AuthCodeBaseUri { get; }
         Uri AuthCodeUri { get; }
-        Uri FoldersEndpointUri { get; }
-        Uri FilesEndpointUri { get; }
-        Uri FilesUploadEndpointUri { get; }
-        Uri CommentsEndpointUri { get; }
-        Uri SearchEndpointUri { get; }
-        Uri UserEndpointUri { get; }
-        Uri CollaborationsEndpointUri { get; }
-        Uri GroupsEndpointUri { get; }
-        Uri GroupMembershipEndpointUri { get; }
-        
+        Uri CoursesEndpointUri { get; }
     }
 }

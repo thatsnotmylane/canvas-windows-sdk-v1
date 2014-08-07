@@ -60,16 +60,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BoxFilesManagerTestIntegration.cs" />
-    <Compile Include="BoxFoldersManagerTestIntegration.cs" />
-    <Compile Include="BoxResourceManagerTestIntegration.cs" />
-    <Compile Include="BoxCommentsManagerTestIntegration.cs" />
-    <Compile Include="BoxSearchManagerTestIntegration.cs" />
-    <Compile Include="BoxUsersManagerTestIntegration.cs" />
-    <Compile Include="BoxCollaborationsManagerTestIntegration.cs" />
-    <Compile Include="BoxAuthTestIntegration.cs" />
+    <Compile Include="CoursesManagerTestIntegration.cs" />
+    <Compile Include="ResourceManagerTestIntegration.cs" />
+    <Compile Include="AuthTestIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BoxGroupsManagerTestIntegration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Canvas.v1\Canvas.v1.csproj">

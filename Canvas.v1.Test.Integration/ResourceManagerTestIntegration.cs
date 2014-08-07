@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Canvas.v1.Test.Integration
 {
     [TestClass]
-    public abstract class BoxResourceManagerTestIntegration
+    public abstract class ResourceManagerTestIntegration
     {
         public const string ClientId = "YOUR_CLIENT_ID";
         public const string ClientSecret = "YOUR_CLIENT_SECRET";
@@ -17,17 +17,17 @@ namespace Canvas.v1.Test.Integration
 
         protected OAuthSession _auth;
         protected BoxClient _client;
-        protected IBoxConfig _config;
+        protected ICanvasConfig _config;
         protected IRequestHandler _handler;
         protected IBoxConverter _parser;
 
-        public BoxResourceManagerTestIntegration()
+        public ResourceManagerTestIntegration()
         {
             _auth = new OAuthSession("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
             _parser = new BoxJsonConverter();
-            _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
+            _config = new CanvasConfig(ClientId, ClientSecret, RedirectUri);
             _client = new BoxClient(_config, _auth);
         }
 
