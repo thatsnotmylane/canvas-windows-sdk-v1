@@ -17,15 +17,11 @@ namespace Canvas.v1.Managers
         }
 
         /// <summary>
-        /// Returns user profile data, including user id, name, and profile pic.
+        /// Get a user profile for the indicated user.
         /// </summary>
+        /// <param name="id">The ID of the user. Defaults to the user represented by the current OAuth2 token.</param>
         /// <returns></returns>
-        public async Task<UserProfile> Me()
-        {
-            return await Get("self");
-        }
-
-        public async Task<UserProfile> Get(string id)
+        public async Task<UserProfile> Get(string id = "self")
         {
             var request = new ApiRequest(_config.UsersEndpointUri, id + "/profile");
 

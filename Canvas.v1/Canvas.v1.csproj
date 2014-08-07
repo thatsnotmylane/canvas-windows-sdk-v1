@@ -49,6 +49,7 @@
     <Compile Include="Extensions\NullCheckExtensions.cs" />
     <Compile Include="Managers\AccountsManager.cs" />
     <Compile Include="Managers\UsersManager.cs" />
+    <Compile Include="Models\Account.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Plugin\IResourcePlugins.cs" />
     <Compile Include="Plugin\ResourcePlugins.cs" />

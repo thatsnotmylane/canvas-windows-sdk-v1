@@ -3,16 +3,14 @@
 namespace Canvas.v1.Models
 {
     /// <summary>
-    /// Box representation of a folder
+    /// A Canvas course.
     /// </summary>
     public class Course
     {
-        public const string FieldId = "id";
-
         /// <summary>
-        /// Indicates whether this folder will be synced by the Box sync clients or not. Can be synced, not_synced, or partially_synced
+        /// The ID of the course
         /// </summary>
-        [JsonProperty(PropertyName = FieldId)]
+        [JsonProperty(PropertyName = "id")]
         public long Id { get; private set; }
     }
 }

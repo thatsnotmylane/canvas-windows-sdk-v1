@@ -10,7 +10,7 @@ namespace Canvas.v1.Test.Integration
         [TestMethod]
         public async Task GetMyProfile()
         {
-            var user = await _client.UsersManager.Me();
+            var user = await _client.UsersManager.Get();
             Console.Out.WriteLine(user.Name);
         }
 
