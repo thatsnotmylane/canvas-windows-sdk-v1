@@ -29,7 +29,7 @@ namespace Canvas.v1.Services
         /// <typeparam name="T"></typeparam>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request)
+        public async Task<IApiResponse<T>> ToResponseAsync<T>(IApiRequest request)
             where T : class
         {
             return await _handler.ExecuteAsync<T>(request).ConfigureAwait(false);
@@ -41,7 +41,7 @@ namespace Canvas.v1.Services
         /// <typeparam name="T"></typeparam>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<IBoxResponse<T>> EnqueueAsync<T>(IBoxRequest request)
+        public async Task<IApiResponse<T>> EnqueueAsync<T>(IApiRequest request)
             where T : class
         {
             await _throttler.WaitAsync().ConfigureAwait(false);

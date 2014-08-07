@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace Canvas.v1.Models
 {
     /// <summary>
-    /// Box representation of an OAuth2 session
+    /// OAuth2 session data
     /// </summary>
     public class OAuthSession
     {
@@ -22,26 +22,13 @@ namespace Canvas.v1.Models
         /// <param name="expires_in">Time in seconds the access token will expire</param>
         /// <param name="token_type">Token type (usually bearer)</param>
         [JsonConstructor]
-        public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type)
-            : this(access_token, refresh_token, expires_in, token_type, AuthVersion.V2) { } 
-
-        /// <summary>
-        /// Instantiates a new OAuth 2 session and allows you to define the auth version. This constructor is primarily 
-        /// available to support legacy V1 calls. Creating an Auth session with V1 is not encouraged as they will not work in 2014
-        /// </summary>
-        /// <param name="access_token"></param>
-        /// <param name="refresh_token"></param>
-        /// <param name="expires_in"></param>
-        /// <param name="token_type"></param>
-        /// <param name="authVersion"></param>
-        [Obsolete("V1 auth will no longer be available after 6/14")]
-        public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type, AuthVersion authVersion) 
+        public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type) 
         {
             AccessToken = access_token;
             RefreshToken = refresh_token;
             ExpiresIn = expires_in;
             TokenType = token_type;
-            AuthVersion = authVersion;
+            AuthVersion = AuthVersion.V2;
         }
 
         /// <summary>

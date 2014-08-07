@@ -12,7 +12,7 @@ namespace Canvas.v1.Test
         public void ValidParameters_ValidRequest()
         {
             Uri baseUri = new Uri("http://api.box.com/v2");
-            IBoxRequest request = new BoxRequest(baseUri, "auth/oauth2");
+            IApiRequest request = new ApiRequest(baseUri, "auth/oauth2");
             request.Parameters.Add("test", "test2");
 
             Assert.AreEqual(request.Method, RequestMethod.Get);

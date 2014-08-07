@@ -12,7 +12,7 @@ using Moq;
 namespace Canvas.v1.Test
 {
     [TestClass]
-    public class CourseManagerTests : BoxResourceManagerTest
+    public class CourseManagerTests : ResourceManagerTest
     {
         protected CoursesManager _coursesManager;
 
@@ -24,8 +24,8 @@ namespace Canvas.v1.Test
         [TestMethod]
         public async Task GetFolderItems_ValidResponse_ValidFolder()
         {
-//            _handler.Setup(h => h.ExecuteAsync<BoxCollection<Item>>(It.IsAny<IBoxRequest>()))
-//                .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<Item>>>(new BoxResponse<BoxCollection<Item>>()
+//            _handler.Setup(h => h.ExecuteAsync<BoxCollection<Item>>(It.IsAny<IApiRequest>()))
+//                .Returns(() => Task.FromResult<IApiResponse<BoxCollection<Item>>>(new ApiResponse<BoxCollection<Item>>()
 //                    {
 //                        Status = ResponseStatus.Success,
 //                        ContentString = "{\"total_count\":24,\"entries\":[{\"type\":\"folder\",\"id\":\"192429928\",\"sequence_id\":\"1\",\"etag\":\"1\",\"name\":\"Stephen Curry Three Pointers\"},{\"type\":\"file\",\"id\":\"818853862\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Warriors.jpg\"}],\"offset\":0,\"limit\":2,\"order\":[{\"by\":\"type\",\"direction\":\"ASC\"},{\"by\":\"name\",\"direction\":\"ASC\"}]}"

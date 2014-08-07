@@ -8,7 +8,7 @@ namespace Canvas.v1.Wrappers
     /// The Box response returned from the API
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BoxResponse<T> : IBoxResponse<T> where T : class
+    public class ApiResponse<T> : IApiResponse<T> where T : class
     {
         /// <summary>
         /// The object representation of a successful response
@@ -34,7 +34,7 @@ namespace Canvas.v1.Wrappers
         /// The error associated with an Error status
         /// This will be null in all other cases
         /// </summary>
-        public BoxError Error { get; set; }
+        public ApiError Error { get; set; }
 
         /// <summary>
         /// Headers returned as part of the response

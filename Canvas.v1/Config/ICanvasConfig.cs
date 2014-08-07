@@ -6,15 +6,12 @@ namespace Canvas.v1.Config
     {
         Uri CanvasApiHostUri { get; }
         Uri CanvasApiUri { get; }
-        Uri CanvasUploadApiUri { get; }
 
         string ClientId { get; }
         string ConsumerKey { get; }
         string ClientSecret { get; }
         Uri RedirectUri { get; }
 
-        string DeviceId { get; set; }
-        string DeviceName { get; set; }
         string UserAgent { get; set; }
         
         /// <summary>

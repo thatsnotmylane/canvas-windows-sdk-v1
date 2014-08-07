@@ -39,7 +39,7 @@ namespace Canvas.v1.Managers
             _auth = auth;
         }
 
-        protected IBoxRequest AddDefaultHeaders(IBoxRequest request)
+        protected IApiRequest AddDefaultHeaders(IApiRequest request)
         {
             request
                 .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
@@ -48,7 +48,7 @@ namespace Canvas.v1.Managers
             return request;
         }
 
-        protected async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request, bool queueRequest = false)
+        protected async Task<IApiResponse<T>> ToResponseAsync<T>(IApiRequest request, bool queueRequest = false)
             where T : class
         {
             AddDefaultHeaders(request);
@@ -58,7 +58,7 @@ namespace Canvas.v1.Managers
             return response.ParseResults(_converter);
         }
 
-        private async Task<IBoxResponse<T>> ExecuteRequest<T>(IBoxRequest request, bool queueRequest)
+        private async Task<IApiResponse<T>> ExecuteRequest<T>(IApiRequest request, bool queueRequest)
             where T : class
         {
             var response = queueRequest ?
@@ -81,7 +81,7 @@ namespace Canvas.v1.Managers
         /// <typeparam name="T"></typeparam>
         /// <param name="request"></param>
         /// <returns></returns>
-        protected async Task<IBoxResponse<T>> RetryExpiredTokenRequest<T>(IBoxRequest request)
+        protected async Task<IApiResponse<T>> RetryExpiredTokenRequest<T>(IApiRequest request)
             where T : class
         {
             OAuthSession newSession = await _auth.RefreshAccessTokenAsync(request.Authorization).ConfigureAwait(false);
@@ -90,29 +90,14 @@ namespace Canvas.v1.Managers
             return await _service.ToResponseAsync<T>(request).ConfigureAwait(false);
         }
 
-        protected void AddAuthorization(IBoxRequest request, string accessToken = null)
+        protected void AddAuthorization(IApiRequest request, string accessToken = null)
         {
             var auth = accessToken ?? _auth.Session.AccessToken;
 
-            string authString = _auth.Session.AuthVersion == AuthVersion.V1 ? 
-                string.Format(CultureInfo.InvariantCulture, Constants.V1AuthString, _config.ClientId, auth) : 
-                string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth);
-
-            StringBuilder sb = new StringBuilder(authString);
-
-            // Appending device_id is required for accounts that have device pinning enabled on V1 auth
-            if (_auth.Session.AuthVersion == AuthVersion.V1)
-            { 
-                sb.Append(string.IsNullOrWhiteSpace(_config.DeviceId) ? 
-                    string.Empty : 
-                    string.Format("&device_id={0}", _config.DeviceId));
-                sb.Append(string.IsNullOrWhiteSpace(_config.DeviceName) ? 
-                    string.Empty : 
-                    string.Format("&device_name={0}", _config.DeviceName));
-            }
+            string authString = string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth); 
 
             request.Authorization = auth;
-            request.Header(Constants.AuthHeaderKey, sb.ToString());
+            request.Header(Constants.AuthHeaderKey, authString);
         }
 
 

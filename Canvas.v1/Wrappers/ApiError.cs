@@ -5,7 +5,7 @@ namespace Canvas.v1.Wrappers
     /// <summary>
     /// Box representation of an Error
     /// </summary>
-    public class BoxError
+    public class ApiError
     {
         /// <summary>
         /// The error received. This value will always be present in the event of an error

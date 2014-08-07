@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Canvas.v1.Test
 {
     [TestClass]
-    public class BoxResourcePluginsTest : BoxResourceManagerTest
+    public class ResourcePluginsTest : ResourceManagerTest
     {
     
         [TestMethod]

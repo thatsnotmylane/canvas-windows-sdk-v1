@@ -132,19 +132,17 @@ namespace Canvas.v1.Auth
             if (string.IsNullOrWhiteSpace(authCode))
                 throw new ArgumentException("Auth code cannot be null or empty", "authCode");
 
-            BoxRequest boxRequest = new BoxRequest(_config.CanvasApiHostUri, Constants.AuthTokenEndpointString)
-                                            .Method(RequestMethod.Post)
-                                            .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.AuthorizationCode)
-                                            .Payload(Constants.RequestParameters.Code, authCode)
-                                            .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
-                                            .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
-                                            .Payload(Constants.RequestParameters.BoxDeviceId, _config.DeviceId)
-                                            .Payload(Constants.RequestParameters.BoxDeviceName, _config.DeviceName);
+            ApiRequest apiRequest = new ApiRequest(_config.CanvasApiHostUri, Constants.AuthTokenEndpointString)
+                .Method(RequestMethod.Post)
+                .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.AuthorizationCode)
+                .Payload(Constants.RequestParameters.Code, authCode)
+                .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
+                .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret);
 
-            IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
-            boxResponse.ParseResults(_converter);
+            IApiResponse<OAuthSession> apiResponse = await _service.ToResponseAsync<OAuthSession>(apiRequest).ConfigureAwait(false);
+            apiResponse.ParseResults(_converter);
 
-            return boxResponse.ResponseObject;
+            return apiResponse.ResponseObject;
         }
 
         /// <summary>
@@ -157,21 +155,19 @@ namespace Canvas.v1.Auth
             if (string.IsNullOrWhiteSpace(refreshToken))
                 throw new ArgumentException("Refresh token cannot be null or empty", "refreshToken");
 
-            BoxRequest boxRequest = new BoxRequest(_config.CanvasApiHostUri, Constants.AuthTokenEndpointString)
-                                            .Method(RequestMethod.Post)
-                                            .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.RefreshToken)
-                                            .Payload(Constants.RequestParameters.RefreshToken, refreshToken)
-                                            .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
-                                            .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
-                                            .Payload(Constants.RequestParameters.BoxDeviceId, _config.DeviceId)
-                                            .Payload(Constants.RequestParameters.BoxDeviceName, _config.DeviceName);
+            ApiRequest apiRequest = new ApiRequest(_config.CanvasApiHostUri, Constants.AuthTokenEndpointString)
+                .Method(RequestMethod.Post)
+                .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.RefreshToken)
+                .Payload(Constants.RequestParameters.RefreshToken, refreshToken)
+                .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
+                .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret);
 
-            IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
-            if (boxResponse.Status == ResponseStatus.Success)
+            IApiResponse<OAuthSession> apiResponse = await _service.ToResponseAsync<OAuthSession>(apiRequest).ConfigureAwait(false);
+            if (apiResponse.Status == ResponseStatus.Success)
             {
                 // Parse and return the new session
-                boxResponse.ParseResults(_converter);
-                return boxResponse.ResponseObject;
+                apiResponse.ParseResults(_converter);
+                return apiResponse.ResponseObject;
             }
 
             // The session has been invalidated, notify subscribers
@@ -180,7 +176,7 @@ namespace Canvas.v1.Auth
             // As well as the caller
             throw new SessionInvalidatedException()
             {
-                StatusCode = boxResponse.StatusCode,
+                StatusCode = apiResponse.StatusCode,
             };
         }
 

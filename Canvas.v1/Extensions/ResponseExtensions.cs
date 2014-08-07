@@ -11,18 +11,18 @@ using Canvas.v1.Wrappers.Contracts;
 namespace Canvas.v1.Extensions
 {
     /// <summary>
-    /// Extends the BoxResponse class with convenience methods
+    /// Extends the ApiResponse class with convenience methods
     /// </summary>
     public static class ResponseExtensions
     {
         /// <summary>
-        /// Parses the BoxResponse with the provided converter
+        /// Parses the ApiResponse with the provided converter
         /// </summary>
         /// <typeparam name="T">The return type of the Box response</typeparam>
         /// <param name="response">The response to parse</param>
         /// <param name="converter">The converter to use for the conversion</param>
         /// <returns></returns>
-        internal static IBoxResponse<T> ParseResults<T>(this IBoxResponse<T> response, IJsonConverter converter)
+        internal static IApiResponse<T> ParseResults<T>(this IApiResponse<T> response, IJsonConverter converter)
             where T : class
         {
             switch (response.Status)
@@ -36,7 +36,7 @@ namespace Canvas.v1.Extensions
                     {
                         try
                         { 
-                            response.Error = converter.Parse<BoxError>(response.ContentString);
+                            response.Error = converter.Parse<ApiError>(response.ContentString);
                         }
                         catch (Exception)
                         {
@@ -62,7 +62,7 @@ namespace Canvas.v1.Extensions
         /// </summary>
         /// <param name="response">The http response that includes total page information in its header</param>
         /// <returns>Total number of pages in the preview</returns>
-        public static int BuildPagesCount<T>(this IBoxResponse<T> response) where T : class
+        public static int BuildPagesCount<T>(this IApiResponse<T> response) where T : class
         {
             int count = 1;
             IEnumerable<string> values = new List<string>();

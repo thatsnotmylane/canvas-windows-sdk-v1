@@ -15,7 +15,7 @@ using Moq;
 namespace Canvas.v1.Test
 {
     [TestClass]
-    public class AuthRepositoryTest : BoxResourceManagerTest
+    public class AuthRepositoryTest : ResourceManagerTest
     {
 
         [TestMethod]
@@ -37,8 +37,8 @@ namespace Canvas.v1.Test
         public async Task Authenticate_ValidResponse_ValidSession()
         {
             // Arrange
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
-                .Returns(Task<IBoxResponse<OAuthSession>>.Factory.StartNew(() => new BoxResponse<OAuthSession>()
+            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IApiRequest>()))
+                .Returns(Task<IApiResponse<OAuthSession>>.Factory.StartNew(() => new ApiResponse<OAuthSession>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = "{\"access_token\": \"T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
@@ -59,8 +59,8 @@ namespace Canvas.v1.Test
         public async Task Authenticate_ErrorResponse_Exception()
         {
             // Arrange
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
-                .Returns(Task<IBoxResponse<OAuthSession>>.Factory.StartNew(() => new BoxResponse<OAuthSession>()
+            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IApiRequest>()))
+                .Returns(Task<IApiResponse<OAuthSession>>.Factory.StartNew(() => new ApiResponse<OAuthSession>()
                 {
                     Status = ResponseStatus.Error,
                     ContentString = "{\"error\": \"invalid_grant\",\"error_description\": \"Invalid user credentials\"}"
@@ -74,8 +74,8 @@ namespace Canvas.v1.Test
         public async Task RefreshSession_ValidResponse_ValidSession()
         {
             // Arrange
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
-                .Returns(Task<IBoxResponse<OAuthSession>>.Factory.StartNew(() => new BoxResponse<OAuthSession>()
+            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IApiRequest>()))
+                .Returns(Task<IApiResponse<OAuthSession>>.Factory.StartNew(() => new ApiResponse<OAuthSession>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = "{\"access_token\": \"T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
@@ -102,8 +102,8 @@ namespace Canvas.v1.Test
             int count = 0; 
 
             // Increments the access token each time a call is made to the API
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
-                .Returns(() => Task.FromResult<IBoxResponse<OAuthSession>>(new BoxResponse<OAuthSession>() 
+            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IApiRequest>()))
+                .Returns(() => Task.FromResult<IApiResponse<OAuthSession>>(new ApiResponse<OAuthSession>() 
                 {
                     Status = ResponseStatus.Success,
                     ContentString = "{\"access_token\": \""+ count + "\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"

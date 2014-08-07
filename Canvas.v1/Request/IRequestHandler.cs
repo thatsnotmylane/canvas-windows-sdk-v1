@@ -7,12 +7,12 @@ namespace Canvas.v1.Request
     {
 
         /// <summary>
-        /// Executes the BoxRequest
+        /// Executes the ApiRequest
         /// </summary>
         /// <typeparam name="T">The return type</typeparam>
         /// <param name="request">The box request to execute</param>
-        /// <returns>A BoxResponse</returns>
-        Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
+        /// <returns>A ApiResponse</returns>
+        Task<IApiResponse<T>> ExecuteAsync<T>(IApiRequest request)
             where T : class;
     }
 }

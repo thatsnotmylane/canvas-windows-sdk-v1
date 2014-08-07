@@ -29,12 +29,12 @@ namespace Canvas.v1.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.CoursesEndpointUri, id)
+            ApiRequest request = new ApiRequest(_config.CoursesEndpointUri, id)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
 
-            IBoxResponse<Course> response = await ToResponseAsync<Course>(request).ConfigureAwait(false);
+            IApiResponse<Course> response = await ToResponseAsync<Course>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -50,12 +50,12 @@ namespace Canvas.v1.Managers
                 .AccountId.ThrowIfUnassigned("courseRequest.AccountId");
             courseRequest.Course.ThrowIfNull("courseRequest.Course");
 
-            BoxRequest request = new BoxRequest(_config.CoursesEndpointUri)
+            ApiRequest request = new ApiRequest(_config.CoursesEndpointUri)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize<CourseRequest>(courseRequest));
 
-            IBoxResponse<Course> response = await ToResponseAsync<Course>(request).ConfigureAwait(false);
+            IApiResponse<Course> response = await ToResponseAsync<Course>(request).ConfigureAwait(false);
 
 
             return response.ResponseObject;

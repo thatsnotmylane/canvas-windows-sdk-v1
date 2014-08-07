@@ -18,17 +18,14 @@ namespace Canvas.v1.Config
             RedirectUri = redirectUri;
         }
 
-        public virtual Uri CanvasApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
-        public virtual Uri CanvasApiUri { get { return new Uri(Constants.BoxApiUriString); } }
-        public virtual Uri CanvasUploadApiUri { get { return new Uri(Constants.BoxUploadApiUriString); } }
+        public virtual Uri CanvasApiHostUri { get { return new Uri(Constants.ApiHostUriString); } }
+        public virtual Uri CanvasApiUri { get { return new Uri(Constants.ApiUriString); } }
 
         public virtual string ClientId { get; private set; }
         public virtual string ConsumerKey { get; private set; }
         public virtual string ClientSecret { get; private set; }
         public virtual Uri RedirectUri { get; set; }
 
-        public string DeviceId { get; set; }
-        public string DeviceName { get; set; }
         public string UserAgent { get; set; }
 
         /// <summary>

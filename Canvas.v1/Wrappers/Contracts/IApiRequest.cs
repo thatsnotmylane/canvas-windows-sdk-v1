@@ -7,7 +7,7 @@ namespace Canvas.v1.Wrappers.Contracts
     /// <summary>
     /// Interface for all Box requests
     /// </summary>
-    public interface IBoxRequest
+    public interface IApiRequest
     {
         /// <summary>
         /// The host URI

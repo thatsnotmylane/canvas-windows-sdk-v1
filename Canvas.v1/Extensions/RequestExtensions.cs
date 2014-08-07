@@ -7,11 +7,11 @@ using Canvas.v1.Wrappers.Contracts;
 namespace Canvas.v1.Extensions
 {
     /// <summary>
-    /// Extends the BoxRequest object with convenience methods
+    /// Extends the ApiRequest object with convenience methods
     /// </summary>
     public static class RequestExtensions
     {
-        public static T Param<T>(this T request, string name, string value) where T : IBoxRequest
+        public static T Param<T>(this T request, string name, string value) where T : IApiRequest
         {
             name.ThrowIfNullOrWhiteSpace("name");
 
@@ -24,7 +24,7 @@ namespace Canvas.v1.Extensions
             return request;
         }
 
-        public static T Param<T>(this T request, string name, List<string> values) where T : IBoxRequest
+        public static T Param<T>(this T request, string name, List<string> values) where T : IApiRequest
         {
             name.ThrowIfNullOrWhiteSpace("name");
 
@@ -37,7 +37,7 @@ namespace Canvas.v1.Extensions
             return request;
         }
 
-        public static T Header<T>(this T request, string name, string value) where T : IBoxRequest
+        public static T Header<T>(this T request, string name, string value) where T : IApiRequest
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException();
@@ -51,14 +51,14 @@ namespace Canvas.v1.Extensions
             return request;
         }
 
-        public static T Method<T>(this T request, RequestMethod method) where T : IBoxRequest
+        public static T Method<T>(this T request, RequestMethod method) where T : IApiRequest
         {
             request.Method = method;
 
             return request;
         }
 
-        public static T Payload<T>(this T request, string value) where T : IBoxRequest
+        public static T Payload<T>(this T request, string value) where T : IApiRequest
         {
             value.ThrowIfNullOrWhiteSpace("value");
 
@@ -67,7 +67,7 @@ namespace Canvas.v1.Extensions
             return request;
         }
 
-        public static T Payload<T>(this T request, string name, string value) where T : IBoxRequest
+        public static T Payload<T>(this T request, string name, string value) where T : IApiRequest
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException();
@@ -80,7 +80,7 @@ namespace Canvas.v1.Extensions
             return request;
         }
 
-        public static T Authorize<T>(this T request, string accessToken) where T : IBoxRequest
+        public static T Authorize<T>(this T request, string accessToken) where T : IApiRequest
         {
             accessToken.ThrowIfNullOrWhiteSpace("accessToken");
 
@@ -90,7 +90,7 @@ namespace Canvas.v1.Extensions
             return request;
         }
 
-        public static T FormPart<T>(this T request, IBoxFormPart formPart) where T : BoxMultiPartRequest
+        public static T FormPart<T>(this T request, IRequestFormPart<T> formPart) where T : ApiMultiPartRequest
         {
             formPart.ThrowIfNull("formPart");
 

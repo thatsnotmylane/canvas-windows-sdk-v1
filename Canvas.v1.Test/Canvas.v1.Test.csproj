@@ -67,9 +67,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BoxResourcePluginsTest.cs" />
+    <Compile Include="ResourcePluginsTest.cs" />
     <Compile Include="AuthRepositoryTest.cs" />
-    <Compile Include="BoxResourceManagerTest.cs" />
+    <Compile Include="ResourceManagerTest.cs" />
     <Compile Include="CanvasServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestTest.cs" />

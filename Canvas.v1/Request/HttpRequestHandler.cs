@@ -13,14 +13,14 @@ namespace Canvas.v1.Request
 {
     public class HttpRequestHandler : IRequestHandler
     {
-        public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
+        public async Task<IApiResponse<T>> ExecuteAsync<T>(IApiRequest request)
             where T : class
         {
             // Need to account for special cases when the return type is a stream
             bool isStream = typeof(T) == typeof(Stream);
 
-            HttpRequestMessage httpRequest = request.GetType() == typeof(BoxMultiPartRequest) ?
-                                                BuildMultiPartRequest(request as BoxMultiPartRequest) :
+            HttpRequestMessage httpRequest = request.GetType() == typeof(ApiMultiPartRequest) ?
+                                                BuildMultiPartRequest(request as ApiMultiPartRequest) :
                                                 BuildRequest(request);
 
             // Add headers
@@ -39,39 +39,39 @@ namespace Canvas.v1.Request
                 HttpClient client = CreateClient(request);
                 HttpResponseMessage response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
 
-                BoxResponse<T> boxResponse = new BoxResponse<T>();
-                boxResponse.Headers = response.Headers;
+                ApiResponse<T> apiResponse = new ApiResponse<T>();
+                apiResponse.Headers = response.Headers;
 
                 // Translate the status codes that interest us 
-                boxResponse.StatusCode = response.StatusCode;
+                apiResponse.StatusCode = response.StatusCode;
                 switch (response.StatusCode)
                 {
                     case HttpStatusCode.OK:
                     case HttpStatusCode.Created:
                     case HttpStatusCode.NoContent:
-                        boxResponse.Status = ResponseStatus.Success;
+                        apiResponse.Status = ResponseStatus.Success;
                         break;
                     case HttpStatusCode.Accepted:
-                        boxResponse.Status = ResponseStatus.Pending;
+                        apiResponse.Status = ResponseStatus.Pending;
                         break;
                     case HttpStatusCode.Unauthorized:
-                        boxResponse.Status = ResponseStatus.Unauthorized;
+                        apiResponse.Status = ResponseStatus.Unauthorized;
                         break;
                     default:
-                        boxResponse.Status = ResponseStatus.Error;
+                        apiResponse.Status = ResponseStatus.Error;
                         break;
                 }
 
-                if (isStream && boxResponse.Status == ResponseStatus.Success)
+                if (isStream && apiResponse.Status == ResponseStatus.Success)
                 {
                     var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                    boxResponse.ResponseObject = resObj as T;             
+                    apiResponse.ResponseObject = resObj as T;             
                 }
                 else
                 {
-                    boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    apiResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 }
-                return boxResponse;
+                return apiResponse;
             }
             catch (Exception ex)
             {
@@ -80,7 +80,7 @@ namespace Canvas.v1.Request
             }
         }
 
-        private HttpClient CreateClient(IBoxRequest request)
+        private HttpClient CreateClient(IApiRequest request)
         {
             HttpClientHandler handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
             HttpClient client = new HttpClient(handler);
@@ -90,7 +90,7 @@ namespace Canvas.v1.Request
             return client;
         }
 
-        private HttpRequestMessage BuildRequest(IBoxRequest request)
+        private HttpRequestMessage BuildRequest(IApiRequest request)
         {
             HttpRequestMessage httpRequest = new HttpRequestMessage();
             httpRequest.RequestUri = request.AbsoluteUri;
@@ -127,17 +127,17 @@ namespace Canvas.v1.Request
             return httpRequest;
         }
 
-        private HttpRequestMessage BuildMultiPartRequest(BoxMultiPartRequest request)
+        private HttpRequestMessage BuildMultiPartRequest(ApiMultiPartRequest request)
         {
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, request.AbsoluteUri);
             MultipartFormDataContent multiPart = new MultipartFormDataContent();
 
             // Break out the form parts from the request
-            var filePart = request.Parts.Where(p => p.GetType() == typeof(BoxFileFormPart))
-                .Select(p => p as BoxFileFormPart)
+            var filePart = request.Parts.Where(p => p.GetType() == typeof(FileFormPart))
+                .Select(p => p as FileFormPart)
                 .FirstOrDefault(); // Only single file upload is supported at this time
-            var stringParts = request.Parts.Where(p => p.GetType() == typeof(BoxStringFormPart))
-                .Select(p => p as BoxStringFormPart);
+            var stringParts = request.Parts.Where(p => p.GetType() == typeof(StringFormPart))
+                .Select(p => p as StringFormPart);
 
             // Create the file part
             StreamContent fileContent = new StreamContent(filePart.Value);

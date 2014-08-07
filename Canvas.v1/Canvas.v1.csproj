@@ -49,13 +49,13 @@
     <Compile Include="Extensions\NullCheckExtensions.cs" />
     <Compile Include="Plugin\IResourcePlugins.cs" />
     <Compile Include="Plugin\ResourcePlugins.cs" />
-    <Compile Include="Wrappers\BoxError.cs" />
-    <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
-    <Compile Include="Wrappers\BoxResponse.cs" />
+    <Compile Include="Wrappers\ApiError.cs" />
+    <Compile Include="Wrappers\ApiMultiPartRequest.cs" />
+    <Compile Include="Wrappers\ApiResponse.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
-    <Compile Include="Wrappers\Contracts\IBoxResponse.cs" />
-    <Compile Include="Wrappers\BoxFormPart.cs" />
-    <Compile Include="Wrappers\Contracts\IBoxFormPart.cs" />
+    <Compile Include="Wrappers\Contracts\IApiResponse.cs" />
+    <Compile Include="Wrappers\StringFormPart.cs" />
+    <Compile Include="Wrappers\Contracts\IRequestFormPart.cs" />
     <Compile Include="Config\CanvasConfig.cs" />
     <Compile Include="Config\Constants.cs" />
     <Compile Include="Auth\IAuthRepository.cs" />
@@ -67,8 +67,8 @@
     <Compile Include="Models\Request\CourseRequest.cs" />
     <Compile Include="Models\OAuthSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wrappers\BoxRequest.cs" />
-    <Compile Include="Wrappers\Contracts\IBoxRequest.cs" />
+    <Compile Include="Wrappers\ApiRequest.cs" />
+    <Compile Include="Wrappers\Contracts\IApiRequest.cs" />
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Services\RequestService.cs" />
     <Compile Include="Request\HttpRequestHandler.cs" />
@@ -76,6 +76,7 @@
     <Compile Include="Request\IRequestHandler.cs" />
     <Compile Include="Converter\IJsonConverter.cs" />
     <Compile Include="Converter\JsonConverter.cs" />
+    <Compile Include="Wrappers\FileFormPart.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

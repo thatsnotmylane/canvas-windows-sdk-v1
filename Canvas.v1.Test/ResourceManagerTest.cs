@@ -9,7 +9,7 @@ using Moq;
 
 namespace Canvas.v1.Test
 {
-    public abstract class BoxResourceManagerTest 
+    public abstract class ResourceManagerTest 
     {
 
         protected IJsonConverter _converter;
@@ -18,9 +18,9 @@ namespace Canvas.v1.Test
         protected Mock<ICanvasConfig> _config;
         protected AuthRepository _authRepository;
 
-        protected Uri _baseUri = new Uri(Constants.BoxApiUriString);
+        protected Uri _baseUri = new Uri(Constants.ApiUriString);
 
-        public BoxResourceManagerTest()
+        public ResourceManagerTest()
         {
             // Initial Setup
             _converter = new JsonConverter();

@@ -7,7 +7,7 @@ namespace Canvas.v1.Wrappers.Contracts
     /// Interface for all Box responses
     /// </summary>
     /// <typeparam name="T">The return type of the Box response</typeparam>
-    public interface IBoxResponse<T> where T : class
+    public interface IApiResponse<T> where T : class
     {
         /// <summary>
         /// The response object from a successful response
@@ -33,7 +33,7 @@ namespace Canvas.v1.Wrappers.Contracts
         /// The error associated with an Error status
         /// This will be null in all other cases
         /// </summary>
-        BoxError Error { get; set; }
+        ApiError Error { get; set; }
 
         /// <summary>
         /// Headers returned as part of the response
