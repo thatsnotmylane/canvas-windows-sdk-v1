@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Canvas.v1.Auth;
 using Canvas.v1.Config;
 using Canvas.v1.Converter;
+using Canvas.v1.Extensions;
 using Canvas.v1.Models;
 using Canvas.v1.Services;
 using Canvas.v1.Wrappers;
@@ -22,11 +23,43 @@ namespace Canvas.v1.Managers
         /// <returns></returns>
         public async Task<IEnumerable<Account>> GetAll()
         {
-            ApiRequest request = new ApiRequest(_config.AccountsEndpointUri);
+            var request = new ApiRequest(_config.AccountsEndpointUri);
 
-            IApiResponse<IEnumerable<Account>> response = await ToResponseAsync<IEnumerable<Account>>(request).ConfigureAwait(false);
+            var response = await ToResponseAsync<IEnumerable<Account>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
+
+        /// <summary>
+        /// Retrieve information on a single account
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Account> Get(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            var request = new ApiRequest(_config.AccountsEndpointUri, id);
+
+            var response = await ToResponseAsync<Account>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Retrieve the list of courses in this account
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Course>> GetCourses(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            var request = new ApiRequest(_config.AccountsEndpointUri, id + "/courses");
+
+            var response = await ToResponseAsync<IEnumerable<Course>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
     }
 }

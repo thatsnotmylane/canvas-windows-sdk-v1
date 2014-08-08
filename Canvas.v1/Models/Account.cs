@@ -63,6 +63,10 @@ namespace Canvas.v1.Models
         [JsonConverter(typeof(StringEnumConverter))]
         public AccountWorkflowState WorkflowState { get; private set; }
 
+        public override string ToString()
+        {
+            return string.Format("Id: {0}, Name: {1}, DefaultTimeZone: {2}, DefaultStorageQuotaMB: {3}, DefaultUserStorageQuotaMB: {4}, DefaultGroupStorageQuotaMB: {5}, ParentAccountId: {6}, RootAccountId: {7}, WorkflowState: {8}", Id, Name, DefaultTimeZone, DefaultStorageQuotaMB, DefaultUserStorageQuotaMB, DefaultGroupStorageQuotaMB, ParentAccountId, RootAccountId, WorkflowState);
+        }
     }
 
     public enum AccountWorkflowState
