@@ -16,10 +16,13 @@ namespace Canvas.v1
     /// </summary>
     public class Client
     {
-        protected readonly IRequestService _service;
-        protected readonly IJsonConverter _converter;
-        protected readonly IRequestHandler _handler;
+        private readonly IRequestService _service;
+        private readonly IJsonConverter _converter;
         private readonly ICanvasConfig _config;
+        
+        private Lazy<CoursesManager> _coursesManager;
+        private Lazy<AccountsManager> _accountsManager;
+        private Lazy<UsersManager> _usersManager;
 
         /// <summary>
         /// Instantiates a Client with the provided config object and auth session
@@ -27,13 +30,12 @@ namespace Canvas.v1
         /// <param name="config">The config object to be used</param>
         /// <param name="authSession">A fully authenticated auth session</param>
         public Client(ICanvasConfig config, OAuth2Session authSession = null)
+            : this(config, new AuthRepository(config, new RequestService(new HttpRequestHandler()), new JsonConverter(), authSession))
         {
             _config = config;
-            
-            _handler = new HttpRequestHandler();
             _converter = new JsonConverter();
-            _service = new RequestService(_handler);
-            Auth = new AuthRepository(_config, _service, _converter, authSession);
+            _service = new RequestService(new HttpRequestHandler());
+            Auth = new AuthRepository(config, new RequestService(new HttpRequestHandler()), new JsonConverter(), authSession);
 
             InitManagers();
         }
@@ -46,10 +48,8 @@ namespace Canvas.v1
         public Client(ICanvasConfig config, IAuthRepository auth)
         {
             _config = config;
-
-            _handler = new HttpRequestHandler();
             _converter = new JsonConverter();
-            _service = new RequestService(_handler);
+            _service = new RequestService(new HttpRequestHandler());
             Auth = auth;
 
             InitManagers();
@@ -58,9 +58,9 @@ namespace Canvas.v1
         private void InitManagers()
         {
             // Init Resource Managers
-            CoursesManager = new CoursesManager(_config, _service, _converter, Auth);
-            AccountsManager = new AccountsManager(_config, _service, _converter, Auth);
-            UsersManager = new UsersManager(_config, _service, _converter, Auth);
+            _coursesManager = new Lazy<CoursesManager>(() => new CoursesManager(_config, _service, _converter, Auth));
+            _accountsManager = new Lazy<AccountsManager>(() => new AccountsManager(_config, _service, _converter, Auth));
+            _usersManager = new Lazy<UsersManager>(() => new UsersManager(_config, _service, _converter, Auth));
             
             ResourcePlugins = new ResourcePlugins();
         }
@@ -80,17 +80,26 @@ namespace Canvas.v1
         /// <summary>
         /// The manager that represents the /courses endpoint
         /// </summary>
-        public CoursesManager CoursesManager { get; private set; }
-        
+        public CoursesManager CoursesManager
+        {
+            get { return _coursesManager.Value; }
+        }
+
         /// <summary>
         /// The manager that represents the /accounts endpoint
         /// </summary>
-        public AccountsManager AccountsManager { get; set; }
+        public AccountsManager AccountsManager
+        {
+            get { return _accountsManager.Value; }
+        }
 
         /// <summary>
         /// The manager that represents the /users endpoint
         /// </summary>
-        public UsersManager UsersManager { get; set; }
+        public UsersManager UsersManager
+        {
+            get { return _usersManager.Value; }
+        }
 
 
         /// <summary>
