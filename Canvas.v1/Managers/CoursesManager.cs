@@ -31,11 +31,11 @@ namespace Canvas.v1.Managers
         }
 
         /// <summary>
-        /// Used to create a new empty folder. The new folder will be created inside of the specified parent folder
+        /// Create a new course for the specified account.
         /// </summary>
-        /// <param name="folder"></param>
+        /// <param name="courseRequest">The details of the course to create</param>
         /// <returns></returns>
-        public async Task<Course> CreateAsync(CourseRequest courseRequest, List<string> fields = null)
+        public async Task<Course> CreateAsync(CourseRequest courseRequest)
         {
             courseRequest.ThrowIfNull("courseRequest")
                 .AccountId.ThrowIfUnassigned("courseRequest.AccountId");
@@ -43,11 +43,9 @@ namespace Canvas.v1.Managers
 
             ApiRequest request = new ApiRequest(_config.CoursesEndpointUri)
                 .Method(RequestMethod.Post)
-                .Param(ParamFields, fields)
-                .Payload(_converter.Serialize<CourseRequest>(courseRequest));
+                .Payload(_converter.Serialize(courseRequest));
 
             IApiResponse<Course> response = await ToResponseAsync<Course>(request).ConfigureAwait(false);
-
 
             return response.ResponseObject;
         }
