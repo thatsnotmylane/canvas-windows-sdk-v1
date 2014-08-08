@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Canvas.v1.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Canvas.v1.Test.Integration.Managers
@@ -29,5 +30,13 @@ namespace Canvas.v1.Test.Integration.Managers
             var courses = await _client.AccountsManager.GetCourses(AccountId);
             Console.Out.WriteLine(string.Join("\n", courses));
         }
+
+        [TestMethod]
+        public async Task GetCoursesById_SpecificStates()
+        {
+            var courses = await _client.AccountsManager.GetCourses(AccountId, state: CourseWorkflowState.Created | CourseWorkflowState.Completed );
+            Console.Out.WriteLine(string.Join("\n", courses));
+        }
+
     }
 }

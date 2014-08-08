@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Canvas.v1.Auth;
 using Canvas.v1.Config;
@@ -36,7 +38,7 @@ namespace Canvas.v1.Managers
         /// <returns></returns>
         public async Task<Account> Get(string id)
         {
-            id.ThrowIfNullOrWhiteSpace("id");
+            id.ThrowIfNullOrWhiteSpace("accountId");
 
             var request = new ApiRequest(_config.AccountsEndpointUri, id);
 
@@ -48,18 +50,37 @@ namespace Canvas.v1.Managers
         /// <summary>
         /// Retrieve the list of courses in this account
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="accountId"></param>
+        /// <param name="state">Optional. If set, only return courses that are in the given state(s). By default, all states but "deleted" are returned.</param>
+        /// <param name="withEnrollments">Optional. If true, include only courses with at least one enrollment. If false, include only courses with no enrollments. If not present, do not filter on course enrollment status.</param>
+        /// <param name="hideEnrollmentlessCourses">Optional. If present, only return courses that have at least one enrollment. Equivalent to 'with_enrollments=true'; retained for compatibility.</param>
+        /// <param name="byTeachers">Optional. List of User IDs of teachers; if supplied, include only courses taught by one of the referenced users.</param>
+        /// <param name="bySubaccounts">Optional. List of Account IDs; if supplied, include only courses associated with one of the referenced subaccounts.</param>
+        /// <param name="enrollmentTermId">Optional. If set, only includes courses from the specified term.</param>
+        /// <param name="searchTerm">Optional. The partial course name, code, or full ID to match and return in the results list. Must be at least 3 characters.</param>
+        /// <param name="page">The results page to fetch</param>
+        /// <param name="perPage">The number of results per page to fetch</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Course>> GetCourses(string id)
+        /// <remarks>The API parameters 'completed' and 'published' are not included here. Use the 'state' enum flags instead.</remarks>
+        public async Task<IEnumerable<Course>> GetCourses(string accountId, int page = 1, int perPage = 10, CourseWorkflowState? state = null, bool? withEnrollments = null, bool? hideEnrollmentlessCourses = null, IEnumerable<string> byTeachers = null, IEnumerable<string> bySubaccounts = null, string enrollmentTermId = null, string searchTerm = null)
         {
-            id.ThrowIfNullOrWhiteSpace("id");
+            accountId.ThrowIfNullOrWhiteSpace("accountId");
+            searchTerm.ThrowIfNotNullAndShorterThanLength(3, "searchTerm");
 
-            var request = new ApiRequest(_config.AccountsEndpointUri, id + "/courses");
+            var request = new ApiRequest(_config.AccountsEndpointUri, accountId + "/courses")
+                .Param("page", page.ToString())
+                .Param("per_page", perPage.ToString())
+                .Param("with_enrollments", withEnrollments)
+                .Param("hide_enrollmentless_courses", hideEnrollmentlessCourses)
+                .Param("state", state)
+                .Param("by_teachers", byTeachers)
+                .Param("by_subaccounts", bySubaccounts)
+                .Param("enrollment_term_id", enrollmentTermId)
+                .Param("search_term", searchTerm);
 
             var response = await ToResponseAsync<IEnumerable<Course>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
-
     }
 }

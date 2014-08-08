@@ -33,6 +33,22 @@ namespace Canvas.v1.Extensions
         }
 
         /// <summary>
+        /// Checks if a non-null string is too short
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="minLength"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        internal static string ThrowIfNotNullAndShorterThanLength(this string value, int minLength, string name)
+        {
+            if (!string.IsNullOrWhiteSpace(value) && value.Length < minLength) 
+                throw new ArgumentOutOfRangeException(name, "value has minimum length of " + minLength);
+
+            return value;
+        }
+
+
+        /// <summary>
         /// Checks if a numeric has a zero-value
         /// </summary>
         /// <param name="value"></param>
