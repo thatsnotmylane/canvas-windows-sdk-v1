@@ -32,20 +32,18 @@ namespace Canvas.v1.Managers
         /// </summary>
         /// <param name="courseId">The ID of the course to fetch</param>
         /// <param name="page">Optional. The results page to fetch</param>
-        /// <param name="perPage">Optional. The number of results per page to fetch</param>
+        /// <param name="itemsPerPage">Optional. The number of results per page to fetch</param>
         /// <param name="enrollmentType">Optional. When set, only return users where the user is enrolled as this type. This argument is ignored if enrollmentRole is given.</param>
         /// <param name="enrollmentRole">Optional. When set, only return users enrolled with the specified course-level role.</param>
         /// <param name="searchTerm">Optional. The partial name or full ID of the users to match and return in the results list.</param>
         /// <param name="include">Optional. Additional information to be returned for each user.</param>
         /// <returns></returns>
-        public async Task<IEnumerable<User>> GetUsers(long courseId, int page = 1, int perPage = 10, string searchTerm = null, UserEnrollmentType? enrollmentType = null, UserEnrollmentType? enrollmentRole = null, UserInclude? include = null)
+        public async Task<IEnumerable<User>> GetUsers(long courseId, int page = 1, int itemsPerPage = 10, string searchTerm = null, UserEnrollmentType? enrollmentType = null, UserEnrollmentType? enrollmentRole = null, UserInclude? include = null)
         {
             courseId.ThrowIfUnassigned("courseId");
             searchTerm.ThrowIfShorterThanLength(3, "searchTerm");
 
-            ApiRequest request = new ApiRequest(_config.CoursesEndpointUri, courseId + "/users")
-                .Param("page", page.ToString())
-                .Param("per_page", perPage.ToString())
+            ApiRequest request = new PagedApiRequest(_config.CoursesEndpointUri, courseId + "/users", page, itemsPerPage)
                 .Param("search_term", searchTerm)
                 .Param("enrollment_type", enrollmentType)
                 .Param("enrollment_role", enrollmentRole)

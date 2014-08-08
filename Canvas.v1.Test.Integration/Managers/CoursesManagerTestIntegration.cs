@@ -17,7 +17,7 @@ namespace Canvas.v1.Test.Integration.Managers
         [TestMethod]
         public async Task GetCourses()
         {
-            var users = await _client.CoursesManager.GetUsers(1234, perPage: 100, enrollmentType: UserEnrollmentType.Student, include: UserInclude.Email);
+            var users = await _client.CoursesManager.GetUsers(1234, itemsPerPage: 100, enrollmentType: UserEnrollmentType.Student, include: UserInclude.Email);
             Console.Out.WriteLine(string.Join("\n", users));
         }
 

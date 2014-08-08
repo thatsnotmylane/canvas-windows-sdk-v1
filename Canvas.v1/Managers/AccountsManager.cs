@@ -53,17 +53,15 @@ namespace Canvas.v1.Managers
         /// <param name="enrollmentTermId">Optional. If set, only includes courses from the specified term.</param>
         /// <param name="searchTerm">Optional. The partial course name, code, or full ID to match and return in the results list. Must be at least 3 characters.</param>
         /// <param name="page">The results page to fetch</param>
-        /// <param name="perPage">The number of results per page to fetch</param>
+        /// <param name="itemsPerPage">The number of results per page to fetch</param>
         /// <returns></returns>
         /// <remarks>The API parameters 'completed' and 'published' are not included here. Use the 'state' enum flags instead.</remarks>
-        public async Task<IEnumerable<Course>> GetCourses(string accountId, int page = 1, int perPage = 10, CourseWorkflowState? state = null, bool? withEnrollments = null, bool? hideEnrollmentlessCourses = null, IEnumerable<long> byTeachers = null, IEnumerable<long> bySubaccounts = null, string enrollmentTermId = null, string searchTerm = null)
+        public async Task<IEnumerable<Course>> GetCourses(string accountId, int page = 1, int itemsPerPage = 10, CourseWorkflowState? state = null, bool? withEnrollments = null, bool? hideEnrollmentlessCourses = null, IEnumerable<long> byTeachers = null, IEnumerable<long> bySubaccounts = null, string enrollmentTermId = null, string searchTerm = null)
         {
             accountId.ThrowIfNullOrWhiteSpace("accountId");
             searchTerm.ThrowIfShorterThanLength(3, "searchTerm");
 
-            var request = new ApiRequest(_config.AccountsEndpointUri, accountId + "/courses")
-                .Param("page", page.ToString())
-                .Param("per_page", perPage.ToString())
+            var request = new PagedApiRequest(_config.AccountsEndpointUri, accountId + "/courses", page, itemsPerPage)
                 .Param("with_enrollments", withEnrollments)
                 .Param("hide_enrollmentless_courses", hideEnrollmentlessCourses)
                 .Param("state", state)
@@ -81,16 +79,14 @@ namespace Canvas.v1.Managers
         /// <param name="accountId">The ID of the account to query.</param>
         /// <param name="searchTerm">Optional. The partial name or full ID of the users to match and return in the results list. Must be at least 3 characters.</param>
         /// <param name="page">The results page to fetch</param>
-        /// <param name="perPage">The number of results per page to fetch</param>
+        /// <param name="itemsPerPage">The number of results per page to fetch</param>
         /// <returns></returns>
-        public async Task<IEnumerable<User>> GetUsers(string accountId, int page = 1, int perPage = 10, string searchTerm = null)
+        public async Task<IEnumerable<User>> GetUsers(string accountId, int page = 1, int itemsPerPage = 10, string searchTerm = null)
         {
             accountId.ThrowIfNullOrWhiteSpace("accountId");
             searchTerm.ThrowIfShorterThanLength(3, "searchTerm");
 
-            ApiRequest request = new ApiRequest(_config.AccountsEndpointUri, accountId + "/users")
-                .Param("page", page.ToString())
-                .Param("per_page", perPage.ToString())
+            ApiRequest request = new PagedApiRequest(_config.AccountsEndpointUri, accountId + "/users", page, itemsPerPage)
                 .Param("search_term", searchTerm);
                 
             return await GetReponseAsync<IEnumerable<User>>(request);

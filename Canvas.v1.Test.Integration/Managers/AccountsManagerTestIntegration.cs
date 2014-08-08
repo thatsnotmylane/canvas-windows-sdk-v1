@@ -48,7 +48,7 @@ namespace Canvas.v1.Test.Integration.Managers
         [TestMethod]
         public async Task GetUsers_SearchByLoginId()
         {
-            var courses = await _client.AccountsManager.GetUsers(AccountId, perPage: 3, searchTerm: "jhoerr");
+            var courses = await _client.AccountsManager.GetUsers(AccountId, itemsPerPage: 3, searchTerm: "jhoerr");
             Console.Out.WriteLine(string.Join("\n", courses));
         }
 
