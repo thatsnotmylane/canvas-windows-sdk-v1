@@ -3,6 +3,10 @@ Canvas Windows SDK v1
 
 A Windows (.Net) SDK for the Canvas LMS API v1.
 
+## Status
+
+This is a big API. Initial focus will be on the courses, accounts, users, and files endpoints.
+
 ## Copyright and License
 
 Copyright 2014 John Hoerr, The Trustees of Indiana University. All rights reserved.
