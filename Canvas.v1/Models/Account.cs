@@ -30,19 +30,19 @@ namespace Canvas.v1.Models
         /// The default course storage quota to be used, in MB, if not otherwise specified.
         /// </summary>
         [JsonProperty(PropertyName = "default_storage_quota_mb")]
-        public string DefaultStorageQuotaMB { get; private set; }
+        public int DefaultStorageQuotaMB { get; private set; }
 
         /// <summary>
         /// The default user storage quota to be used, in MB, if not otherwise specified.
         /// </summary>
         [JsonProperty(PropertyName = "default_user_storage_quota_mb")]
-        public string DefaultUserStorageQuotaMB { get; private set; }
+        public int DefaultUserStorageQuotaMB { get; private set; }
 
         /// <summary>
         /// The default group storage quota to be used, in MB, if not otherwise specified.
         /// </summary>
         [JsonProperty(PropertyName = "default_group_storage_quota_mb")]
-        public string DefaultGroupStorageQuotaMB { get; private set; }
+        public int DefaultGroupStorageQuotaMB { get; private set; }
 
         /// <summary>
         /// The ID of the parent account
