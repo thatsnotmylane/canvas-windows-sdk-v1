@@ -6,20 +6,8 @@ namespace Canvas.v1.Models
     /// <summary>
     /// A Canvas account
     /// </summary>
-    public class Account
+    public class Account : CanvasItem
     {
-        /// <summary>
-        /// The ID of the account
-        /// </summary>
-        [JsonProperty(PropertyName = "id")]
-        public string Id { get; private set; }
-
-        /// <summary>
-        /// The name of the account
-        /// </summary>
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; private set; }
-
         /// <summary>
         /// The default time zone of the account, in IANA format
         /// </summary>

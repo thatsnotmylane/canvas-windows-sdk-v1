@@ -7,14 +7,8 @@ namespace Canvas.v1.Models
     /// <summary>
     /// A Canvas course.
     /// </summary>
-    public class Course
+    public class Course : CanvasItem
     {
-        /// <summary>
-        /// The ID of the course
-        /// </summary>
-        [JsonProperty(PropertyName = "id")]
-        public string Id { get; private set; }
-
         /// <summary>
         /// The SIS identifier for the course, if defined. This field is only included if the user has permission to view SIS information.
         /// </summary>
@@ -27,12 +21,6 @@ namespace Canvas.v1.Models
         [JsonProperty(PropertyName = "integration_id")]
         public string IntegrationId { get; private set; }
         
-        /// <summary>
-        /// The name of the course
-        /// </summary>
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; private set; }
-
         /// <summary>
         /// The course code
         /// </summary>
