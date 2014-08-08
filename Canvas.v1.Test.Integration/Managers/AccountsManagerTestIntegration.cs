@@ -34,7 +34,7 @@ namespace Canvas.v1.Test.Integration.Managers
         [TestMethod]
         public async Task GetCoursesById_SpecificStates()
         {
-            var courses = await _client.AccountsManager.GetCourses(AccountId, state: CourseWorkflowState.Created | CourseWorkflowState.Completed );
+            var courses = await _client.AccountsManager.GetCourses(AccountId, state: CourseWorkflowState.Completed );
             Console.Out.WriteLine(string.Join("\n", courses));
         }
 
@@ -48,7 +48,14 @@ namespace Canvas.v1.Test.Integration.Managers
         [TestMethod]
         public async Task GetUsers_SearchByLoginId()
         {
-            var courses = await _client.AccountsManager.GetUsers(AccountId, perPage: 3, searchTerm: "kmickey");
+            var courses = await _client.AccountsManager.GetUsers(AccountId, perPage: 3, searchTerm: "jhoerr");
+            Console.Out.WriteLine(string.Join("\n", courses));
+        }
+
+        [TestMethod]
+        public async Task GetCoursesById_SpecificUser()
+        {
+            var courses = await _client.AccountsManager.GetCourses(AccountId, byTeachers: new long[] { 5639813 });
             Console.Out.WriteLine(string.Join("\n", courses));
         }
     }

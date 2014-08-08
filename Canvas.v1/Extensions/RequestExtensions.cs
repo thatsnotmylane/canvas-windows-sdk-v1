@@ -52,7 +52,7 @@ namespace Canvas.v1.Extensions
             return request;
         }
 
-        public static T Param<T>(this T request, string name, IEnumerable<string> values) where T : IApiRequest
+        public static T Param<T, TValue>(this T request, string name, IEnumerable<TValue> values) where T : IApiRequest
         {
             name.ThrowIfNullOrWhiteSpace("name");
 
@@ -61,22 +61,14 @@ namespace Canvas.v1.Extensions
                 return request;
 
             AddCollection(request, name, values);
-            request.Parameters[name] = string.Join(",", values);
 
             return request;
         }
 
-        private static void AddCollection<T>(T request, string name, IEnumerable<string> values) where T : IApiRequest
+        private static void AddCollection<T, TValue>(T request, string name, IEnumerable<TValue> values) where T : IApiRequest
         {
-            if (values.Count() > 1)
-            {
-                var collection = string.Join("&" + name + "[]=", values);
-                request.Parameters[name + "[]"] = collection;
-            }
-            else
-            {
-                request.Parameters[name] = values.Single();
-            }
+            var collection = string.Join("&" + name + "[]=", values);
+            request.Parameters[name + "[]"] = collection;
         }
 
         public static T Header<T>(this T request, string name, string value) where T : IApiRequest
