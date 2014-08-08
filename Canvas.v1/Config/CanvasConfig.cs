@@ -4,23 +4,26 @@ namespace Canvas.v1.Config
 {
     public class CanvasConfig : ICanvasConfig
     {
-
         /// <summary>
         /// Instantiates a Box config with all of the standard defaults
         /// </summary>
+        /// <param name="canvasDomain"></param>
         /// <param name="clientId"></param>
         /// <param name="clientSecret"></param>
+        /// <param name="redirectUri"></param>
         /// <param name="redirectUriString"></param>
-        public CanvasConfig(string clientId, string clientSecret, Uri redirectUri)
+        public CanvasConfig(string canvasDomain, string clientId, string clientSecret, Uri redirectUri)
         {
+            CanvasDomain = canvasDomain;
             ClientId = clientId;
             ClientSecret = clientSecret;
             RedirectUri = redirectUri;
         }
 
-        public virtual Uri CanvasApiHostUri { get { return new Uri(Constants.ApiHostUriString); } }
-        public virtual Uri CanvasApiUri { get { return new Uri(Constants.ApiUriString); } }
+        public virtual Uri CanvasApiHostUri { get { return new Uri(string.Format("https://{0}/", CanvasDomain)); } }
+        public virtual Uri CanvasApiUri { get { return new Uri(string.Format("https://{0}/api/v1/", CanvasDomain)); } }
 
+        public string CanvasDomain { get; set; }
         public virtual string ClientId { get; private set; }
         public virtual string ConsumerKey { get; private set; }
         public virtual string ClientSecret { get; private set; }
