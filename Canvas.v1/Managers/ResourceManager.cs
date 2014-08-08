@@ -101,5 +101,10 @@ namespace Canvas.v1.Managers
         }
 
 
+        protected async Task<T> GetReponseAsync<T>(ApiRequest request) where T : class
+        {
+            var response = await ToResponseAsync<T>(request).ConfigureAwait(false);
+            return response.ResponseObject;
+        }
     }
 }

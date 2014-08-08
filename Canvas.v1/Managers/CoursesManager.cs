@@ -24,10 +24,7 @@ namespace Canvas.v1.Managers
         public async Task<Course> GetAll()
         {
             ApiRequest request = new ApiRequest(_config.CoursesEndpointUri);
-
-            IApiResponse<Course> response = await ToResponseAsync<Course>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            return await GetReponseAsync<Course>(request);
         }
 
         /// <summary>
@@ -45,9 +42,7 @@ namespace Canvas.v1.Managers
                 .Method(RequestMethod.Post)
                 .Payload(_converter.Serialize(courseRequest));
 
-            IApiResponse<Course> response = await ToResponseAsync<Course>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            return await GetReponseAsync<Course>(request);
         }
     }
 }

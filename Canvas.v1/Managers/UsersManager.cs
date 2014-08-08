@@ -24,10 +24,7 @@ namespace Canvas.v1.Managers
         public async Task<UserProfile> Get(string id = "self")
         {
             var request = new ApiRequest(_config.UsersEndpointUri, id + "/profile");
-
-            IApiResponse<UserProfile> response = await ToResponseAsync<UserProfile>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            return await GetReponseAsync<UserProfile>(request);
         }
     }
 }
