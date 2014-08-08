@@ -56,7 +56,7 @@ namespace Canvas.v1.Managers
         /// <param name="perPage">The number of results per page to fetch</param>
         /// <returns></returns>
         /// <remarks>The API parameters 'completed' and 'published' are not included here. Use the 'state' enum flags instead.</remarks>
-        public async Task<IEnumerable<Course>> GetCourses(string accountId, int page = 1, int perPage = 10, CourseWorkflowState? state = null, bool? withEnrollments = null, bool? hideEnrollmentlessCourses = null, IEnumerable<string> byTeachers = null, IEnumerable<string> bySubaccounts = null, string enrollmentTermId = null, string searchTerm = null)
+        public async Task<IEnumerable<Course>> GetCourses(string accountId, int page = 1, int perPage = 10, CourseWorkflowState? state = null, bool? withEnrollments = null, bool? hideEnrollmentlessCourses = null, IEnumerable<long> byTeachers = null, IEnumerable<long> bySubaccounts = null, string enrollmentTermId = null, string searchTerm = null)
         {
             accountId.ThrowIfNullOrWhiteSpace("accountId");
             searchTerm.ThrowIfShorterThanLength(3, "searchTerm");

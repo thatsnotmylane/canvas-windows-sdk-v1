@@ -9,6 +9,18 @@ namespace Canvas.v1.Models
     public class Account : CanvasItem
     {
         /// <summary>
+        /// The ID of the parent account
+        /// </summary>
+        [JsonProperty(PropertyName = "parent_account_id")]
+        public long ParentAccountId { get; private set; }
+
+        /// <summary>
+        /// The ID of the root account
+        /// </summary>
+        [JsonProperty(PropertyName = "root_account_id")]
+        public long RootAccountId { get; private set; }
+
+        /// <summary>
         /// The default time zone of the account, in IANA format
         /// </summary>
         [JsonProperty(PropertyName = "default_time_zone")]
@@ -31,18 +43,6 @@ namespace Canvas.v1.Models
         /// </summary>
         [JsonProperty(PropertyName = "default_group_storage_quota_mb")]
         public int DefaultGroupStorageQuotaMB { get; private set; }
-
-        /// <summary>
-        /// The ID of the parent account
-        /// </summary>
-        [JsonProperty(PropertyName = "parent_account_id")]
-        public string ParentAccountId { get; private set; }
-
-        /// <summary>
-        /// The ID of the root account
-        /// </summary>
-        [JsonProperty(PropertyName = "root_account_id")]
-        public string RootAccountId { get; private set; }
 
         /// <summary>
         /// The workflow state of the account

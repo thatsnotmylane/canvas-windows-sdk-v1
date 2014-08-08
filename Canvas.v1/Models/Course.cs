@@ -10,6 +10,18 @@ namespace Canvas.v1.Models
     public class Course : CanvasItem
     {
         /// <summary>
+        /// The account associated with the course
+        /// </summary>
+        [JsonProperty(PropertyName = "account_id")]
+        public long AccountId { get; private set; }
+
+        /// <summary>
+        /// The root account associated with the course
+        /// </summary>
+        [JsonProperty(PropertyName = "root_account_id")]
+        public long RootAccountId { get; private set; }
+
+        /// <summary>
         /// The SIS identifier for the course, if defined. This field is only included if the user has permission to view SIS information.
         /// </summary>
         [JsonProperty(PropertyName = "sis_course_id")]
@@ -39,18 +51,6 @@ namespace Canvas.v1.Models
         [JsonProperty(PropertyName = "workflow_state")]
         [JsonConverter(typeof(StringEnumConverter))]
         public CourseWorkflowState WorkflowState { get; private set; }
-
-        /// <summary>
-        /// The account associated with the course
-        /// </summary>
-        [JsonProperty(PropertyName = "account_id")]
-        public string AccountId { get; private set; }
-
-        /// <summary>
-        /// The root account associated with the course
-        /// </summary>
-        [JsonProperty(PropertyName = "root_account_id")]
-        public string RootAccountId { get; private set; }
 
         /// <summary>
         /// The start date for the course, if applicable

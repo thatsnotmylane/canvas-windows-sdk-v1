@@ -11,7 +11,7 @@ namespace Canvas.v1.Models
         /// The ID of the item.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// The name of the item.
