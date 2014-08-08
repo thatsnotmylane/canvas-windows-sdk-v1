@@ -67,6 +67,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AccountsManagerTests.cs" />
     <Compile Include="ResourcePluginsTest.cs" />
     <Compile Include="AuthRepositoryTest.cs" />
     <Compile Include="ResourceManagerTest.cs" />
