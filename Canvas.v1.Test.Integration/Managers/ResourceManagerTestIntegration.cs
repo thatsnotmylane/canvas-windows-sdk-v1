@@ -5,13 +5,14 @@ using Canvas.v1.Models;
 using Canvas.v1.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Canvas.v1.Test.Integration
+namespace Canvas.v1.Test.Integration.Managers
 {
     [TestClass]
     public abstract class ResourceManagerTestIntegration
     {
         public const string ClientId = "YOUR_CLIENT_ID";
         public const string ClientSecret = "YOUR_CLIENT_SECRET";
+        private const string CanvasDomain = "iu.test.instructure.com";
 
         public Uri RedirectUri = new Uri("http://boxsdk");
 
@@ -27,7 +28,7 @@ namespace Canvas.v1.Test.Integration
 
             _handler = new HttpRequestHandler();
             _parser = new JsonConverter();
-            _config = new CanvasConfig(ClientId, ClientSecret, RedirectUri);
+            _config = new CanvasConfig(CanvasDomain, ClientId, ClientSecret, RedirectUri);
             _client = new Client(_config, _auth);
         }
 

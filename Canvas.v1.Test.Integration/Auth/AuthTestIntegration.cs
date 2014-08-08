@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Canvas.v1.Test.Integration.Managers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Canvas.v1.Test.Integration
+namespace Canvas.v1.Test.Integration.Auth
 {
     [TestClass]
     public class AuthTestIntegration : ResourceManagerTestIntegration

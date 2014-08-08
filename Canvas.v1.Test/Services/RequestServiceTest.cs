@@ -12,10 +12,10 @@ using Canvas.v1.Wrappers.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Canvas.v1.Test
+namespace Canvas.v1.Test.Services
 {
     [TestClass]
-    public class CanvasServiceTest
+    public class RequestServiceTest
     {
 
         IJsonConverter _converter;
@@ -24,7 +24,7 @@ namespace Canvas.v1.Test
         Mock<ICanvasConfig> _boxConfig;
         IAuthRepository _authRepository;
 
-        public CanvasServiceTest()
+        public RequestServiceTest()
         {
             // Initial Setup
             _converter = new JsonConverter();

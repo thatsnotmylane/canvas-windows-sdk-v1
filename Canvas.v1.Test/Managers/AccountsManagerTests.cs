@@ -5,7 +5,7 @@ using Canvas.v1.Managers;
 using Canvas.v1.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Canvas.v1.Test
+namespace Canvas.v1.Test.Managers
 {
     [TestClass]
     public class AccountsManagerTests : ResourceManagerTest
@@ -20,9 +20,9 @@ namespace Canvas.v1.Test
         [TestMethod]
         public async Task GetAllAccounts()
         {
-            const string contentString = @"[{""id"":1234,""name"":""Indiana University"",""parent_account_id"":null,""root_account_id"":null,""workflow_state"":""active"",""default_storage_quota_mb"":500,""default_user_storage_quota_mb"":100,""default_group_storage_quota_mb"":300,""default_time_zone"":""America/New_York""}]";
+            const string content = @"[{""id"":1234,""name"":""Indiana University"",""parent_account_id"":null,""root_account_id"":null,""workflow_state"":""active"",""default_storage_quota_mb"":500,""default_user_storage_quota_mb"":100,""default_group_storage_quota_mb"":300,""default_time_zone"":""America/New_York""}]";
 
-            ArrangeSuccessfulResponse<IEnumerable<Account>>(contentString);
+            ArrangeSuccessfulResponse<IEnumerable<Account>>(content);
 
             IEnumerable<Account> accounts = await _accountsManager.GetAll();
 

@@ -10,7 +10,7 @@ using Canvas.v1.Wrappers;
 using Canvas.v1.Wrappers.Contracts;
 using Moq;
 
-namespace Canvas.v1.Test
+namespace Canvas.v1.Test.Managers
 {
     public abstract class ResourceManagerTest 
     {

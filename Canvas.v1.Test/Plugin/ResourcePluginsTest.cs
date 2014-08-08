@@ -1,8 +1,9 @@
 ﻿using System;
 using Canvas.v1.Managers;
+using Canvas.v1.Test.Managers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Canvas.v1.Test
+namespace Canvas.v1.Test.Plugin
 {
     [TestClass]
     public class ResourcePluginsTest : ResourceManagerTest

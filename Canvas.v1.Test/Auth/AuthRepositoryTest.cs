@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Canvas.v1.Auth;
 using Canvas.v1.Config;
 using Canvas.v1.Exceptions;
 using Canvas.v1.Models;
 using Canvas.v1.Request;
 using Canvas.v1.Services;
+using Canvas.v1.Test.Managers;
 using Canvas.v1.Wrappers;
 using Canvas.v1.Wrappers.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Canvas.v1.Test
+namespace Canvas.v1.Test.Auth
 {
     [TestClass]
     public class AuthRepositoryTest : ResourceManagerTest

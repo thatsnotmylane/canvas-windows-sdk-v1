@@ -3,7 +3,7 @@ using Canvas.v1.Wrappers;
 using Canvas.v1.Wrappers.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Canvas.v1.Test
+namespace Canvas.v1.Test.Wrappers
 {
     [TestClass]
     public class RequestTest

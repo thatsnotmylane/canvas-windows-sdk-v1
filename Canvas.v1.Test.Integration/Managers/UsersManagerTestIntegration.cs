@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Canvas.v1.Test.Integration
+namespace Canvas.v1.Test.Integration.Managers
 {
     [TestClass]
     public class UsersManagerTestIntegration : ResourceManagerTestIntegration
