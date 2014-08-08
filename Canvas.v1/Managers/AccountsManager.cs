@@ -42,7 +42,7 @@ namespace Canvas.v1.Managers
         }
 
         /// <summary>
-        /// Retrieve the list of courses in this account
+        /// Retrieve the list of courses associated with this account
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="state">Optional. If set, only return courses that are in the given state(s). By default, all states but "deleted" are returned.</param>
@@ -59,7 +59,7 @@ namespace Canvas.v1.Managers
         public async Task<IEnumerable<Course>> GetCourses(string accountId, int page = 1, int perPage = 10, CourseWorkflowState? state = null, bool? withEnrollments = null, bool? hideEnrollmentlessCourses = null, IEnumerable<string> byTeachers = null, IEnumerable<string> bySubaccounts = null, string enrollmentTermId = null, string searchTerm = null)
         {
             accountId.ThrowIfNullOrWhiteSpace("accountId");
-            searchTerm.ThrowIfNotNullAndShorterThanLength(3, "searchTerm");
+            searchTerm.ThrowIfShorterThanLength(3, "searchTerm");
 
             var request = new ApiRequest(_config.AccountsEndpointUri, accountId + "/courses")
                 .Param("page", page.ToString())
@@ -73,6 +73,27 @@ namespace Canvas.v1.Managers
                 .Param("search_term", searchTerm);
 
             return await GetReponseAsync<IEnumerable<Course>>(request);
+        }
+
+        /// <summary>
+        /// Retrieve the list of users associated with this account.
+        /// </summary>
+        /// <param name="accountId">The ID of the account to query.</param>
+        /// <param name="searchTerm">Optional. The partial name or full ID of the users to match and return in the results list. Must be at least 3 characters.</param>
+        /// <param name="page">The results page to fetch</param>
+        /// <param name="perPage">The number of results per page to fetch</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<User>> GetUsers(string accountId, int page = 1, int perPage = 10, string searchTerm = null)
+        {
+            accountId.ThrowIfNullOrWhiteSpace("accountId");
+            searchTerm.ThrowIfShorterThanLength(3, "searchTerm");
+
+            ApiRequest request = new ApiRequest(_config.AccountsEndpointUri, accountId + "/users")
+                .Param("page", page.ToString())
+                .Param("per_page", perPage.ToString())
+                .Param("search_term", searchTerm);
+                
+            return await GetReponseAsync<IEnumerable<User>>(request);
         }
     }
 }

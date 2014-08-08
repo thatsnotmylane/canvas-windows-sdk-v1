@@ -38,5 +38,18 @@ namespace Canvas.v1.Test.Integration.Managers
             Console.Out.WriteLine(string.Join("\n", courses));
         }
 
+        [TestMethod]
+        public async Task GetUsers()
+        {
+            var courses = await _client.AccountsManager.GetUsers(AccountId);
+            Console.Out.WriteLine(string.Join("\n", courses));
+        }
+
+        [TestMethod]
+        public async Task GetUsers_SearchByLoginId()
+        {
+            var courses = await _client.AccountsManager.GetUsers(AccountId, perPage: 3, searchTerm: "kmickey");
+            Console.Out.WriteLine(string.Join("\n", courses));
+        }
     }
 }
