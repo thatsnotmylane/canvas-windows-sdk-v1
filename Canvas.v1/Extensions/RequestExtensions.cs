@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Canvas.v1.Config;
 using Canvas.v1.Wrappers;
 using Canvas.v1.Wrappers.Contracts;
@@ -24,17 +25,58 @@ namespace Canvas.v1.Extensions
             return request;
         }
 
-        public static T Param<T>(this T request, string name, List<string> values) where T : IApiRequest
+        public static T Param<T>(this T request, string name, bool? value) where T : IApiRequest
         {
             name.ThrowIfNullOrWhiteSpace("name");
 
             // Don't add a parameter that does not have a value
-            if (values == null || values.Count == 0)
+            if (!value.HasValue)
                 return request;
 
+            request.Parameters[name] = value.Value.ToString();
+
+            return request;
+        }
+
+        public static T Param<T>(this T request, string name, Enum value) where T : IApiRequest
+        {
+            name.ThrowIfNullOrWhiteSpace("name");
+
+            // Don't add a parameter that does not have a value
+            if (value == null) return request;
+
+            var values = value.ToString().ToLower().Split(new[]{", "}, StringSplitOptions.RemoveEmptyEntries);
+
+            AddCollection(request, name, values);
+
+            return request;
+        }
+
+        public static T Param<T>(this T request, string name, IEnumerable<string> values) where T : IApiRequest
+        {
+            name.ThrowIfNullOrWhiteSpace("name");
+
+            // Don't add a parameter that does not have a value
+            if (values == null || !values.Any())
+                return request;
+
+            AddCollection(request, name, values);
             request.Parameters[name] = string.Join(",", values);
 
             return request;
+        }
+
+        private static void AddCollection<T>(T request, string name, IEnumerable<string> values) where T : IApiRequest
+        {
+            if (values.Count() > 1)
+            {
+                var collection = string.Join("&" + name + "[]=", values);
+                request.Parameters[name + "[]"] = collection;
+            }
+            else
+            {
+                request.Parameters[name] = values.Single();
+            }
         }
 
         public static T Header<T>(this T request, string name, string value) where T : IApiRequest
