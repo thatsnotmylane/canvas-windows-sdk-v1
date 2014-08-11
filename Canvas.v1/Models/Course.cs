@@ -13,13 +13,13 @@ namespace Canvas.v1.Models
         /// The account associated with the course
         /// </summary>
         [JsonProperty(PropertyName = "account_id")]
-        public long AccountId { get; private set; }
+        public long? AccountId { get; private set; }
 
         /// <summary>
         /// The root account associated with the course
         /// </summary>
         [JsonProperty(PropertyName = "root_account_id")]
-        public long RootAccountId { get; private set; }
+        public long? RootAccountId { get; private set; }
 
         /// <summary>
         /// The SIS identifier for the course, if defined. This field is only included if the user has permission to view SIS information.

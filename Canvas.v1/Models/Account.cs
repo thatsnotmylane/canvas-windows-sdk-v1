@@ -12,13 +12,13 @@ namespace Canvas.v1.Models
         /// The ID of the parent account
         /// </summary>
         [JsonProperty(PropertyName = "parent_account_id")]
-        public long ParentAccountId { get; private set; }
+        public long? ParentAccountId { get; private set; }
 
         /// <summary>
         /// The ID of the root account
         /// </summary>
         [JsonProperty(PropertyName = "root_account_id")]
-        public long RootAccountId { get; private set; }
+        public long? RootAccountId { get; private set; }
 
         /// <summary>
         /// The default time zone of the account, in IANA format
