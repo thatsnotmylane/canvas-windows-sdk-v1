@@ -41,7 +41,7 @@ namespace Canvas.v1.Test.Wrappers
             IApiRequest request = new ApiRequest(baseUri, "api");
             request.Param("test", new[] { "value1" });
 
-            var param = request.Parameters["test"];
+            var param = request.Parameters["test[]"];
             Assert.IsNotNull(param);
             Assert.AreEqual(param, "value1");
         }

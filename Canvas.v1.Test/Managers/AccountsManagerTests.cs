@@ -30,7 +30,7 @@ namespace Canvas.v1.Test.Managers
             Assert.AreEqual(accounts.Count(), 1);
             Account account = accounts.Single();
 
-            Assert.AreEqual(account.Id, "1234");
+            Assert.AreEqual(account.Id, 1234);
             Assert.AreEqual(account.Name, "Indiana University");
             Assert.AreEqual(account.ParentAccountId, null);
             Assert.AreEqual(account.RootAccountId, null);
@@ -44,7 +44,7 @@ namespace Canvas.v1.Test.Managers
         [TestMethod]
         public async Task GetAllCourses()
         {
-            const string content = @"[{""account_id"":1234,""root_account_id"":8765,""course_code"":""VID DEMO 101"",""default_view"":""feed"",""id"":5678,""name"":""Video Demo"",""start_at"":""2014-03-27T00:00:00Z"",""end_at"":""2014-04-27T00:00:00Z"",""public_syllabus"":true,""storage_quota_mb"":500,""apply_assignment_group_weights"":true,""calendar"":{""ics"":""https://iu.test.instructure.com/feeds/calendars/course_abcd.ics""},""sis_course_id"":7890,""integration_id"":4321,""hide_final_grades"":true,""workflow_state"":""available""}]";
+            const string content = @"[{""account_id"":1234,""root_account_id"":8765,""course_code"":""VID DEMO 101"",""default_view"":""feed"",""id"":5678,""name"":""Video Demo"",""start_at"":""2014-03-27T00:00:00Z"",""end_at"":""2014-04-27T00:00:00Z"",""public_syllabus"":true,""storage_quota_mb"":500,""apply_assignment_group_weights"":true,""calendar"":{""ics"":""https://iu.test.instructure.com/feeds/calendars/course_abcd.ics""},""sis_course_id"":""SIS Course ID"",""integration_id"":""Integration ID"",""hide_final_grades"":true,""workflow_state"":""available""}]";
 
             ArrangeSuccessfulResponse<IEnumerable<Course>>(content);
 
@@ -53,11 +53,11 @@ namespace Canvas.v1.Test.Managers
             Assert.AreEqual(courses.Count(), 1);
             var course = courses.Single();
 
-            Assert.AreEqual(course.Id, "5678");
-            Assert.AreEqual(course.AccountId, "1234");
-            Assert.AreEqual(course.RootAccountId, "8765");
-            Assert.AreEqual(course.IntegrationId, "4321");
-            Assert.AreEqual(course.SisCourseId, "7890");
+            Assert.AreEqual(course.Id, 5678);
+            Assert.AreEqual(course.AccountId, 1234);
+            Assert.AreEqual(course.RootAccountId, 8765);
+            Assert.AreEqual(course.IntegrationId, "Integration ID");
+            Assert.AreEqual(course.SisCourseId, "SIS Course ID");
             Assert.AreEqual(course.Name, "Video Demo");
             Assert.AreEqual(course.CourseCode, "VID DEMO 101");
             Assert.AreEqual(course.WorkflowState, CourseWorkflowState.Available);
