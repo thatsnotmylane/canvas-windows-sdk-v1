@@ -3,14 +3,14 @@
   <metadata>
     <id>canvas-lms.v1</id>
     <version>0.0.1</version>
-    <authors>jhoerr</authors>
-    <owners>jhoerr</owners>
+    <authors>John Hoerr</authors>
+    <owners>johnhoerr</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
     <projectUrl>https://github.com/unizin/canvas-windows-sdk-v1</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for the Canvas LMS API v1. The SDK is built upon the Portable Class Library and targets the following frameworks: .NET for Windows Store apps, .NET Framework 4.0, Silverlight 4 and higher, Windows Phone 7.5 and higher</description>
     <releaseNotes/>
-    <copyright>Copyright 2014</copyright>
+    <copyright>Copyright 2014 John Hoerr, The Trustees of Indiana University</copyright>
     <tags/>
     <dependencies>
       <dependency id="Microsoft.Bcl.Async" version="1.0.16" />
