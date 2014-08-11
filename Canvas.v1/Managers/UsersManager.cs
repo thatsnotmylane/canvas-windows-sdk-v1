@@ -22,9 +22,12 @@ namespace Canvas.v1.Managers
         /// </summary>
         /// <param name="id">The ID of the user. Defaults to the user represented by the current OAuth2 token.</param>
         /// <returns></returns>
-        public async Task<UserProfile> Get(string id = "self")
+        public async Task<UserProfile> Get(long? id = null)
         {
-            var request = new ApiRequest(_config.UsersEndpointUri, id + "/profile");
+            if (id.HasValue) id.Value.ThrowIfUnassigned("id");
+
+            var userId = id.HasValue ? id.Value.ToString() : "self";
+            var request = new ApiRequest(_config.UsersEndpointUri, userId + "/profile");
             return await GetReponseAsync<UserProfile>(request);
         }
 

@@ -21,10 +21,10 @@ namespace Canvas.v1.Managers
         /// <summary>
         /// Returns the list of active courses for the current user.
         /// </summary>
-        public async Task<Course> GetAll()
+        public async Task<IEnumerable<Course>> GetAll()
         {
             ApiRequest request = new ApiRequest(_config.CoursesEndpointUri);
-            return await GetReponseAsync<Course>(request);
+            return await GetReponseAsync<IEnumerable<Course>>(request);
         }
 
         /// <summary>

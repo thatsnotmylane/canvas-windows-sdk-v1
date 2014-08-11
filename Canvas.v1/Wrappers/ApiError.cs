@@ -3,37 +3,28 @@
 namespace Canvas.v1.Wrappers
 {
     /// <summary>
-    /// Box representation of an Error
+    /// Canvas representation of an Error
     /// </summary>
     public class ApiError
     {
         /// <summary>
-        /// The error received. This value will always be present in the event of an error
+        /// The report ID of the error. This value will always be present in the event of an error
         /// </summary>
-        [JsonProperty(PropertyName = "error")]
-        public string Name { get; set; }
+        [JsonProperty(PropertyName = "error_report_id")]
+        public string ErrorReportId { get; set; }
 
         /// <summary>
-        /// Description of what happened. Provides additional information to the error
+        /// A collection of error messages.
         /// </summary>
-        [JsonProperty(PropertyName = "error_description")]
-        public string Description { get; set; }
+        [JsonProperty(PropertyName = "errors")]
+        public Error[] Errors { get; set; }
+    }
 
-        /// <summary>
-        /// Status of the response
-        /// </summary>
-        [JsonProperty(PropertyName = "status")]
-        public string Status { get; set; }
-
-        /// <summary>
-        /// HTTP Status code
-        /// </summary>
-        [JsonProperty(PropertyName = "code")]
-        public string Code { get; set; }
-
+    public class Error
+    {
         /// <summary>
         /// Associated message with the error
-        /// </summary>
+        /// </summary>  
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
     }

@@ -18,7 +18,7 @@ namespace Canvas.v1.Test.Integration.Managers
         [TestMethod]
         public async Task GetProfileById()
         {
-            var user = await _client.UsersManager.Get("5650232");
+            var user = await _client.UsersManager.Get(5650232);
             AssertProperties(user);
         }
 

@@ -42,10 +42,9 @@ namespace Canvas.v1.Extensions
                         {
                             Debug.WriteLine(string.Format("Unable to parse error message: {0}", response.ContentString));
                         }
-
                         // Throw formatted error if available
-                        if (response.Error != null && !string.IsNullOrWhiteSpace(response.Error.Name))
-                            throw new CanvasException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description)) { StatusCode = response.StatusCode };
+                        if (response.Error != null && !string.IsNullOrWhiteSpace(response.Error.ErrorReportId))
+                            throw new CanvasException(string.Join("; ", response.Error.Errors.Select(e => e.Message))) { StatusCode = response.StatusCode };
                         // Throw error with full response if error object not available
                         throw new CanvasException(response.ContentString) { StatusCode = response.StatusCode };
                     }
