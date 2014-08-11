@@ -46,6 +46,8 @@ namespace Canvas.v1.Test.Integration.Managers
         }
 
         [TestMethod]
+        [Ignore]
+        // This can cause long delays and/or timeouts (504) on large accounts.
         public async Task GetUsers_SearchByLoginId()
         {
             var courses = await _client.AccountsManager.GetUsers(AccountId, itemsPerPage: 3, searchTerm: "jhoerr");
