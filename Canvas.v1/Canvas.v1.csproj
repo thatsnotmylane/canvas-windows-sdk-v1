@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Canvas.v1.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
