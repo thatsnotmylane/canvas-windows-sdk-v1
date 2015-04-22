@@ -11,6 +11,6 @@ namespace Canvas.v1.Models
         /// URL for the calendar in iCalender (ICS) format.
         /// </summary>
         [JsonProperty(PropertyName = "ics")]
-        public string Ics { get; private set; }
+        public string Ics { get; set; }
     }
 }

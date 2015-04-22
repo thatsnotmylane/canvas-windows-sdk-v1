@@ -34,7 +34,7 @@ namespace Canvas.v1.Models
         /// The token used to retrieve all data that requires authorization
         /// </summary>
         [JsonProperty(PropertyName = FieldAccessToken)]
-        public string AccessToken { get; private set; }
+        public string AccessToken { get; set; }
 
         /// <summary>
         /// Refresh token used to exchange for a new access token. This token is only good 
@@ -42,19 +42,19 @@ namespace Canvas.v1.Models
         /// will be invalidated.
         /// </summary>
         [JsonProperty(PropertyName = FieldRefreshToken)]
-        public string RefreshToken { get; private set; }
+        public string RefreshToken { get; set; }
 
         /// <summary>
         /// Seconds the access token will be active
         /// </summary>
         [JsonProperty(PropertyName = FieldExpiresIn)]
-        public int ExpiresIn { get; private set; }
+        public int ExpiresIn { get; set; }
 
         /// <summary>
         /// Represents how the access token will be generated and presented
         /// Most commonly this will be "bearer", anybody with a bearer token will have access
         /// </summary>
         [JsonProperty(PropertyName = FieldTokenType)]
-        public string TokenType { get; private set; }
+        public string TokenType { get; set; }
     }
 }
