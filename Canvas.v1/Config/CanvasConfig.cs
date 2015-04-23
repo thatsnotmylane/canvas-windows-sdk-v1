@@ -5,7 +5,7 @@ namespace Canvas.v1.Config
     public class CanvasConfig : ICanvasConfig
     {
         /// <summary>
-        /// Instantiates a Box config with all of the standard defaults
+        /// Instantiates a Canvas config with all of the standard defaults
         /// </summary>
         /// <param name="canvasDomain"></param>
         /// <param name="clientId"></param>
