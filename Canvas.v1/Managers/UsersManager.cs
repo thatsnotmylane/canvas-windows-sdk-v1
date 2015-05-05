@@ -28,7 +28,7 @@ namespace Canvas.v1.Managers
 
             var userId = id.HasValue ? id.Value.ToString() : "self";
             var request = new ApiRequest(_config.UsersEndpointUri, userId + "/profile");
-            return await GetReponseAsync<UserProfile>(request);
+            return await GetReponseAsync<UserProfile>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Canvas.v1.Managers
             sisLoginId.ThrowIfNullOrWhiteSpace("sisLoginId");
 
             var request = new ApiRequest(_config.UsersEndpointUri, string.Format("sis_login_id:{0}/profile",sisLoginId));
-            return await GetReponseAsync<UserProfile>(request);
+            return await GetReponseAsync<UserProfile>(request).ConfigureAwait(false);
         }
 
     }

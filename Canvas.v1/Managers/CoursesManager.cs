@@ -24,7 +24,7 @@ namespace Canvas.v1.Managers
         public async Task<IEnumerable<Course>> GetAll()
         {
             ApiRequest request = new ApiRequest(_config.CoursesEndpointUri);
-            return await GetReponseAsync<IEnumerable<Course>>(request);
+            return await GetReponseAsync<IEnumerable<Course>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Canvas.v1.Managers
                 .Param("enrollment_role", enrollmentRole)
                 .Param("include", include);
 
-            return await GetReponseAsync<IEnumerable<User>>(request);
+            return await GetReponseAsync<IEnumerable<User>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Canvas.v1.Managers
                 .Method(RequestMethod.Post)
                 .Payload(_converter.Serialize(courseRequest));
 
-            return await GetReponseAsync<Course>(request);
+            return await GetReponseAsync<Course>(request).ConfigureAwait(false);
         }
     }
 }

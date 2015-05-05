@@ -74,7 +74,7 @@ namespace Canvas.v1.Auth
         /// <returns></returns>
         public virtual async Task<OAuth2Session> AuthenticateAsync(string authCode)
         {
-            OAuth2Session session = await ExchangeAuthCode(authCode);
+            OAuth2Session session = await ExchangeAuthCode(authCode).ConfigureAwait(false);
 
             using (await _mutex.LockAsync().ConfigureAwait(false))
             {
