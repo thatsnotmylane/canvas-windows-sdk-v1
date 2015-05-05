@@ -26,7 +26,7 @@ namespace Canvas.v1.Managers
         public async Task<IEnumerable<Account>> GetAll()
         {
             var request = new ApiRequest(_config.AccountsEndpointUri);
-            return await GetReponseAsync<IEnumerable<Account>>(request);
+            return await GetReponseAsync<IEnumerable<Account>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Canvas.v1.Managers
             id.ThrowIfNullOrWhiteSpace("accountId");
 
             var request = new ApiRequest(_config.AccountsEndpointUri, id);
-            return await GetReponseAsync<Account>(request);
+            return await GetReponseAsync<Account>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Canvas.v1.Managers
                 .Param("enrollment_term_id", enrollmentTermId)
                 .Param("search_term", searchTerm);
 
-            return await GetReponseAsync<IEnumerable<Course>>(request);
+            return await GetReponseAsync<IEnumerable<Course>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -88,8 +88,8 @@ namespace Canvas.v1.Managers
 
             ApiRequest request = new PagedApiRequest(_config.AccountsEndpointUri, accountId + "/users", page, itemsPerPage)
                 .Param("search_term", searchTerm);
-                
-            return await GetReponseAsync<IEnumerable<User>>(request);
+
+            return await GetReponseAsync<IEnumerable<User>>(request).ConfigureAwait(false);
         }
     }
 }
