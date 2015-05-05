@@ -3,8 +3,8 @@
   <metadata>
     <id>canvas-lms.v1</id>
     <title>Canvas LMS SDK v1</title>
-    <version>0.0.2</version>
-    <releaseNotes>Alpha support for basic accounts/courses/users methods.</releaseNotes>
+    <version>0.0.3</version>
+    <releaseNotes>ConfigureAwaits on all async methods.</releaseNotes>
     <authors>John Hoerr</authors>
     <owners>johnhoerr</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
