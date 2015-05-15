@@ -61,6 +61,7 @@
     <Compile Include="Models\EnrollmentState.cs" />
     <Compile Include="Models\EnrollmentType.cs" />
     <Compile Include="Models\Grade.cs" />
+    <Compile Include="Models\Submission.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserBase.cs" />
     <Compile Include="Models\UserProfile.cs" />
