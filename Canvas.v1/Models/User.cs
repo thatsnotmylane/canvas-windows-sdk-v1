@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Canvas.v1.Models
@@ -32,6 +33,12 @@ namespace Canvas.v1.Models
         [JsonProperty(PropertyName = "last_login")]
         public DateTime? LastLogin { get; set; }
 
+        /// <summary>
+        /// Optional: This field is only returned in certain API calls, and will return a collection of enrollments that apply to the user for a particular course.
+        /// </summary>
+        [JsonProperty(PropertyName = "enrollments")]
+        public IEnumerable<Enrollment> Enrollments { get; set; }
+
         public override string ToString()
         {
             return string.Format("Id: {0}, LoginId: {1}, Name: {2}, Email: {3}, LastLogin: {4}", Id, LoginId, Name, Email, LastLogin);
@@ -50,16 +57,6 @@ namespace Canvas.v1.Models
     }
 
     [Flags]
-    public enum UserEnrollmentRole
-    {
-        Undefined = 0x00,
-        TeacherEnrollment = 0x01,
-        StudentEnrollment = 0x02,
-        TAEnrollment = 0x04,
-        ObserverEnrollment = 0x08,
-        DesignerEnrollment = 0x10,
-    }
-
     public enum UserInclude
     {
         Undefined = 0x00,

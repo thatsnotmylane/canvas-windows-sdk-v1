@@ -100,43 +100,4 @@ namespace Canvas.v1.Models
             return string.Format("Id: {0}, Name: {1}, CourseCode: {2}, WorkflowState: {3}, StartAt: {4}, EndAt: {5}", Id, Name, CourseCode, WorkflowState, StartAt, EndAt);
         }
     }
-
-    [Flags]
-    public enum CourseWorkflowState
-    {
-        Undefined   = 0x00,
-        Created     = 0x01,
-        Claimed     = 0x02,
-        Unpublished = 0x04,
-        Available   = 0x08,
-        Completed   = 0x10,
-        Deleted     = 0x20,         
-    }
-
-    /// <summary>
-    /// The type of page that users will see when they first visit a course. Other types may be added in the future.
-    /// </summary>
-    public enum CourseDefaultView
-    {
-        /// <summary>
-        /// Recent Activity Dashboard 
-        /// </summary>
-        Feed,
-        /// <summary>
-        /// Wiki Front Page 
-        /// </summary>
-        Wiki,
-        /// <summary>
-        /// Course Modules/Sections Page 
-        /// </summary>
-        Modules,
-        /// <summary>
-        /// Course Assignments List 
-        /// </summary>
-        Assignments,
-        /// <summary>
-        /// Course Syllabus Page 
-        /// </summary>
-        Syllabus,
-    }
 }
