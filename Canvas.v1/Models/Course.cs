@@ -95,9 +95,34 @@ namespace Canvas.v1.Models
         [JsonProperty(PropertyName = "storage_quota_mb")]
         public int StorageQuotaMB { get; set; }
 
+        /// <summary>
+        /// The ID of the enrollment term associated with the course
+        /// </summary>
+        [JsonProperty(PropertyName = "enrollment_term_id")]
+        public int EnrollmentTermId { get; set; }
+
+        /// <summary>
+        /// The enrollment term associated with the course
+        /// </summary>
+        [JsonProperty(PropertyName = "term")]
+        public EnrollmentTerm EnrollmentTerm { get; set; }
+
         public override string ToString()
         {
             return string.Format("Id: {0}, Name: {1}, CourseCode: {2}, WorkflowState: {3}, StartAt: {4}, EndAt: {5}", Id, Name, CourseCode, WorkflowState, StartAt, EndAt);
         }
+    }
+
+    [Flags]
+    public enum CourseInclude
+    {
+        Unknown = 0x00,
+        Needs_Grading_Count = 0x01,
+        Syllabus_Body = 0x02,
+        Total_Scores = 0x04,
+        Term = 0x08,
+        Course_Progress = 0x10,
+        Sections = 0x20,
+        Storage_Quota_Used_Mb = 0x40,
     }
 }

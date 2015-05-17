@@ -59,6 +59,8 @@
     <Compile Include="Models\CourseWorkflowState.cs" />
     <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\EnrollmentState.cs" />
+    <Compile Include="Models\EnrollmentTerm.cs" />
+    <Compile Include="Models\EnrollmentTermWorkflowState.cs" />
     <Compile Include="Models\EnrollmentType.cs" />
     <Compile Include="Models\Grade.cs" />
     <Compile Include="Models\Submission.cs" />

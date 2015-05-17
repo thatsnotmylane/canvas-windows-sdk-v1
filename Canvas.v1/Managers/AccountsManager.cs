@@ -54,9 +54,10 @@ namespace Canvas.v1.Managers
         /// <param name="searchTerm">Optional. The partial course name, code, or full ID to match and return in the results list. Must be at least 3 characters.</param>
         /// <param name="page">The results page to fetch</param>
         /// <param name="itemsPerPage">The number of results per page to fetch</param>
+        /// <param name="include">Optional Course properties to include. Use bitwise 'OR' operator to specify multiple items, e.g. CourseInclude.Term | CourseInclude.Sections</param>
         /// <returns></returns>
         /// <remarks>The API parameters 'completed' and 'published' are not included here. Use the 'state' enum flags instead.</remarks>
-        public async Task<IEnumerable<Course>> GetCourses(string accountId, int page = 1, int itemsPerPage = 10, CourseWorkflowState? state = null, bool? withEnrollments = null, bool? hideEnrollmentlessCourses = null, IEnumerable<long> byTeachers = null, IEnumerable<long> bySubaccounts = null, string enrollmentTermId = null, string searchTerm = null)
+        public async Task<IEnumerable<Course>> GetCourses(string accountId, int page = 1, int itemsPerPage = 10, CourseWorkflowState? state = null, bool? withEnrollments = null, bool? hideEnrollmentlessCourses = null, IEnumerable<long> byTeachers = null, IEnumerable<long> bySubaccounts = null, string enrollmentTermId = null, string searchTerm = null, CourseInclude? include = null)
         {
             accountId.ThrowIfNullOrWhiteSpace("accountId");
             searchTerm.ThrowIfShorterThanLength(3, "searchTerm");
@@ -68,7 +69,8 @@ namespace Canvas.v1.Managers
                 .Param("by_teachers", byTeachers)
                 .Param("by_subaccounts", bySubaccounts)
                 .Param("enrollment_term_id", enrollmentTermId)
-                .Param("search_term", searchTerm);
+                .Param("search_term", searchTerm)
+                .Param("include", include);
 
             return await GetReponseAsync<IEnumerable<Course>>(request).ConfigureAwait(false);
         }

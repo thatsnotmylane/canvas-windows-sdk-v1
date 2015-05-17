@@ -60,5 +60,12 @@ namespace Canvas.v1.Test.Integration.Managers
             var courses = await _client.AccountsManager.GetCourses(AccountId, byTeachers: new long[] { 5639813 });
             Console.Out.WriteLine(string.Join("\n", courses));
         }
+
+        [TestMethod]
+        public async Task GetAccountByIdWithOptionalInclude()
+        {
+            var account = await _client.AccountsManager.GetCourses(AccountId, include:CourseInclude.Term);
+            Console.Out.WriteLine(account);
+        }
     }
 }

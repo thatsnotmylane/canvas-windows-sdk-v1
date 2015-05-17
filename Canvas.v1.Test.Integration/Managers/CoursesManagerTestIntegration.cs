@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Canvas.v1.Exceptions;
 using Canvas.v1.Models;
+using Canvas.v1.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Canvas.v1.Test.Integration.Managers
@@ -37,6 +39,16 @@ namespace Canvas.v1.Test.Integration.Managers
                 Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
                 Assert.AreEqual("The specified resource does not exist.", e.Message);
             }
+        }
+
+        [TestMethod]
+        public async Task ConcurrencyTest()
+        {
+            List<Task> tasks = new List<Task>();
+            tasks.Add(_client.CoursesManager.GetUsers(CourseId, itemsPerPage: 100, enrollmentType: UserEnrollmentType.Student, include: UserInclude.Email));
+            tasks.Add(_client.CoursesManager.GetUsers(CourseId, itemsPerPage: 100, enrollmentType: UserEnrollmentType.Student, include: UserInclude.Enrollments));
+            tasks.Add(_client.CoursesManager.GetUsers(CourseId, itemsPerPage: 100, enrollmentType: UserEnrollmentType.Student, include: UserInclude.Email | UserInclude.Enrollments));
+            await Task.WhenAll(tasks);
         }
     }
 }
