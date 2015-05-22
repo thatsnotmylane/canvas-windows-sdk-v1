@@ -28,6 +28,18 @@ namespace Canvas.v1.Managers
         }
 
         /// <summary>
+        /// Fetch a single course.
+        /// </summary>
+        /// <param name="courseId">The ID of the course to fetch</param>
+        public async Task<Course> Get(long courseId)
+        {
+            courseId.ThrowIfUnassigned("courseId");
+
+            ApiRequest request = new ApiRequest(_config.CoursesEndpointUri, courseId.ToString());
+            return await GetReponseAsync<Course>(request).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Fetches the list of users in this course, and optionally the user's enrollments in the course.
         /// </summary>
         /// <param name="courseId">The ID of the course to fetch</param>

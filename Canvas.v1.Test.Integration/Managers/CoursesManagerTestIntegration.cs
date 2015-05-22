@@ -20,6 +20,13 @@ namespace Canvas.v1.Test.Integration.Managers
         }
 
         [TestMethod]
+        public async Task GetCourse()
+        {
+            var course = await _client.CoursesManager.Get(CourseId);
+            Console.Out.WriteLine(course);
+        }
+
+        [TestMethod]
         public async Task GetStudentsInCourse()
         {
             var users = await _client.CoursesManager.GetUsers(CourseId, itemsPerPage: 100, enrollmentType: UserEnrollmentType.Student, include: UserInclude.Email|UserInclude.Enrollments);
