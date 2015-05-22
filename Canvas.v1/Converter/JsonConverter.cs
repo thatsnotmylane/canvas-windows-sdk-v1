@@ -14,7 +14,7 @@ namespace Canvas.v1.Converter
             _settings = new JsonSerializerSettings()
             {
                 NullValueHandling = NullValueHandling.Ignore,
-                DateFormatString = "yyyy-MM-ddTHH:mm:sszzz"
+                DateFormatHandling = DateFormatHandling.IsoDateFormat,
             };
         }
 

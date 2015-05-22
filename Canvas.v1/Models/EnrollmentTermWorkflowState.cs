@@ -3,6 +3,7 @@
     public enum EnrollmentTermWorkflowState
     {
         Active,
-        Deleted
+        Deleted,
+        All
     }
 }

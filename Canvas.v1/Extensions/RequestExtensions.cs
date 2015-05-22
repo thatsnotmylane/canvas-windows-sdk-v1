@@ -65,6 +65,18 @@ namespace Canvas.v1.Extensions
             return request;
         }
 
+        public static T Param<T>(this T request, string name, DateTime? value) where T : IApiRequest
+        {
+            name.ThrowIfNullOrWhiteSpace("name");
+
+            // Don't add a parameter that does not have a value
+            if (value != null)
+            {
+                request.Parameters[name] = value.Value.ToString();
+            }
+            return request;
+        }
+
         private static void AddCollection<T, TValue>(T request, string name, IEnumerable<TValue> values) where T : IApiRequest
         {
             var collection = string.Join("&" + name + "[]=", values);

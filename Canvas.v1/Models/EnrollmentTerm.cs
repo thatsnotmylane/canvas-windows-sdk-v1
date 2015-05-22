@@ -4,14 +4,8 @@ using Newtonsoft.Json.Converters;
 
 namespace Canvas.v1.Models
 {
-    public class EnrollmentTerm
+    public class EnrollmentTermRequest
     {
-        /// <summary>
-        /// The ID of the item.
-        /// </summary>
-        [JsonProperty(PropertyName = "id")]
-        public long Id { get; set; }
-
         /// <summary>
         /// The name of the item.
         /// </summary>
@@ -36,11 +30,30 @@ namespace Canvas.v1.Models
         [JsonProperty(PropertyName = "end_at")]
         public DateTime? EndAt { get; set; }
 
+        public override string ToString()
+        {
+            return string.Format("Name: {0}, SisTermId: {1}, StartAt: {2}, EndAt: {3}", Name, SisTermId, StartAt, EndAt);
+        }
+    }
+
+    public class EnrollmentTerm : EnrollmentTermRequest
+    {
+        /// <summary>
+        /// The ID of the item.
+        /// </summary>
+        [JsonProperty(PropertyName = "id")]
+        public long Id { get; set; }
+
         /// <summary>
         /// The state of the user's enrollment in the course.
         /// </summary>
         [JsonProperty(PropertyName = "workflow_state")]
         [JsonConverter(typeof(StringEnumConverter))]
         public EnrollmentTermWorkflowState WorkflowState { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("Id: {0}, {1}, WorkflowState: {2}", Id, base.ToString(), WorkflowState);
+        }
     }
 }

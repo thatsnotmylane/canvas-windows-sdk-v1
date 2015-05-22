@@ -42,8 +42,8 @@ namespace Canvas.v1.Managers
         protected IApiRequest AddDefaultHeaders(IApiRequest request)
         {
             request
-                .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
-                .Header(Constants.RequestParameters.AcceptEncoding, "gzip, deflate");
+                .Header(Constants.RequestParameters.UserAgent, _config.UserAgent);
+//                .Header(Constants.RequestParameters.AcceptEncoding, "gzip, deflate");
 
             return request;
         }

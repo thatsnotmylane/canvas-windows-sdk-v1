@@ -67,5 +67,36 @@ namespace Canvas.v1.Test.Integration.Managers
             var account = await _client.AccountsManager.GetCourses(AccountId, include:CourseInclude.Term);
             Console.Out.WriteLine(account);
         }
+
+        [TestMethod]
+        public async Task GetEnrollmentTerms()
+        {
+            var terms = await _client.AccountsManager.GetEnrollmentTerms(AccountId, EnrollmentTermWorkflowState.All);
+            Console.Out.WriteLine(terms);
+        }
+
+
+        [TestMethod]
+        public async Task CreateEnrollmentTerm()
+        {
+            var enrollmentTerm = new EnrollmentTermRequest(){Name = "Test Term Y", StartAt = DateTime.Now, EndAt = DateTime.Now.AddMonths(3) };
+            var term = await _client.AccountsManager.CreateEnrollmentTerm(AccountId, enrollmentTerm);
+            Console.Out.WriteLine(term);
+        }
+
+        [TestMethod]
+        public async Task UpdateEnrollmentTerm()
+        {
+            var enrollmentTerm = new EnrollmentTerm() { Id=3, Name = "Test Term Z", StartAt = DateTime.Now, EndAt = DateTime.Now.AddMonths(3) };
+            var term = await _client.AccountsManager.UpdateEnrollmentTerm(AccountId, enrollmentTerm);
+            Console.Out.WriteLine(term);
+        }
+
+        [TestMethod]
+        public async Task DeleteEnrollmentTerm()
+        {
+            var term = await _client.AccountsManager.DeleteEnrollmentTerm(AccountId, 2);
+            Console.Out.WriteLine(term);
+        }
     }
 }

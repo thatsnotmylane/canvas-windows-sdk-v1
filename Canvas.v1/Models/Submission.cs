@@ -20,8 +20,8 @@ namespace Canvas.v1.Models
         /// <summary>
         /// The submission's assignment
         /// </summary>
-        [JsonProperty(PropertyName = "assignment")]
-        public Assignment Assignment { get; set; }
+//        [JsonProperty(PropertyName = "assignment")]
+//        public Assignment Assignment { get; set; }
 
         /// <summary>
         /// The submission's course

@@ -82,7 +82,7 @@ namespace Canvas.v1.Request
 
         private HttpClient CreateClient(IApiRequest request)
         {
-            HttpClientHandler handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
+            HttpClientHandler handler = new HttpClientHandler();// { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
             HttpClient client = new HttpClient(handler);
             if (request.Timeout.HasValue)
                 client.Timeout = request.Timeout.Value;

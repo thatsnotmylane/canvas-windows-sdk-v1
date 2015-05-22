@@ -44,17 +44,17 @@ namespace Canvas.v1.Test.Managers
         [TestMethod]
         public async Task GetAllCourses()
         {
-            const string content = @"[{""account_id"":1234,""root_account_id"":8765,""course_code"":""VID DEMO 101"",""default_view"":""feed"",""id"":5678,""name"":""Video Demo"",""start_at"":""2014-03-27T00:00:00Z"",""end_at"":""2014-04-27T00:00:00Z"",""public_syllabus"":true,""storage_quota_mb"":500,""apply_assignment_group_weights"":true,""calendar"":{""ics"":""https://iu.test.instructure.com/feeds/calendars/course_abcd.ics""},""sis_course_id"":""SIS Course ID"",""integration_id"":""Integration ID"",""hide_final_grades"":true,""workflow_state"":""available""}]";
+            const string content = @"[{""account_id"":1,""root_account_id"":8765,""course_code"":""VID DEMO 101"",""default_view"":""feed"",""id"":5678,""name"":""Video Demo"",""start_at"":""2014-03-27T00:00:00Z"",""end_at"":""2014-04-27T00:00:00Z"",""public_syllabus"":true,""storage_quota_mb"":500,""apply_assignment_group_weights"":true,""calendar"":{""ics"":""https://iu.test.instructure.com/feeds/calendars/course_abcd.ics""},""sis_course_id"":""SIS Course ID"",""integration_id"":""Integration ID"",""hide_final_grades"":true,""workflow_state"":""available""}]";
 
             ArrangeSuccessfulResponse<IEnumerable<Course>>(content);
 
-            var courses = await _accountsManager.GetCourses("id");
+            var courses = await _accountsManager.GetCourses(1);
 
             Assert.AreEqual(courses.Count(), 1);
             var course = courses.Single();
 
             Assert.AreEqual(course.Id, 5678);
-            Assert.AreEqual(course.AccountId, 1234);
+            Assert.AreEqual(course.AccountId, 1);
             Assert.AreEqual(course.RootAccountId, 8765);
             Assert.AreEqual(course.IntegrationId, "Integration ID");
             Assert.AreEqual(course.SisCourseId, "SIS Course ID");
