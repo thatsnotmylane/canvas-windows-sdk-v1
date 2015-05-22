@@ -3,8 +3,8 @@
   <metadata>
     <id>canvas-lms.v1</id>
     <title>Canvas LMS SDK v1</title>
-    <version>0.0.5</version>
-    <releaseNotes>0.0.5: Optionally include enrollment terms with courses.</releaseNotes>
+    <version>0.0.6</version>
+    <releaseNotes>0.0.6: CRUD Enrollment Terms, Fetch a single course.</releaseNotes>
     <authors>John Hoerr</authors>
     <owners>johnhoerr</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>

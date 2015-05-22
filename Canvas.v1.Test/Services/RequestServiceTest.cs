@@ -54,7 +54,7 @@ namespace Canvas.v1.Test.Services
                 })).Callback(() => System.Threading.Interlocked.Increment(ref count));
 
             /*** Act ***/
-            IApiRequest request = new ApiRequest(new Uri("http://box.com"), "folders");
+            IApiRequest request = new ApiRequest(new Uri("http://example.com"), "folders");
 
             List<Task<IApiResponse<OAuth2Session>>> tasks = new List<Task<IApiResponse<OAuth2Session>>>();
             for (int i = 0; i < numTasks; i++)
