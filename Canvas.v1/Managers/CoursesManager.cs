@@ -21,9 +21,11 @@ namespace Canvas.v1.Managers
         /// <summary>
         /// Returns the list of active courses for the current user.
         /// </summary>
-        public async Task<IEnumerable<Course>> GetAll()
+        public async Task<IEnumerable<Course>> GetAll(UserEnrollmentType? enrollmentType = null, UserInclude? include = null, AsUser asUser = null)
         {
-            ApiRequest request = new ApiRequest(_config.CoursesEndpointUri);
+            ApiRequest request = new ApiRequest(_config.CoursesEndpointUri, asUser)
+                .Param("enrollment_type", enrollmentType)
+                .Param("include", include);
             return await GetReponseAsync<IEnumerable<Course>>(request).ConfigureAwait(false);
         }
 

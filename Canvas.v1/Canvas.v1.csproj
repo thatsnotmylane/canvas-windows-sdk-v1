@@ -51,8 +51,16 @@
     <Compile Include="Exceptions\AuthenticationFailedException.cs" />
     <Compile Include="Extensions\NullCheckExtensions.cs" />
     <Compile Include="Managers\AccountsManager.cs" />
+    <Compile Include="Managers\AnalyticsManager.cs" />
     <Compile Include="Managers\UsersManager.cs" />
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Analytics\AssignmentBase.cs" />
+    <Compile Include="Models\Analytics\CourseAssignment.cs" />
+    <Compile Include="Models\Analytics\CourseParticipation.cs" />
+    <Compile Include="Models\Analytics\PageView.cs" />
+    <Compile Include="Models\Analytics\StudentAssignment.cs" />
+    <Compile Include="Models\Analytics\StudentSummary.cs" />
+    <Compile Include="Models\Analytics\TardinessBreakdown.cs" />
     <Compile Include="Models\Calendar.cs" />
     <Compile Include="Models\CanvasItem.cs" />
     <Compile Include="Models\CourseDefaultView.cs" />
@@ -73,6 +81,7 @@
     <Compile Include="Wrappers\ApiMultiPartRequest.cs" />
     <Compile Include="Wrappers\ApiResponse.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
+    <Compile Include="Wrappers\AsUser.cs" />
     <Compile Include="Wrappers\Contracts\IApiResponse.cs" />
     <Compile Include="Wrappers\PagedApiRequest.cs" />
     <Compile Include="Wrappers\StringFormPart.cs" />

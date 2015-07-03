@@ -14,7 +14,7 @@ namespace Canvas.v1.Test.Integration.Managers
         public const string ClientSecret = "YOUR_CLIENT_SECRET";
         private const string CanvasDomain = "iu.test.instructure.com";
 
-        protected const string AccountId = "YOUR_ACCOUNT_ID";
+        protected const long AccountId = 1; //YOUR_ACCOUNT_ID;
         protected const int CourseId = 1; // YOUR_COURSE_ID
 
         public Uri RedirectUri = new Uri("http://boxsdk");

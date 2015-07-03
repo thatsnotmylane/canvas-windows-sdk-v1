@@ -13,7 +13,7 @@
         public const string CoursesString = @"courses/";
         public const string AccountsString = @"accounts/";
         public const string UsersString = @"users/";
-        
+
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
         public const string V2AuthString = "Bearer {0}";
@@ -37,5 +37,6 @@
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";
         }
+
     }
 }

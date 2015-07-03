@@ -74,6 +74,7 @@
     <Compile Include="Plugin\ResourcePluginsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RequestServiceTest.cs" />
+    <Compile Include="Wrappers\AsUserTest.cs" />
     <Compile Include="Wrappers\RequestTest.cs" />
   </ItemGroup>
   <ItemGroup>
