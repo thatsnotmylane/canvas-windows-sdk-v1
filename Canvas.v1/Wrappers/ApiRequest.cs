@@ -12,17 +12,30 @@ namespace Canvas.v1.Wrappers
         /// Instantiates a new Box request with the provided host URI
         /// </summary>
         /// <param name="hostUri"></param>
-        public ApiRequest(Uri hostUri) : this(hostUri, string.Empty) { }
+        public ApiRequest(Uri hostUri) : this(hostUri, string.Empty, null) { }
+
+        /// <summary>
+        /// Instantiates a new Box request with the provided host URI
+        /// </summary>
+        /// <param name="hostUri"></param>
+        public ApiRequest(Uri hostUri, string path) : this(hostUri, path, null) { }
+
+        /// <summary>
+        /// Instantiates a new Box request with the provided host URI
+        /// </summary>
+        /// <param name="hostUri"></param>
+        public ApiRequest(Uri hostUri, AsUser asUser) : this(hostUri, string.Empty, asUser) { }
 
         /// <summary>
         /// Instantiates a new Box request with the provided host URI and path
         /// </summary>
         /// <param name="hostUri"></param>
         /// <param name="path"></param>
-        public ApiRequest(Uri hostUri, string path)
+        public ApiRequest(Uri hostUri, string path, AsUser asUser)
         {
             Host = hostUri;
             Path = path;
+            AsUser = asUser;
 
             HttpHeaders = new Dictionary<string, string>();
             Parameters = new Dictionary<string, string>();
@@ -35,6 +48,7 @@ namespace Canvas.v1.Wrappers
         public Uri Host { get; private set; }
 
         public string Path { get; private set; }
+        public AsUser AsUser { get; private set; }
 
         public virtual RequestMethod Method { get; set; }
 
@@ -48,7 +62,14 @@ namespace Canvas.v1.Wrappers
 
         public Encoding ContentEncoding { get; set; }
 
-        public Uri Uri { get { return new Uri(Host, Path); } }
+        public Uri Uri { get { return ConstructUri(); }
+        }
+
+        private Uri ConstructUri()
+        {
+            var uri = new Uri(Host, Path);
+            return (AsUser == null) ? uri : AsUser.AppendQuery(uri);
+        }
 
         public string Payload { get; set; }
 
