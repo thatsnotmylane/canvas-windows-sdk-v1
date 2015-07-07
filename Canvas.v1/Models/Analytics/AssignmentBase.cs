@@ -15,27 +15,27 @@ namespace Canvas.v1.Models.Analytics
         public int PointsPossible { get; set; }
 
         [JsonProperty("due_at")]
-        public DateTime DueAt { get; set; }
+        public DateTime? DueAt { get; set; }
 
         [JsonProperty("unlock_at")]
-        public DateTime UnlockAt { get; set; }
+        public DateTime? UnlockAt { get; set; }
 
         [JsonProperty("muted")]
         public bool Muted { get; set; }
 
         [JsonProperty("min_score")]
-        public int MinScore { get; set; }
+        public int? MinScore { get; set; }
 
         [JsonProperty("max_score")]
-        public int MaxScore { get; set; }
+        public int? MaxScore { get; set; }
 
         [JsonProperty("median")]
-        public int Median { get; set; }
+        public int? Median { get; set; }
 
         [JsonProperty("first_quartile")]
-        public int FirstQuartile { get; set; }
+        public int? FirstQuartile { get; set; }
 
         [JsonProperty("third_quartile")]
-        public int ThirdQuartile { get; set; }
+        public int? ThirdQuartile { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace Canvas.v1
         private Lazy<CoursesManager> _coursesManager;
         private Lazy<AccountsManager> _accountsManager;
         private Lazy<UsersManager> _usersManager;
+        private Lazy<AnalyticsManager> _analyticsManager;
 
         /// <summary>
         /// Instantiates a Client with the provided config object and auth session
@@ -61,7 +62,8 @@ namespace Canvas.v1
             _coursesManager = new Lazy<CoursesManager>(() => new CoursesManager(_config, _service, _converter, Auth));
             _accountsManager = new Lazy<AccountsManager>(() => new AccountsManager(_config, _service, _converter, Auth));
             _usersManager = new Lazy<UsersManager>(() => new UsersManager(_config, _service, _converter, Auth));
-            
+            _analyticsManager = new Lazy<AnalyticsManager>(() => new AnalyticsManager(_config, _service, _converter, Auth));
+
             ResourcePlugins = new ResourcePlugins();
         }
 
@@ -102,6 +104,11 @@ namespace Canvas.v1
         }
 
 
+        public AnalyticsManager AnalyticsManager
+        {
+            get { return _analyticsManager.Value; }
+        }
+
         /// <summary>
         /// The Auth repository that holds the auth session
         /// </summary>
@@ -111,6 +118,5 @@ namespace Canvas.v1
         /// Allows resource managers to be registered and retrieved as plugins
         /// </summary>
         public IResourcePlugins ResourcePlugins { get; private set; }
-
     }
 }

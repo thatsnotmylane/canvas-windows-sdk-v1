@@ -28,7 +28,7 @@ namespace Canvas.v1.Managers
         {
             courseId.ThrowIfNull("courseId");
 
-            var request = new ApiRequest(_config.CoursesEndpointUri, courseId + "analytics/assignments");
+            var request = new ApiRequest(_config.CoursesEndpointUri, courseId + "/analytics/assignments");
             return await GetReponseAsync<IEnumerable<CourseAssignment>>(request).ConfigureAwait(false);
         }
 
@@ -41,7 +41,7 @@ namespace Canvas.v1.Managers
         {
             courseId.ThrowIfNull("courseId");
 
-            var request = new ApiRequest(_config.CoursesEndpointUri, courseId + "analytics/activity");
+            var request = new ApiRequest(_config.CoursesEndpointUri, courseId + "/analytics/activity");
             return await GetReponseAsync<IEnumerable<CourseParticipation>>(request).ConfigureAwait(false);
         }
 
@@ -56,7 +56,7 @@ namespace Canvas.v1.Managers
         {
             courseId.ThrowIfNull("courseId");
 
-            var request = new ApiRequest(_config.CoursesEndpointUri, courseId + "analytics/student_summaries");
+            var request = new ApiRequest(_config.CoursesEndpointUri, courseId + "/analytics/student_summaries");
             return await GetReponseAsync<IEnumerable<StudentSummary>>(request).ConfigureAwait(false);
         }
 
@@ -74,5 +74,21 @@ namespace Canvas.v1.Managers
             var request = new ApiRequest(_config.CoursesEndpointUri, courseId + "/analytics/users/" + studentId + "/assignments");
             return await GetReponseAsync<IEnumerable<StudentAssignment>>(request).ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Returns page view hits and participation numbers grouped by day through the entire history of the course.
+        /// </summary>
+        /// <param name="courseId">The ID of the course.</param>
+        /// <param name="studentId">The ID of the student.</param>
+        /// <returns></returns>
+        public async Task<StudentParticipation> GetStudentParticipations(string courseId, string studentId)
+        {
+            courseId.ThrowIfNull("courseId");
+            studentId.ThrowIfNull("studentId");
+
+            var request = new ApiRequest(_config.CoursesEndpointUri, courseId + "/analytics/users/" + studentId + "/activity");
+            return await GetReponseAsync<StudentParticipation>(request).ConfigureAwait(false);
+        }
+
     }
 }

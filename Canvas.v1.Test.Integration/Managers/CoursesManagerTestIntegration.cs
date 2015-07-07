@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Canvas.v1.Exceptions;
 using Canvas.v1.Models;
+using Canvas.v1.Models.Analytics;
 using Canvas.v1.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -47,6 +48,42 @@ namespace Canvas.v1.Test.Integration.Managers
                 Assert.AreEqual("The specified resource does not exist.", e.Message);
             }
         }
+
+        [TestMethod]
+        public async Task GetStudentSummaries()
+        {
+            var actual = await _client.AnalyticsManager.GetStudentSummaries("943314");
+            Console.Out.WriteLine(actual);
+        }
+
+        [TestMethod]
+        public async Task GetStudentAssignments()
+        {
+            var actual = await _client.AnalyticsManager.GetStudentAssignments("943314", "4517974");
+            Console.Out.WriteLine(actual);
+        }
+
+        [TestMethod]
+        public async Task GetCourseAssignments()
+        {
+            var actual = await _client.AnalyticsManager.GetCourseAssignments("943314");
+            Console.Out.WriteLine(actual);
+        }
+
+        [TestMethod]
+        public async Task GetCourseParticipations()
+        {
+            var actual = await _client.AnalyticsManager.GetCourseParticipations("943314");
+            Console.Out.WriteLine(actual);
+        }
+
+        [TestMethod]
+        public async Task GetStudentParticipations()
+        {
+            var actual = await _client.AnalyticsManager.GetStudentParticipations("943314", "4517974");
+            Console.Out.WriteLine(actual);
+        }
+
 
         [TestMethod]
         public async Task ConcurrencyTest()

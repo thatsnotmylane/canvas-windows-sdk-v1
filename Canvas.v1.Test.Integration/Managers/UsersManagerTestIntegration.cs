@@ -29,7 +29,7 @@ namespace Canvas.v1.Test.Integration.Managers
             AssertProperties(user);
         }
 
-        private static void AssertProperties(UserProfile user)
+        private static void AssertProperties(User user)
         {
             Assert.AreEqual(user.Name, "John Hoerr");
             Assert.AreEqual(user.LoginId, "jhoerr");

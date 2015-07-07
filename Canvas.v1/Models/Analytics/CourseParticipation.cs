@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Canvas.v1.Models.Analytics
 {
     public class CourseParticipation
     {
-        [JsonProperty("page_views")]
-        public Dictionary<string, PageView> PageViews { get; set; }
+        [JsonProperty("date")]
+        public DateTime Date { get; set; }
         [JsonProperty("participations")]
-        public string[] Participations { get; set; }
+        public int Participations { get; set; }
+        [JsonProperty("views")]
+        public int Views { get; set; }
     }
 }

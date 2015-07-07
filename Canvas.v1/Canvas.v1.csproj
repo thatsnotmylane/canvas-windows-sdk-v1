@@ -58,7 +58,9 @@
     <Compile Include="Models\Analytics\CourseAssignment.cs" />
     <Compile Include="Models\Analytics\CourseParticipation.cs" />
     <Compile Include="Models\Analytics\PageView.cs" />
+    <Compile Include="Models\Analytics\StudentActivity.cs" />
     <Compile Include="Models\Analytics\StudentAssignment.cs" />
+    <Compile Include="Models\Analytics\StudentParticipation.cs" />
     <Compile Include="Models\Analytics\StudentSummary.cs" />
     <Compile Include="Models\Analytics\TardinessBreakdown.cs" />
     <Compile Include="Models\Calendar.cs" />
