@@ -11,6 +11,7 @@ using Canvas.v1.Services;
 using Canvas.v1.Wrappers;
 using Canvas.v1.Wrappers.Contracts;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace Canvas.v1.Managers
 {
@@ -18,6 +19,12 @@ namespace Canvas.v1.Managers
     {
         public AccountsManager(ICanvasConfig config, IRequestService service, IJsonConverter converter, IAuthRepository auth) : base(config, service, converter, auth)
         {
+        }
+
+        public async Task<Account> GetSelf()
+        {
+            var request = new ApiRequest(_config.AccountsEndpointUri, "self");
+            return await GetReponseAsync<Account>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -40,6 +47,27 @@ namespace Canvas.v1.Managers
 
             var request = new ApiRequest(_config.AccountsEndpointUri, id.ToString());
             return await GetReponseAsync<Account>(request).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Create a new course based off of a NewCourseRequest object. Technically no parameters are required
+        /// </summary>
+        /// <param name="NewCourse"></param>
+        /// <returns></returns>
+        public async Task<Course> CreateNewCourse(NewCourseRequest NewCourse)
+        {
+            var account = "self";
+            if (NewCourse.AccountId != null)
+                account = string.Format("{0}", NewCourse.AccountId);
+
+            // POST /api/v1/accounts/:account_id/courses
+            var request = new ApiRequest(_config.AccountsEndpointUri, account + "/courses")
+                .Method(RequestMethod.Post)
+                ;
+
+            request = PopulateNewCourse(request, NewCourse);
+
+            return await GetReponseAsync<Course>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -104,8 +132,8 @@ namespace Canvas.v1.Managers
         public async Task<IEnumerable<EnrollmentTerm>> GetEnrollmentTerms(long accountId, EnrollmentTermWorkflowState? workflowState = EnrollmentTermWorkflowState.Active)
         {
             accountId.ThrowIfUnassigned("accountId");
-            
-            var request = new ApiRequest(_config.AccountsEndpointUri, accountId+"/terms")
+
+            var request = new ApiRequest(_config.AccountsEndpointUri, accountId + "/terms")
                 .Param("workflow_state", workflowState);
 
             var collection = await GetReponseAsync<EnrollmentTermCollection>(request).ConfigureAwait(false);
@@ -178,6 +206,19 @@ namespace Canvas.v1.Managers
                 .Param("enrollment_term[start_at]", term.StartAt)
                 .Param("enrollment_term[end_at]", term.EndAt)
                 .Param("enrollment_term[sis_term_id]", term.SisTermId);
+        }
+
+        private static ApiRequest PopulateNewCourse(ApiRequest request, NewCourseRequest new_course)
+        {
+            return request
+                .Payload("course[name]", new_course.Name)
+                .Payload("course[course_code]", new_course.CourseCode)
+                .Payload("course[licence]", new_course.Licence)
+                .Payload("course[is_public]", new_course.IsPublic.ToString().ToLower())
+                .Payload("enroll_me", new_course.EnrollMe.ToString().ToLower())
+                .Payload("course[open_enrollment]", new_course.OpenEnrollment.ToString().ToLower())
+                .Payload("course[self_enrollment]", new_course.SelfEnrollment.ToString().ToLower())
+                ;
         }
     }
 }

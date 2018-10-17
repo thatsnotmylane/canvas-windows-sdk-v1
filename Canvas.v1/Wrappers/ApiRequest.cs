@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net.Http;
 using Canvas.v1.Wrappers.Contracts;
 
 namespace Canvas.v1.Wrappers
@@ -60,9 +61,13 @@ namespace Canvas.v1.Wrappers
 
         public string ContentType { get; set; }
 
+        public HttpContent HttpContent { get; set; }
+
         public Encoding ContentEncoding { get; set; }
 
-        public Uri Uri { get { return ConstructUri(); }
+        public Uri Uri
+        {
+            get { return ConstructUri(); }
         }
 
         private Uri ConstructUri()

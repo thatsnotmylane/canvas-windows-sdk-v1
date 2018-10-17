@@ -33,11 +33,13 @@ namespace Canvas.v1.Managers
         /// Fetch a single course.
         /// </summary>
         /// <param name="courseId">The ID of the course to fetch</param>
-        public async Task<Course> Get(long courseId)
+        public async Task<Course> Get(long courseId, bool SelfEnrollmentCode = false)
         {
             courseId.ThrowIfUnassigned("courseId");
 
             ApiRequest request = new ApiRequest(_config.CoursesEndpointUri, courseId.ToString());
+            if (SelfEnrollmentCode)
+                request.Param("include[]", "self_enrollment_code");
             return await GetReponseAsync<Course>(request).ConfigureAwait(false);
         }
 

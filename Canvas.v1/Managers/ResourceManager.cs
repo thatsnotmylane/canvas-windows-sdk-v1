@@ -35,7 +35,7 @@ namespace Canvas.v1.Managers
         {
             _config = config;
             _service = service;
-            _converter = converter; 
+            _converter = converter;
             _auth = auth;
         }
 
@@ -43,7 +43,7 @@ namespace Canvas.v1.Managers
         {
             request
                 .Header(Constants.RequestParameters.UserAgent, _config.UserAgent);
-//                .Header(Constants.RequestParameters.AcceptEncoding, "gzip, deflate");
+            //                .Header(Constants.RequestParameters.AcceptEncoding, "gzip, deflate");
 
             return request;
         }
@@ -69,7 +69,7 @@ namespace Canvas.v1.Managers
             {
                 // Refresh the access token if the status is "Unauthorized" (HTTP Status Code 401: Unauthorized)
                 // This will only be attempted once as refresh tokens are single use
-                response = await RetryExpiredTokenRequest<T>(request).ConfigureAwait(false);
+                //response = await RetryExpiredTokenRequest<T>(request).ConfigureAwait(false);
             }
 
             return response;
@@ -94,7 +94,7 @@ namespace Canvas.v1.Managers
         {
             var auth = accessToken ?? _auth.Session.AccessToken;
 
-            string authString = string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth); 
+            string authString = string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth);
 
             request.Authorization = auth;
             request.Header(Constants.AuthHeaderKey, authString);
