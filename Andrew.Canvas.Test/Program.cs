@@ -17,7 +17,8 @@ namespace Andrew.Canvas.Test
 {
     class Program
     {
-        public static string DOMAIN = "canvas.instructure.com";
+        //public static string DOMAIN = "canvas.instructure.com";
+        public static string DOMAIN = "instantadmin.instructure.com";
         public static Uri REDIRECT = new Uri("https://canvas");
         public static JsonConverter CONVERTER = new JsonConverter();
         public static HttpRequestHandler HANDLER = new HttpRequestHandler();
@@ -38,7 +39,8 @@ namespace Andrew.Canvas.Test
         {
             service = new RequestService(HANDLER);
             config = new CanvasConfig(DOMAIN, "", "", REDIRECT);
-            auth = new AuthRepository(config, service, CONVERTER, new OAuth2Session("7~DHwAbT82Vj4LujkiK5f0sHxvIjuAJMC5lg23G54R0qARwckBzBOttvI3WjDxBQa9", "", -1, "Bearer"));
+            //auth = new AuthRepository(config, service, CONVERTER, new OAuth2Session("7~DHwAbT82Vj4LujkiK5f0sHxvIjuAJMC5lg23G54R0qARwckBzBOttvI3WjDxBQa9", "", -1, "Bearer"));
+            auth = new AuthRepository(config, service, CONVERTER, new OAuth2Session("13185~Et9gDdkpi4iYyFs3QlmoE9OKV7UaHgZ5w2VSLq6ZDG8zmKhX9jAsEho78DCsia7S", "", -1, "Bearer"));
             client = new Client(config, auth);
         }
 
@@ -77,12 +79,16 @@ namespace Andrew.Canvas.Test
                 EnrollMe = true,
             };
 
-            var new_course = await client.AccountsManager.CreateNewCourse(new_course_request);
-            var course_id = new_course.Id;
+            //var new_course = await client.AccountsManager.CreateNewCourse(new_course_request);
+            //var course_id = new_course.Id;
+            var course_id = 27;
             var course_for_secret_code = await client.CoursesManager.Get(course_id, true);
 
             var secret_code = course_for_secret_code.SelfEnrollmentCode;
-            
+            //var new_user = await client.UsersManager.CreateNewUser("thatsnotmylane+11@gmail.com", "Andrew Test1", "Test1, Andrew");
+            var new_user = await client.UsersManager.CreateNewUser("thatsnotmylane+12", "Andrew NoEmail", "NoEmail, Andrew");
+
+            var new_enrollment = await client.CoursesManager.EnrollUser(course_id, new_user.Id, EnrollmentType.StudentEnrollment);
 
             return;
         }

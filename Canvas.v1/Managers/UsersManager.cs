@@ -44,5 +44,19 @@ namespace Canvas.v1.Managers
             return await GetReponseAsync<User>(request).ConfigureAwait(false);
         }
 
+        public async Task<User> CreateNewUser(string UniqueID, string UserName, string SortableName)
+        {
+            UniqueID.ThrowIfNullOrWhiteSpace("UniqueID");
+            var request = new ApiRequest(_config.AccountsEndpointUri, string.Format("self/users"))
+                .Payload("pseudonym[unique_id]", UniqueID)
+                .Payload("user[name]", UserName)
+                .Payload("user[short_name]", UserName)
+                .Payload("user[sortable_name]", SortableName)
+                .Method(RequestMethod.Post)
+                ;
+            return await GetReponseAsync<User>(request).ConfigureAwait(false);
+
+        }
+
     }
 }

@@ -18,6 +18,18 @@ namespace Canvas.v1.Managers
         public CoursesManager(ICanvasConfig config, IRequestService service, IJsonConverter converter, IAuthRepository auth)
             : base(config, service, converter, auth) { }
 
+
+        public async Task<Enrollment> EnrollUser(long CourseId, long UserId, EnrollmentType enrollmentType)
+        {
+            var request = new ApiRequest(_config.CoursesEndpointUri, String.Format("{0}/enrollments", CourseId))
+                .Payload("enrollment[user_id]", UserId.ToString())
+                .Payload("enrollment[type]", Enum.GetName(typeof(EnrollmentType), enrollmentType))
+                .Method(RequestMethod.Post)
+                ;
+
+            return await GetReponseAsync<Enrollment>(request).ConfigureAwait(false);
+        }
+
         /// <summary>
         /// Returns the list of active courses for the current user.
         /// </summary>
