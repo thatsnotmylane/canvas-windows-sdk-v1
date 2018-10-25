@@ -12,6 +12,9 @@ using Canvas.v1.Auth;
 using Canvas.v1;
 using Canvas.v1.Models;
 using Canvas.v1.Models.Request;
+using Canvas.v1.Extensions;
+using Canvas.v1.Wrappers;
+using Canvas.v1.Wrappers.Contracts;
 
 namespace Andrew.Canvas.Test
 {
@@ -19,18 +22,22 @@ namespace Andrew.Canvas.Test
     {
         //public static string DOMAIN = "canvas.instructure.com";
         public static string DOMAIN = "instantadmin.instructure.com";
-        public static Uri REDIRECT = new Uri("https://canvas");
+        public static Uri REDIRECT = new Uri("https://instantadmin.instructure.com/accounts/1/developer_keys");
         public static JsonConverter CONVERTER = new JsonConverter();
         public static HttpRequestHandler HANDLER = new HttpRequestHandler();
         public static RequestService service;
         public static CanvasConfig config;
         public static AuthRepository auth;
+        public static OAuth2Session session;
         public static Client client;
+        public static string CLIENT_ID = "131850000000000003";
+        public static string CLIENT_SECRET = "2i5KAQ1y3RcBtkL3HoaxX2RTiQAlMBf7AIaX7EydyUjoLzs92kfcFztRhE3mU2mm";
 
         static void Main(string[] args)
         {
             Initialize();
-            DoTheCourses().Wait();
+            DoSomeOauth2().Wait();
+            //DoTheCourses().Wait();
             //GetUsers().Wait();
             return;
         }
@@ -42,6 +49,35 @@ namespace Andrew.Canvas.Test
             //auth = new AuthRepository(config, service, CONVERTER, new OAuth2Session("7~DHwAbT82Vj4LujkiK5f0sHxvIjuAJMC5lg23G54R0qARwckBzBOttvI3WjDxBQa9", "", -1, "Bearer"));
             auth = new AuthRepository(config, service, CONVERTER, new OAuth2Session("13185~Et9gDdkpi4iYyFs3QlmoE9OKV7UaHgZ5w2VSLq6ZDG8zmKhX9jAsEho78DCsia7S", "", -1, "Bearer"));
             client = new Client(config, auth);
+        }
+
+        public async static Task DoSomeOauth2()
+        {
+            service = new RequestService(HANDLER);
+            config = new CanvasConfig(DOMAIN, CLIENT_ID, CLIENT_SECRET, REDIRECT);
+
+            var request = new ApiRequest(new Uri("https://instantadmin.instructure.com/login/oauth2/auth"))
+                .Param("client_id", CLIENT_ID)
+                .Param("response_type", "code")
+                .Param("redirect_uri", REDIRECT.ToString())
+                ;
+
+            var basic = await HANDLER.ExecuteAsync<OAuth2Session>(request).ConfigureAwait(false);
+            
+            //session = new OAuth2Session(access_token, refresh_token, expires_in, token_type);
+            auth = new AuthRepository(config, service, CONVERTER);
+            
+            client = new Client(config, auth);
+
+            var courses = await client.CoursesManager.GetAll();
+
+            foreach(var course in courses)
+            {
+                Console.WriteLine(course.ToString());
+            }
+
+
+            return;
         }
 
         public async static Task DoTheCourses()
