@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,11 @@ using Canvas.v1.Models.Request;
 using Canvas.v1.Extensions;
 using Canvas.v1.Wrappers;
 using Canvas.v1.Wrappers.Contracts;
+using OAuth2.Client;
+using OAuth2.Client.Impl;
+using OAuth2.Configuration;
+using OAuth2.Infrastructure;
+using OAuth2.Models;
 
 namespace Andrew.Canvas.Test
 {
@@ -35,8 +41,8 @@ namespace Andrew.Canvas.Test
 
         static void Main(string[] args)
         {
-            Initialize();
-            DoSomeOauth2().Wait();
+            //Initialize();
+            DoSomeOauth2();
             //DoTheCourses().Wait();
             //GetUsers().Wait();
             return;
@@ -51,10 +57,30 @@ namespace Andrew.Canvas.Test
             client = new Client(config, auth);
         }
 
-        public async static Task DoSomeOauth2()
+        public static void DoSomeOauth2()
         {
+            var request_factory = new OAuth2.Infrastructure.RequestFactory();
+            request_factory.CreateRequest();
+            request_factory.CreateClient();
+
+
+
+            var config = new OAuth2.Configuration.RuntimeClientConfiguration();
+            config.ClientId = CLIENT_ID;
+            config.ClientSecret = CLIENT_SECRET;
+            config.RedirectUri = REDIRECT.ToString();
+
+
+
+
+
+            var oauthin = new OAuth2.Client.Impl.GoogleClient(request_factory, config);
+            oauthin.GetCurrentToken();
+
+
+
             service = new RequestService(HANDLER);
-            config = new CanvasConfig(DOMAIN, CLIENT_ID, CLIENT_SECRET, REDIRECT);
+            Program.config = new CanvasConfig(DOMAIN, CLIENT_ID, CLIENT_SECRET, REDIRECT);
 
             var request = new ApiRequest(new Uri("https://instantadmin.instructure.com/login/oauth2/auth"))
                 .Param("client_id", CLIENT_ID)
@@ -62,22 +88,22 @@ namespace Andrew.Canvas.Test
                 .Param("redirect_uri", REDIRECT.ToString())
                 ;
 
-            var basic = await HANDLER.ExecuteAsync<OAuth2Session>(request).ConfigureAwait(false);
-            
+            //var basic = await HANDLER.ExecuteAsync<OAuth2Session>(request).ConfigureAwait(false);
+
             //session = new OAuth2Session(access_token, refresh_token, expires_in, token_type);
-            auth = new AuthRepository(config, service, CONVERTER);
-            
-            client = new Client(config, auth);
+            auth = new AuthRepository(Program.config, service, CONVERTER);
 
-            var courses = await client.CoursesManager.GetAll();
+            client = new Client(Program.config, auth);
 
-            foreach(var course in courses)
-            {
-                Console.WriteLine(course.ToString());
-            }
+            //var courses = await client.CoursesManager.GetAll();
+
+            //foreach(var course in courses)
+            //{
+            //    Console.WriteLine(course.ToString());
+            //}
 
 
-            return;
+            //return;
         }
 
         public async static Task DoTheCourses()

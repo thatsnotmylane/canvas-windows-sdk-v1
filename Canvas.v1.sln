@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A2462C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Andrew.Canvas.Test", "Andrew.Canvas.Test\Andrew.Canvas.Test.csproj", "{A90D608C-8FE4-4B43-9D88-F592F3D91DC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Andrew.Web.Canvas.Test", "Andrew.Web.Canvas.Test\Andrew.Web.Canvas.Test.csproj", "{BF0922BE-6383-492E-86F4-5801AE65A331}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{A90D608C-8FE4-4B43-9D88-F592F3D91DC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A90D608C-8FE4-4B43-9D88-F592F3D91DC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A90D608C-8FE4-4B43-9D88-F592F3D91DC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF0922BE-6383-492E-86F4-5801AE65A331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF0922BE-6383-492E-86F4-5801AE65A331}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF0922BE-6383-492E-86F4-5801AE65A331}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF0922BE-6383-492E-86F4-5801AE65A331}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
