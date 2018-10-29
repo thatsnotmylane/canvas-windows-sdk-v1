@@ -69,7 +69,7 @@ namespace Canvas.v1.Managers
             {
                 // Refresh the access token if the status is "Unauthorized" (HTTP Status Code 401: Unauthorized)
                 // This will only be attempted once as refresh tokens are single use
-                //response = await RetryExpiredTokenRequest<T>(request).ConfigureAwait(false);
+                response = await RetryExpiredTokenRequest<T>(request).ConfigureAwait(false);
             }
 
             return response;

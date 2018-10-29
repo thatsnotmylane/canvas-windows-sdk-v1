@@ -4,13 +4,22 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using OAuth2.Client;
-using OAuth2.Client.Impl;
-using OAuth2.Configuration;
-using OAuth2.Infrastructure;
-using OAuth2.Models;
+using System.Configuration;
 using System.Net;
 using System.IO;
+using System.Threading.Tasks;
+using Canvas.v1.Managers;
+using Canvas.v1.Config;
+using Canvas.v1.Converter;
+using Canvas.v1.Request;
+using Canvas.v1.Services;
+using Canvas.v1.Auth;
+using Canvas.v1;
+using Canvas.v1.Models;
+using Canvas.v1.Models.Request;
+using Canvas.v1.Extensions;
+using Canvas.v1.Wrappers;
+using Canvas.v1.Wrappers.Contracts;
 
 namespace Andrew.Web.Canvas.Test
 {
@@ -18,43 +27,46 @@ namespace Andrew.Web.Canvas.Test
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string html = string.Empty;
-            string uri = "https://localhost:44376/oauth_complete.aspx";
-            string url = String.Format("https://instantadmin.instructure.com/login/oauth2/auth?client_id={0}&response_type=code&redirect_uri={1}", "131850000000000003", uri);
+            string uri = ConfigurationManager.AppSettings["RedirectUir"];
+			
+			string domain = ConfigurationManager.AppSettings["Domain"];
+			string oauth_path = ConfigurationManager.AppSettings["OauthPath"];
+			string client_id = ConfigurationManager.AppSettings["ClientID"];
 
-            Response.Redirect(url);
+            var tokens = System.IO.File.ReadAllLines(@"C:\Users\Andrew\github\canvas-windows-sdk-v1\Andrew.Web.Canvas.Test\state.txt");
 
-            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            //request.AutomaticDecompression = DecompressionMethods.GZip;
+            if (tokens != null && tokens.Count() == 3)
+            {
+                DoStuff(tokens, domain, client_id).Wait();
+            }
+            else
+            {
+                string url = String.Format("https://{3}{2}?client_id={0}&response_type=code&redirect_uri={1}", client_id, uri, oauth_path, domain);
+                Response.Redirect(url);
+            }
+        }
 
-            //using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            //using (Stream stream = response.GetResponseStream())
-            //using (StreamReader reader = new StreamReader(stream))
-            //{
-            //    html = reader.ReadToEnd();
-            //}
+        public async static Task DoStuff(string[] tokens, string domain, string client_id)
+        {
+            var access_token = tokens[0];
+            var refresh_token = tokens[1];
+            var token_type = tokens[2];
+            var client_secret = ConfigurationManager.AppSettings["ClientSecret"];
+            var redirect_uri_str = ConfigurationManager.AppSettings["RedirectUri"];
+            var redirect_uri = (Uri)null;
+            if (string.IsNullOrEmpty(redirect_uri_str) == false)
+                redirect_uri = new Uri(redirect_uri_str);
+
+            var canvas_config = new CanvasConfig(domain, client_id, client_secret, redirect_uri);
+
+            var oauth2session = new OAuth2Session(access_token, refresh_token, 0, token_type);
+
+            var client = new Client(canvas_config, new AuthRepository(canvas_config, new RequestService(new HttpRequestHandler()), new JsonConverter(), oauth2session));
 
 
-            //var request_factory = new OAuth2.Infrastructure.RequestFactory();
-            //request_factory.CreateRequest();
-            //request_factory.CreateClient();
+            var self = await client.AccountsManager.GetSelf();
 
-
-
-            //var config = new OAuth2.Configuration.RuntimeClientConfiguration();
-            //config.ClientId = "131850000000000003";
-            //config.ClientSecret = "2i5KAQ1y3RcBtkL3HoaxX2RTiQAlMBf7AIaX7EydyUjoLzs92kfcFztRhE3mU2mm";
-            //config.RedirectUri = "https://instantadmin.instructure.com/accounts/1/developer_keys";
-
-
-
-
-
-            //var oauthin = new OAuth2.Client.Impl.GoogleClient(request_factory, config);
-            //var token = oauthin.GetToken(new NameValueCollection());
-
-            //var asdf = 1;
-
+            return;
         }
     }
 }

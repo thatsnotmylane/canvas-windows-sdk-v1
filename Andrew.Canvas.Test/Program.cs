@@ -43,7 +43,7 @@ namespace Andrew.Canvas.Test
         {
             //Initialize();
             DoSomeOauth2();
-            //DoTheCourses().Wait();
+            DoTheCourses().Wait();
             //GetUsers().Wait();
             return;
         }
