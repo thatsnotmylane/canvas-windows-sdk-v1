@@ -195,6 +195,7 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
+    <Content Include="state.txt" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -272,9 +273,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Canvas.v1\Canvas.v1.csproj">
-      <Project>{6d57e3ef-f5b0-46fa-a023-d4ead9791a68}</Project>
-      <Name>Canvas.v1</Name>
+    <ProjectReference Include="..\..\BigSIS\BigSIS\Integrations\SDKs\Canvas\v1\BigSIS.Integrations.SDKs.Canvas.v1.csproj">
+      <Project>{ec18bf62-f370-414c-aeba-0d6df5fba1d9}</Project>
+      <Name>BigSIS.Integrations.SDKs.Canvas.v1</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

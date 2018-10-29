@@ -9,6 +9,8 @@
 <body>
     <form id="form1" runat="server">
         <div>
+
+            <input id="close" onclick="self.close()" />
         </div>
     </form>
 </body>

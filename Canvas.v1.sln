@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canvas.v1", "Canvas.v1\Canvas.v1.csproj", "{6D57E3EF-F5B0-46FA-A023-D4EAD9791A68}"
 EndProject
@@ -19,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Andrew.Canvas.Test", "Andrew.Canvas.Test\Andrew.Canvas.Test.csproj", "{A90D608C-8FE4-4B43-9D88-F592F3D91DC9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Andrew.Web.Canvas.Test", "Andrew.Web.Canvas.Test\Andrew.Web.Canvas.Test.csproj", "{BF0922BE-6383-492E-86F4-5801AE65A331}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigSIS.Integrations.SDKs.Canvas.v1", "..\BigSIS\BigSIS\Integrations\SDKs\Canvas\v1\BigSIS.Integrations.SDKs.Canvas.v1.csproj", "{EC18BF62-F370-414C-AEBA-0D6DF5FBA1D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{BF0922BE-6383-492E-86F4-5801AE65A331}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF0922BE-6383-492E-86F4-5801AE65A331}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF0922BE-6383-492E-86F4-5801AE65A331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC18BF62-F370-414C-AEBA-0D6DF5FBA1D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC18BF62-F370-414C-AEBA-0D6DF5FBA1D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC18BF62-F370-414C-AEBA-0D6DF5FBA1D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC18BF62-F370-414C-AEBA-0D6DF5FBA1D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

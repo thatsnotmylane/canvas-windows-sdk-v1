@@ -8,18 +8,18 @@ using System.Net;
 using System.Collections.Specialized;
 using System.IO;
 using System.Configuration;
-using Canvas.v1.Managers;
-using Canvas.v1.Config;
-using Canvas.v1.Converter;
-using Canvas.v1.Request;
-using Canvas.v1.Services;
-using Canvas.v1.Auth;
-using Canvas.v1;
-using Canvas.v1.Models;
-using Canvas.v1.Models.Request;
-using Canvas.v1.Extensions;
-using Canvas.v1.Wrappers;
-using Canvas.v1.Wrappers.Contracts;
+using BigSIS.Integrations.SDKs.Canvas.v1.Managers;
+using BigSIS.Integrations.SDKs.Canvas.v1.Config;
+using BigSIS.Integrations.SDKs.Canvas.v1.Converter;
+using BigSIS.Integrations.SDKs.Canvas.v1.Request;
+using BigSIS.Integrations.SDKs.Canvas.v1.Services;
+using BigSIS.Integrations.SDKs.Canvas.v1.Auth;
+using BigSIS.Integrations.SDKs.Canvas.v1;
+using BigSIS.Integrations.SDKs.Canvas.v1.Models;
+using BigSIS.Integrations.SDKs.Canvas.v1.Models.Request;
+using BigSIS.Integrations.SDKs.Canvas.v1.Extensions;
+using BigSIS.Integrations.SDKs.Canvas.v1.Wrappers;
+using BigSIS.Integrations.SDKs.Canvas.v1.Wrappers.Contracts;
 
 namespace Andrew.Web.Canvas.Test
 {
@@ -54,9 +54,9 @@ namespace Andrew.Web.Canvas.Test
 
             string[] lines = { access_token, refresh_token, token_type };
             
-            System.IO.File.WriteAllLines(@"C:\Users\Andrew\github\canvas-windows-sdk-v1\Andrew.Web.Canvas.Test\state.txt", lines);
-            
+            System.IO.File.WriteAllLines(Server.MapPath("~/state.txt"), lines);
 
+            
             var client = new Client(canvas_config, auth2);
             
             var thing = client.AccountsManager.GetSelf();

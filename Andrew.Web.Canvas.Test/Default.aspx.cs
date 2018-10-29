@@ -8,18 +8,18 @@ using System.Configuration;
 using System.Net;
 using System.IO;
 using System.Threading.Tasks;
-using Canvas.v1.Managers;
-using Canvas.v1.Config;
-using Canvas.v1.Converter;
-using Canvas.v1.Request;
-using Canvas.v1.Services;
-using Canvas.v1.Auth;
-using Canvas.v1;
-using Canvas.v1.Models;
-using Canvas.v1.Models.Request;
-using Canvas.v1.Extensions;
-using Canvas.v1.Wrappers;
-using Canvas.v1.Wrappers.Contracts;
+using BigSIS.Integrations.SDKs.Canvas.v1.Managers;
+using BigSIS.Integrations.SDKs.Canvas.v1.Config;
+using BigSIS.Integrations.SDKs.Canvas.v1.Converter;
+using BigSIS.Integrations.SDKs.Canvas.v1.Request;
+using BigSIS.Integrations.SDKs.Canvas.v1.Services;
+using BigSIS.Integrations.SDKs.Canvas.v1.Auth;
+using BigSIS.Integrations.SDKs.Canvas.v1;
+using BigSIS.Integrations.SDKs.Canvas.v1.Models;
+using BigSIS.Integrations.SDKs.Canvas.v1.Models.Request;
+using BigSIS.Integrations.SDKs.Canvas.v1.Extensions;
+using BigSIS.Integrations.SDKs.Canvas.v1.Wrappers;
+using BigSIS.Integrations.SDKs.Canvas.v1.Wrappers.Contracts;
 
 namespace Andrew.Web.Canvas.Test
 {
@@ -27,13 +27,14 @@ namespace Andrew.Web.Canvas.Test
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string uri = ConfigurationManager.AppSettings["RedirectUir"];
+
+            string uri = ConfigurationManager.AppSettings["RedirectUri"];
 			
 			string domain = ConfigurationManager.AppSettings["Domain"];
 			string oauth_path = ConfigurationManager.AppSettings["OauthPath"];
 			string client_id = ConfigurationManager.AppSettings["ClientID"];
 
-            var tokens = System.IO.File.ReadAllLines(@"C:\Users\Andrew\github\canvas-windows-sdk-v1\Andrew.Web.Canvas.Test\state.txt");
+            var tokens = System.IO.File.ReadAllLines(@Server.MapPath("~/state.txt"));
 
             if (tokens != null && tokens.Count() == 3)
             {
@@ -59,7 +60,7 @@ namespace Andrew.Web.Canvas.Test
 
             var canvas_config = new CanvasConfig(domain, client_id, client_secret, redirect_uri);
 
-            var oauth2session = new OAuth2Session(access_token, refresh_token, 0, token_type);
+            var oauth2session = new OAuth2Session("", refresh_token, 0, token_type);
 
             var client = new Client(canvas_config, new AuthRepository(canvas_config, new RequestService(new HttpRequestHandler()), new JsonConverter(), oauth2session));
 
