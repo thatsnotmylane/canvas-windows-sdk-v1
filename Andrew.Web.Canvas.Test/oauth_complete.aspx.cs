@@ -29,41 +29,31 @@ namespace Andrew.Web.Canvas.Test
         {
             var code = Request.Params["code"];
             var uri = ConfigurationManager.AppSettings["RedirectUri"];
-            var config = new OAuth2.Configuration.RuntimeClientConfiguration();
             var clientid = ConfigurationManager.AppSettings["ClientID"];
             var clientsecret = ConfigurationManager.AppSettings["ClientSecret"];
             var domain = ConfigurationManager.AppSettings["Domain"];
             var redirect_uri = new Uri(uri);
-            
+
 
             
-        
+
             var service = new RequestService(new HttpRequestHandler());
-            var canvas_config = new CanvasConfig(domain, clientid, clientsecret, redirect_uri);
-            //auth = new AuthRepository(config, service, CONVERTER, new OAuth2Session("7~DHwAbT82Vj4LujkiK5f0sHxvIjuAJMC5lg23G54R0qARwckBzBOttvI3WjDxBQa9", "", -1, "Bearer"));
-            var auth = new AuthRepository(canvas_config, service, new JsonConverter(), new OAuth2Session("","", 0, ""));
+            _Default._Config = new CanvasConfig(domain, clientid, clientsecret, redirect_uri);
+            _Default._AuthRepository = new AuthRepository(_Default._Config, service, new JsonConverter(), new OAuth2Session("","", 0, ""));
             
 
-            var sess = auth.AuthenticateAsync(code).ConfigureAwait(false).GetAwaiter().GetResult();
-            
-            var auth2 = new AuthRepository(canvas_config, service, new JsonConverter(), sess);
-            var access_token = auth2.Session.AccessToken;
-            var refresh_token = auth2.Session.RefreshToken;
-            var expires_in = auth2.Session.ExpiresIn;
-            var token_type = auth2.Session.TokenType;
+            _Default._Session = _Default._AuthRepository.AuthenticateAsync(code).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            _Default._AuthRepository = new AuthRepository(_Default._Config, service, new JsonConverter(), _Default._Session);
+            var access_token = _Default._AuthRepository.Session.AccessToken;
+            var refresh_token = _Default._AuthRepository.Session.RefreshToken;
+            var expires_in = _Default._AuthRepository.Session.ExpiresIn;
+            var token_type = _Default._AuthRepository.Session.TokenType;
 
             string[] lines = { access_token, refresh_token, token_type };
             
             System.IO.File.WriteAllLines(Server.MapPath("~/state.txt"), lines);
-
-            
-            var client = new Client(canvas_config, auth2);
-            
-            var thing = client.AccountsManager.GetSelf();
-            var all_courses = client.AccountsManager.GetCourses(thing.Id);
-
-
-            var asdf = 1;
+            Response.Redirect("https://localhost:44376/Default.aspx");
         }
     }
 }
