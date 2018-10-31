@@ -46,8 +46,8 @@ namespace Andrew.Web.Canvas.Test
                 Button1.Visible = true;
             }
 
-            
-            
+
+
 
         }
 
@@ -57,6 +57,7 @@ namespace Andrew.Web.Canvas.Test
 
             var refresh_token = "";
             var token_type = "";
+            var access_token = "";
             if (tokens != null && tokens.Count() == 3)
             {
                 string domain = ConfigurationManager.AppSettings["Domain"];
@@ -68,13 +69,13 @@ namespace Andrew.Web.Canvas.Test
                 if (string.IsNullOrEmpty(redirect_uri_str) == false)
                     redirect_uri = new Uri(redirect_uri_str);
 
-            
 
-            
+
+                access_token = tokens[0];
                 refresh_token = tokens[1];
                 token_type = tokens[2];
                 _Config = new CanvasConfig(domain, client_id, client_secret, redirect_uri);
-                _Session = new OAuth2Session("", refresh_token, 0, token_type);
+                _Session = new OAuth2Session(access_token, refresh_token, 1, token_type);
                 _AuthRepository = new AuthRepository(_Config, new RequestService(new HttpRequestHandler()), new JsonConverter(), _Session);
                 _Client = new Client(_Config, _AuthRepository);
                 return true;
@@ -118,6 +119,15 @@ namespace Andrew.Web.Canvas.Test
 
         protected async void Button2_Click(object sender, EventArgs e)
         {
+            var sessionCourse = Session["course"];
+            if (sessionCourse != null)
+            {
+                lblMessage.Text = sessionCourse.ToString();
+            }
+            else
+            {
+                lblMessage.Text = "NOT FOUND!";
+            }
             var courses = await _Client.CoursesManager.GetAll().ConfigureAwait(false);
             foreach (var course in courses)
             {
@@ -140,8 +150,19 @@ namespace Andrew.Web.Canvas.Test
 
             var course_Info = await _Client.CoursesManager.Get(course_id).ConfigureAwait(false);
 
-            TextBox2.Text = course_Info.ToString();
+            lblDisplay.Text = course_Info.ToString();
+            TextBox2.Visible = false;
+            this.Session["course"] = button.Text.ToString();
 
+            var sessionCourse = Session["course"];
+            if (sessionCourse != null)
+            {
+                lblMessage.Text = sessionCourse.ToString();
+            }
+            else
+            {
+                lblMessage.Text = "NOT FOUND!";
+            }
         }
     }
 }
